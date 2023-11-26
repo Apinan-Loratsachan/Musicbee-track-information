@@ -170,6 +170,12 @@ async function searchAlbumImage(title, artist, album, album_artist) {
             messageElement.id = "noImageText"
             document.getElementById('imageSection').appendChild(messageElement);
         }
+    } else {
+        // If no album found, display a message
+        const messageElement = document.createElement('b');
+        messageElement.innerText = 'Unknow album name.';
+        messageElement.id = "noImageText"
+        document.getElementById('imageSection').appendChild(messageElement);
     }
 }
 
