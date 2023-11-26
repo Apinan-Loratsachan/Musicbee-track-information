@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Noto+Sans+Thai&display=swap');
+
+* {
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.jumbotron {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#musicInfo {
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#albumImage {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+#noImageText {
+    text-align: center;
+}
+
+#imageSection {
+    padding-top: 15px;
+}
