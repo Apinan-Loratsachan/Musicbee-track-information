@@ -20,10 +20,12 @@ document.addEventListener("DOMContentLoaded", function() {
     addCopyButton("album", "Album");
     addCopyButton("albumArtist", "Album Artist");
 
+    const Title = params.get("Title") || ""
+    const Artist = params.get("Artist") || ""
     const Album = params.get("Album") || ""
     const AlbumArtist = params.get("AlbumArtist") || ""
 
-    searchAlbumImage(Album, AlbumArtist);
+    searchAlbumImage(Title, Artist, Album, AlbumArtist);
 });
 
 // ฟังก์ชันเพิ่มปุ่ม Copy
@@ -74,7 +76,19 @@ function searchAppleMusic() {
     window.open(`https://music.apple.com/us/search?term=${title} - ${artist}`, "_blank");
 }
 
-async function searchAlbumImage(album, artist) {
+function searchTrackCover() {
+    const title = encodeURIComponent(document.getElementById("title").innerText);
+    const artist = encodeURIComponent(document.getElementById("artist").innerText);
+    window.open(`https://www.google.com/search?q=${title} - ${artist}&tbm=isch`, "_blank");
+}
+
+function searchAlbumCover() {
+    const album = encodeURIComponent(document.getElementById("album").innerText);
+    const albumArtist = encodeURIComponent(document.getElementById("albumArtist").innerText);
+    window.open(`https://www.google.com/search?q=${album} - ${albumArtist}&tbm=isch`, "_blank");
+}
+
+async function searchAlbumImage(title, artist, album, album_artist) {
     const clientId = '1cfc4e305f1c44b6a0807cc3de69f353'; // Replace with your Spotify API Client ID
     const clientSecret = '94d43218fd704db69eaa3184a26b11a6'; // Replace with your Spotify API Client Secret
     const base64Credentials = btoa(`${clientId}:${clientSecret}`);
@@ -93,7 +107,7 @@ async function searchAlbumImage(album, artist) {
     const accessToken = tokenData.access_token;
 
     // Search for album images
-    const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album}%20${artist}&type=album`, {
+    const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album} ${album_artist}&type=album`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }

@@ -19,11 +19,23 @@
         <div class="jumbotron bg-white card">
             <h1 style="color: black; text-align: center; padding-top: 10px;">Track Information</h1>
         </div>
-        <div id="imageSection"></div>
 
         <div id="musicInfo" class="card">
             <div class="card-body">
-                <!-- ใช้ Bootstrap Table -->
+                <div id="imageSection"></div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-dark" onclick="searchTrackCover()">
+                            <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Track Cover
+                        </button>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-dark" onclick="searchAlbumCover()">
+                            <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Album Cover
+                        </button>
+                    </div>
+                </div>
+                <div style="height: 25px;"></div>
                 <table class="table">
                     <colgroup>
                         <col style="width: 20%">
@@ -71,25 +83,29 @@
                 </table>
 
                 <div class="container mt-3">
-                    <div class="row justify-content-center">
-                        <div class="col">
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
                             <button type="button" class="btn btn-outline-dark" onclick="searchGoogle()">
-                                <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on Google
+                                <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
+                                Google
                             </button>
                         </div>
-                        <div class="col">
+                        <div class="col d-flex justify-content-center">
                             <button type="button" class="btn btn-outline-dark" onclick="searchYoutube()">
-                                <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search on Youtube
+                                <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search on
+                                Youtube
                             </button>
                         </div>
-                        <div class="col">
+                        <div class="col d-flex justify-content-center">
                             <button type="button" class="btn btn-outline-dark" onclick="searchSpotify()">
-                                <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i> Search on Spotify
+                                <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i> Search
+                                on Spotify
                             </button>
                         </div>
-                        <div class="col">
+                        <div class="col d-flex justify-content-center">
                             <button type="button" class="btn btn-outline-dark" onclick="searchAppleMusic()">
-                                <i class="fa-brands fa-apple fa-beat fa-xl" style="color: #000000;"></i> Search on Apple Music
+                                <i class="fa-brands fa-apple fa-beat fa-xl" style="color: #000000;"></i> Search on Apple
+                                Music
                             </button>
                         </div>
                     </div>
