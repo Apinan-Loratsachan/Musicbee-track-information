@@ -112,8 +112,8 @@ function searchAlbumCover() {
 
 async function searchAlbumImage(title, artist, album, album_artist) {
     if (album != "") {
-        const clientId = '1cfc4e305f1c44b6a0807cc3de69f353'; // Replace with your Spotify API Client ID
-    const clientSecret = '94d43218fd704db69eaa3184a26b11a6'; // Replace with your Spotify API Client Secret
+        const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
+    const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
     const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
     // Get access token
@@ -130,7 +130,7 @@ async function searchAlbumImage(title, artist, album, album_artist) {
     const accessToken = tokenData.access_token;
 
     // Search for album images
-    const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album_artist} ${album}&type=album&limit=1&offset=0`, {
+    const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album} ${album_artist}&type=album&limit=1&offset=0`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
