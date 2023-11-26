@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
     <div class="container mt-5">
         <div class="jumbotron bg-white card">
             <h1 style="color: black; text-align: center; padding-top: 10px;">Track Information</h1>
@@ -23,11 +22,14 @@
         <div id="musicInfo" class="card">
             <div class="card-body">
                 <div id="imageSection"></div>
-                <div class="row">
+                <div class="row d-flex align-items-center">
                     <div class="col d-flex justify-content-center">
                         <button type="button" class="btn btn-outline-dark" onclick="searchTrackCover()">
                             <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Track Cover
                         </button>
+                    </div>
+                    <div class="col d-flex justify-content-center" style="text-align: center;">
+                        Cover incorrect? Search it.
                     </div>
                     <div class="col d-flex justify-content-center">
                         <button type="button" class="btn btn-outline-dark" onclick="searchAlbumCover()">
@@ -36,82 +38,113 @@
                     </div>
                 </div>
                 <div style="height: 25px;"></div>
-                <table class="table">
-                    <colgroup>
-                        <col style="width: 20%">
-                        <col style="width: 70%">
-                        <col style="width: 10%">
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Title</th>
-                            <td id="title"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Artist</th>
-                            <td id="artist"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Album</th>
-                            <td id="album"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Album Artist</th>
-                            <td id="albumArtist"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Disc</th>
-                            <td id="disc"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Track</th>
-                            <td id="track"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Genre</th>
-                            <td id="genre"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Year</th>
-                            <td id="year"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Language</th>
-                            <td id="language"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-container">
+                    <table class="table table-btn align-middle">
+                        <colgroup>
+                            <col style="width: 20%">
+                            <col style="width: 68%">
+                            <col style="width: 12%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Title</th>
+                                <td id="title"></td>
+                                <td id="btn-copy-title"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Artist</th>
+                                <td id="artist"></td>
+                                <td id="btn-copy-artist"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Album</th>
+                                <td id="album"></td>
+                                <td id="btn-copy-album"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Album Artist</th>
+                                <td id="albumArtist"></td>
+                                <td id="btn-copy-albumArtist"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-connect align-middle">
+                        <colgroup>
+                            <col style="width: 20%">
+                            <col style="width: 80%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Disc</th>
+                                <td id="disc"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Track</th>
+                                <td id="track"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Genre</th>
+                                <td id="genre"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Year</th>
+                                <td id="year"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Language</th>
+                                <td id="language"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="container mt-3">
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-dark" onclick="searchGoogle()">
+                            <button type="button" id="btnGoogleSearch" class="btn btn-outline-dark" onclick="searchGoogle()">
                                 <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
                                 Google
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-dark" onclick="searchYoutube()">
+                            <button type="button" id="btnYoutubeSearch" class="btn btn-outline-dark" onclick="searchYoutube()">
                                 <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search on
                                 Youtube
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-dark" onclick="searchSpotify()">
+                            <button type="button" id="btnSpotifySearch" class="btn btn-outline-dark" onclick="searchSpotify()">
                                 <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i> Search
                                 on Spotify
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-dark" onclick="searchAppleMusic()">
-                                <i class="fa-brands fa-apple fa-beat fa-xl" style="color: #000000;"></i> Search on Apple
+                            <button type="button" id="btnAppleMusicSearch" class="btn btn-outline-dark" onclick="searchAppleMusic()">
+                                <i class="fa-brands fa-apple fa-beat fa-xl"></i> Search on Apple
                                 Music
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <button type="button" id="btnPowerSearch" class="btn btn-outline-dark long-btn" onclick="powerSearchGoogle()">
+                                <i class="fa-brands fa-searchengin fa-shake fa-xl"></i> Search on
+                                Google with all tag
+                            </button>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                            <button type="button" id="btnLyricsSearch" class="btn btn-outline-dark long-btn" onclick="searchLyrics()">
+                                <i class="fa-solid fa-sheet-plastic fa-bounce fa-xl"></i> Search lyrics
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div style="height: 50px;"></div>
 
     </div>
@@ -119,9 +152,6 @@
     <!-- เพิ่ม Bootstrap JS และ Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-U9udIk+Brz9YtffHXG5NrqtZxpsFfsy4CFS5zqYFX6Z1h1Aci3b+QI3fBAu5FfDl"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"
         integrity="sha384-pzjw8Zg3i6Vc8haXGz1F1eJLI3u8iR1Tl/J4/DvxdWb8C86gI/BEkBOOOcKR5LlN"

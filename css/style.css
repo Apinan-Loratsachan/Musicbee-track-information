@@ -43,10 +43,36 @@ body {
 }
 
 #noImageText {
+    display: block;
     text-align: center;
 }
 
 #imageSection {
     padding-top: 15px;
     padding-bottom: 30px;
+}
+
+.table-container {
+    display: block;
+}
+
+.table-connect {
+    margin-top: -15px;
+    /* ระยะห่างระหว่างตาราง */
+}
+
+.btn-copy {
+    width: 80px;
+    padding: 0px;
+    margin-top: -30px;
+    margin-bottom: -30px;
+    min-height: 35px;
+}
+
+.footer-text {
+    width: 80%;
+}
+
+.long-btn {
+    width: 100%;
 }
