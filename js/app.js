@@ -60,14 +60,14 @@ function powerSearchGoogle() {
         query = `${g_title}`
     } else {
         query = "Music"
-    } if(g_artist != "") {
+    } if (g_artist != "") {
         query += `%20by%20${g_artist}`
-    } if(g_album != "") {
+    } if (g_album != "") {
         query += `%20album%20${g_album}`
     } if (g_albumArtist != "") {
         query += `%20by%20${g_albumArtist}`
     }
-        window.open(`https://www.google.com/search?q=${query}`, "_blank");
+    window.open(`https://www.google.com/search?q=${query}`, "_blank");
 }
 
 function searchYoutube() {
@@ -113,57 +113,80 @@ function searchAlbumCover() {
 async function searchAlbumImage(title, artist, album, album_artist) {
     if (album != "") {
         const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
-    const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
-    const base64Credentials = btoa(`${clientId}:${clientSecret}`);
+        const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
+        const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
-    // Get access token
-    const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${base64Credentials}`
-        },
-        body: 'grant_type=client_credentials'
-    });
+        // Get access token
+        const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${base64Credentials}`
+            },
+            body: 'grant_type=client_credentials'
+        });
 
-    const tokenData = await tokenResponse.json();
-    const accessToken = tokenData.access_token;
+        const tokenData = await tokenResponse.json();
+        const accessToken = tokenData.access_token;
 
-    // Search for album images
-    const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album} ${album_artist}&type=album&limit=1&offset=0`, {
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
+        // Search for album images
+        const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album_artist} ${album}&type=album&limit=1&offset=0`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        const searchData = await searchResponse.json();
+
+        // Check if there are albums in the search result
+        if (searchData.albums && searchData.albums.items.length > 0) {
+            const albumImages = searchData.albums.items[0].images;
+
+            // Create or select the existing image element
+            let imageElement = document.getElementById('albumImage');
+            if (!imageElement) {
+                // If the image element doesn't exist, create it
+                imageElement = document.createElement('img');
+                imageElement.className = "card blur"
+                imageElement.id = 'albumImage';
+                imageElement.alt = 'Album Image';
+                document.getElementById('imageSection').appendChild(imageElement);
+            }
+            // Display the first image in the specified HTML element
+            imageElement.style.opacity = 0;
+            imageElement.src = albumImages[0].url;
+            document.body.style.backgroundImage = `url('${albumImages[0].url}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.className = 'bg-blur'
+
+            // ใช้ setTimeout เพื่อให้มีเวลาเปลี่ยนแปลง opacity ก่อน
+            setTimeout(function () {
+                imageElement.style.opacity = 1;
+            }, 50);
+        } else {
+            // If no album found, display a message
+            const messageElement = document.createElement('b');
+            messageElement.innerText = 'No album cover found.';
+            messageElement.id = "noImageText"
+            document.getElementById('imageSection').appendChild(messageElement);
         }
-    });
-
-    const searchData = await searchResponse.json();
-
-    // Check if there are albums in the search result
-    if (searchData.albums && searchData.albums.items.length > 0) {
-        const albumImages = searchData.albums.items[0].images;
-
-        // Create or select the existing image element
-        let imageElement = document.getElementById('albumImage');
-        if (!imageElement) {
-            // If the image element doesn't exist, create it
-            imageElement = document.createElement('img');
-            imageElement.className = "card"
-            imageElement.id = 'albumImage';
-            imageElement.alt = 'Album Image';
-            document.getElementById('imageSection').appendChild(imageElement);
-        }
-
-        // Display the first image in the specified HTML element
-        imageElement.src = albumImages[0].url;
-    } else {
-        // If no album found, display a message
-        const messageElement = document.createElement('b');
-        messageElement.innerText = 'No album cover found.';
-        messageElement.id = "noImageText"
-        document.getElementById('imageSection').appendChild(messageElement);
-    }
     }
 }
+
+// function addCopyButton(id, fieldName, value) {
+//     if (value !== "") {
+//         const element = document.getElementById(id);
+//         const button = document.createElement("button");
+//         button.className = "btn btn-outline-dark btn-copy";
+//         button.innerText = "Copy";
+//         button.addEventListener("click", function () {
+//             copyToClipboard(value);
+//             showCopyResultModal(fieldName, value); // เรียกใช้ฟังก์ชันแสดงผล Modal
+//         });
+
+//         element.appendChild(button);
+//     }
+// }
 
 function addCopyButton(id, fieldName, value) {
     if (value !== "") {
@@ -173,12 +196,21 @@ function addCopyButton(id, fieldName, value) {
         button.innerText = "Copy";
         button.addEventListener("click", function () {
             copyToClipboard(value);
-            showCopyResultModal(fieldName, value); // เรียกใช้ฟังก์ชันแสดงผล Modal
+            button.innerText = "Copied"; // เปลี่ยนข้อความปุ่มเป็น "Copied"
+            button.classList.add("copied"); // เพิ่มคลาส "copied" เพื่อให้เกิดการเปลี่ยนสี
+
+            // หลังจาก 0.75 วินาทีให้เปลี่ยนกลับเป็นเหมือนเดิม
+            setTimeout(function () {
+                button.innerText = "Copy";
+                button.classList.remove("copied"); // ลบคลาส "copied"
+            }, 750);
         });
 
         element.appendChild(button);
     }
 }
+
+
 
 // ฟังก์ชันคัดลอกข้อมูลไปยังคลิปบอร์ด
 function copyToClipboard(text) {
@@ -203,7 +235,7 @@ function showCopyResultModal(fieldName, value) {
                     <div class="footer-text">
                         <u>${value}</u>
                     </div>
-                    <div class="close-btn-container"> <!-- เพิ่ม class "text-right" ที่จะช่วยให้ปุ่ม Close อยู่ทางขวา -->
+                    <div class="close-btn-container">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -233,24 +265,24 @@ function disableObjact(id, state) {
 
 function validateData(data) {
     if (data != "") {
-        disableObjact("btnGoogleSearch",false)
-        disableObjact("btnYoutubeSearch",false)
-        disableObjact("btnSpotifySearch",false)
-        disableObjact("btnAppleMusicSearch",false)
-        disableObjact("btnLyricsSearch",false)
+        disableObjact("btnGoogleSearch", false)
+        disableObjact("btnYoutubeSearch", false)
+        disableObjact("btnSpotifySearch", false)
+        disableObjact("btnAppleMusicSearch", false)
+        disableObjact("btnLyricsSearch", false)
     } else {
-        disableObjact("btnGoogleSearch",true)
-        disableObjact("btnYoutubeSearch",true)
-        disableObjact("btnSpotifySearch",true)
-        disableObjact("btnAppleMusicSearch",true)
-        disableObjact("btnLyricsSearch",true)
+        disableObjact("btnGoogleSearch", true)
+        disableObjact("btnYoutubeSearch", true)
+        disableObjact("btnSpotifySearch", true)
+        disableObjact("btnAppleMusicSearch", true)
+        disableObjact("btnLyricsSearch", true)
     }
 }
 
 function validatePowerSearch(data) {
     if (data != "") {
-        disableObjact("btnPowerSearch",false)
+        disableObjact("btnPowerSearch", false)
     } else {
-        disableObjact("btnPowerSearch",true)
+        disableObjact("btnPowerSearch", true)
     }
 }
