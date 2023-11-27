@@ -36,7 +36,15 @@ document.addEventListener("DOMContentLoaded", function () {
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // searchAlbumImage(Title, Artist, Album, AlbumArtist);
-    searchAlbumId(Album, AlbumArtist);
+    if (Album != '') {
+        searchAlbumId(Album, AlbumArtist);
+    } else {
+        document.getElementById('loading-cover').remove();
+        const messageElement = document.createElement('b');
+        messageElement.innerText = 'Unknow album name.';
+        messageElement.id = "noImageText"
+        document.getElementById('imageSection').appendChild(messageElement);
+    }
 });
 
 function searchGoogle() {
@@ -225,8 +233,8 @@ function validatePowerSearch(data) {
 
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchAlbumId(albumName, artistName) {
-    const apiUrl = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
-    console.log('Searching for album cover')
+    const apiUrl = `https://vgmdb.info/search?q=${g_title}%20by%20${g_artist}&format=json`;
+    console.log('Searching for album cover by track')
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -237,8 +245,25 @@ function searchAlbumId(albumName, artistName) {
                 displayAlbumCover(albumId);
                 console.log('Found VGMdb album ID : ' + albumId)
             } else {
-                console.log("Album not found on VGMdb begin search in Spotify");
-                searchAlbumImage(g_album, g_albumArtist);
+                console.log('Not found change to searching by album')
+                const apiUrl2 = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
+                fetch(apiUrl2)
+                    .then(response => response.json())
+                    .then(data => {
+                        const albums = data.results.albums;
+
+                        if (albums.length > 0) {
+                            const albumId = albums[0].link.split("/").pop();
+                            displayAlbumCover(albumId);
+                            console.log('Found VGMdb album ID : ' + albumId)
+                        } else {
+                            console.log("Album not found on VGMdb begin search in Spotify");
+                            searchAlbumImage(g_album, g_albumArtist);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching vgmdb data", error);
+                    });
             }
         })
         .catch(error => {
@@ -298,7 +323,7 @@ async function searchAlbumImage(album, album_artist) {
         const accessToken = tokenData.access_token;
 
         // Search for album images
-        const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album} by ${album_artist}&type=album&limit=1&offset=0`, {
+        const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album} ${album_artist}&type=album&limit=1&offset=0`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
@@ -337,7 +362,7 @@ function setCoverToBG(url) {
     const img = new Image();
 
     // เพิ่มการตรวจสอบว่ารูปภาพโหลดเสร็จแล้วหรือยัง
-    img.onload = function() {
+    img.onload = function () {
         // รูปโหลดเสร็จแล้ว
         document.body.style.backgroundImage = `url('${url}')`;
         document.body.style.backgroundSize = 'cover';
@@ -350,7 +375,6 @@ function setCoverToBG(url) {
 
 
 function showCoverImage(image) {
-    document.getElementById('loading-cover').remove();
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
@@ -359,7 +383,8 @@ function showCoverImage(image) {
     coverElement.style.opacity = 0;
 
     // เพิ่มการตรวจสอบว่ารูปโหลดเสร็จแล้วหรือยัง
-    coverElement.onload = function() {
+    coverElement.onload = function () {
+        document.getElementById('loading-cover').remove();
         document.getElementById("imageSection").appendChild(coverElement);
         setTimeout(function () {
             coverElement.style.opacity = 1;
