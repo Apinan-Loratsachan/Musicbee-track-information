@@ -19,8 +19,8 @@
             </div>
             <div class="card-body">
                 <div id="imageSection" style="text-align: center;">
-                    <div class="spinner-border m-5" id="loading-cover" role="status">
-                      </div>
+                    <div id="searching-text"><strong class="now-precess">Searching artwork</strong></div>
+                    <div class="spinner-border m-5" id="loading-cover" role="status"></div>
                 </div>
                 <div class="row d-flex align-items-center">
                     <div class="col d-flex justify-content-center">
@@ -75,6 +75,10 @@
                                 <td id="track"></td>
                             </tr>
                             <tr>
+                                <th scope="row">Length</th>
+                                <td id="length"></td>
+                            </tr>
+                            <tr>
                                 <th scope="row">Genre</th>
                                 <td id="genre"></td>
                             </tr>
@@ -93,25 +97,29 @@
                 <div class="container mt-3">
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnGoogleSearch" class="btn btn-outline-dark" onclick="searchGoogle()">
+                            <button type="button" id="btnGoogleSearch" class="btn btn-outline-dark"
+                                onclick="searchGoogle()">
                                 <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
                                 Google
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnYoutubeSearch" class="btn btn-outline-dark" onclick="searchYoutube()">
+                            <button type="button" id="btnYoutubeSearch" class="btn btn-outline-dark"
+                                onclick="searchYoutube()">
                                 <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search on
                                 Youtube
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnSpotifySearch" class="btn btn-outline-dark" onclick="searchSpotify()">
+                            <button type="button" id="btnSpotifySearch" class="btn btn-outline-dark"
+                                onclick="searchSpotify()">
                                 <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i> Search
                                 on Spotify
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnAppleMusicSearch" class="btn btn-outline-dark" onclick="searchAppleMusic()">
+                            <button type="button" id="btnAppleMusicSearch" class="btn btn-outline-dark"
+                                onclick="searchAppleMusic()">
                                 <i class="fa-brands fa-apple fa-beat fa-xl"></i> Search on Apple
                                 Music
                             </button>
@@ -122,13 +130,15 @@
                 <div class="container mt-3">
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnPowerSearch" class="btn btn-outline-dark long-btn" onclick="powerSearchGoogle()">
+                            <button type="button" id="btnPowerSearch" class="btn btn-outline-dark long-btn"
+                                onclick="powerSearchGoogle()">
                                 <i class="fa-brands fa-searchengin fa-shake fa-xl"></i> Search on
                                 Google with all tag
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnLyricsSearch" class="btn btn-outline-dark long-btn" onclick="searchLyrics()">
+                            <button type="button" id="btnLyricsSearch" class="btn btn-outline-dark long-btn"
+                                onclick="searchLyrics()">
                                 <i class="fa-solid fa-sheet-plastic fa-bounce fa-xl"></i> Search lyrics
                             </button>
                         </div>
@@ -136,7 +146,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div style="height: 50px;"></div>
 
     </div>
