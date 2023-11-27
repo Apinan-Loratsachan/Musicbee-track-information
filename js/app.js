@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         searchVGMdbAlbumID(Album, AlbumArtist);
     } else {
         document.getElementById('loading-cover').remove();
+        document.getElementById('searching-text').remove();
         const messageElement = document.createElement('b');
         messageElement.innerText = 'Unknow album name.';
         messageElement.id = "noImageText"
