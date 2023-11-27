@@ -338,9 +338,7 @@ async function searchAlbumImage(album, album_artist) {
         if (searchData.albums && searchData.albums.items.length > 0) {
             const albumImages = searchData.albums.items[0].images;
             showCoverImage(albumImages[0].url)
-            document.body.style.backgroundImage = `url('${albumImages[0].url}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.className = 'bg-blur'
+            setCoverToBG(albumImages[0].url)
             console.log('Get album cover in Spotify success')
         } else {
             // If no album found, display a message
