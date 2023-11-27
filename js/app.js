@@ -37,7 +37,25 @@ document.addEventListener("DOMContentLoaded", function () {
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
-    if (Album != '') {
+    if (Album == 'Nee, Sukitte Itai yo. ~Kokuhaku Jikkou Iinkai Character Song Collection~') {
+        searchVGMdbAlbumID('ねぇ、好きって痛いよ。~告白実行委員会キャラクターソング集~', AlbumArtist);
+    } else if (Album == 'Kono Tate ni, Kakuremasu.') {
+        searchVGMdbAlbumID('Kono Tate ni Kakuremasu', '純情のアフィリア')
+    } else if (Album == "μ's Best Album Best Live! Collection II") {
+        spotifySearchImage(Album, AlbumArtist)
+    } else if (Album == 'Monogatari Series | UTAMONOGATARI -Complete BOX-') {
+        customAlbumCover('https://coverartarchive.org/release/5c0ded57-ea89-4c9d-826a-b813f67d3e43/28531022627-1200.jpg')
+    } else if (Album == 'ONE PIECE 20th Anniversary BEST ALBUM') {
+        customAlbumCover('https://m.media-amazon.com/images/I/81j7gXXciYL._UF1000,1000_QL80_.jpg')
+    } else if (Album == 'Katekyo Hitman Reborn! Complete') {
+        customAlbumCover("https://i.imgur.com/2Nf2yi4.jpg")
+    } else if(Album == 'Toaru Kagaku no Theme Songs') {
+        customAlbumCover('https://imusic.b-cdn.net/images/item/original/387/4988102620387.jpg?o-s-t-2021-toaru-kagaku-no-railgt-album-cd&class=scaled&v=1610529724')
+    } else if (Album == 'Kessoku Band') {
+        spotifySearchImage(Album, AlbumArtist)
+    } else if (Album == 'I' && AlbumArtist == 'Ikimono-gakari') {
+        customAlbumCover('https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/1d/89/72/1d8972f3-b7fc-01bf-054f-f4ec6611a85b/jacket_ESCL04091B00Z_550.jpg/1200x1200bf-60.jpg')
+    } else if (Album != '') {
         searchVGMdbAlbumID(Album, AlbumArtist);
     } else {
         document.getElementById('loading-cover').remove();
@@ -292,7 +310,7 @@ function displayVGMdbAlbumCover(albumId) {
             const picture = data.picture_full;
             console.log('Getting album cover')
             if (covers.length > 0) {
-                $(document).ready(function(){
+                $(document).ready(function () {
                     $(".now-precess").html("Getting album art");
                 });
                 const coverUrl = covers[0].full;
@@ -300,7 +318,7 @@ function displayVGMdbAlbumCover(albumId) {
                 setCoverToBG(coverUrl)
                 console.log('Get album cover success')
             } else if (picture != '') {
-                $(document).ready(function(){
+                $(document).ready(function () {
                     $(".now-precess").html("Getting album art");
                 });
                 console.log('Not found cover in "covers" tag looking for "picture" tag')
@@ -321,7 +339,7 @@ function displayVGMdbAlbumCover(albumId) {
 }
 
 async function spotifySearchImage(album, album_artist) {
-    $(document).ready(function(){
+    $(document).ready(function () {
         $(".now-precess").html("Searching album cover in streaming platform");
     });
     const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
@@ -352,7 +370,7 @@ async function spotifySearchImage(album, album_artist) {
 
     // Check if there are albums in the search result
     if (searchData.albums && searchData.albums.items.length > 0) {
-        $(document).ready(function(){
+        $(document).ready(function () {
             $(".now-precess").html("Getting album art");
         });
         const albumImages = searchData.albums.items[0].images;
@@ -413,4 +431,9 @@ function coverLoadFail() {
     document.getElementById('loading-cover').remove();
     document.getElementById('searching-text').remove();
     document.getElementById('imageSection').appendChild(messageElement);
+}
+
+function customAlbumCover(image) {
+    showCoverImage(image)
+    setCoverToBG(image)
 }
