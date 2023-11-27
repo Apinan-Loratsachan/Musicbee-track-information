@@ -263,11 +263,13 @@ function searchAlbumId(albumName, artistName) {
                     })
                     .catch(error => {
                         console.error("Error fetching vgmdb data", error);
+                        coverLoadFail()
                     });
             }
         })
         .catch(error => {
             console.error("Error fetching vgmdb data", error);
+            coverLoadFail()
         });
 }
 
@@ -300,6 +302,7 @@ function displayAlbumCover(albumId) {
         })
         .catch(error => {
             console.error("Error fetching album cover data", error);
+            coverLoadFail()
         });
 }
 
@@ -390,4 +393,12 @@ function showCoverImage(image) {
             coverElement.style.opacity = 1;
         }, 50);
     };
+}
+
+function coverLoadFail() {
+    const messageElement = document.createElement('b');
+    messageElement.innerText = 'Failed to get album art try to refresh this site.';
+    messageElement.id = "noImageText"
+    document.getElementById('loading-cover').remove();
+    document.getElementById('imageSection').appendChild(messageElement);
 }
