@@ -216,8 +216,6 @@ function addCopyButton(id, fieldName, value) {
     }
 }
 
-
-
 // ฟังก์ชันคัดลอกข้อมูลไปยังคลิปบอร์ด
 function copyToClipboard(text) {
     const textarea = document.createElement("textarea");
