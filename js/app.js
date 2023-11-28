@@ -47,8 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
         customAlbumCover('https://coverartarchive.org/release/5c0ded57-ea89-4c9d-826a-b813f67d3e43/28531022627-1200.jpg')
     } else if (Album == 'ONE PIECE 20th Anniversary BEST ALBUM') {
         customAlbumCover('https://m.media-amazon.com/images/I/81j7gXXciYL._UF1000,1000_QL80_.jpg')
-    } else if (Album == 'Katekyo Hitman Reborn! Complete') {
-        customAlbumCover("https://i.imgur.com/2Nf2yi4.jpg")
     } else if(Album == 'Toaru Kagaku no Theme Songs') {
         customAlbumCover('https://imusic.b-cdn.net/images/item/original/387/4988102620387.jpg?o-s-t-2021-toaru-kagaku-no-railgt-album-cd&class=scaled&v=1610529724')
     } else if (Album == 'Kessoku Band') {
