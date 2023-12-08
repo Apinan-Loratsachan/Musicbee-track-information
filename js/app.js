@@ -9,27 +9,28 @@ document.addEventListener("DOMContentLoaded", function () {
     g_artist = params.get("ar") || "";
     g_album = params.get("al") || "";
     g_albumArtist = params.get("alar") || "";
+    vgm_album_id = params.get("ref") || '';
 
     // ใส่ข้อมูลลงใน HTML
-    if(g_title == '') {
+    if (g_title == '') {
         document.getElementById('title-zone').innerText = 'Unknown'
     } else {
         document.getElementById("title").innerText = params.get("tr") || "Unknown";
         document.getElementById("title").href = encodeURI(`https://www.google.com/search?q=${g_title}`);
     }
-    if(g_artist == '') {
+    if (g_artist == '') {
         document.getElementById('artist-zone').innerText = 'Unknown'
     } else {
         document.getElementById("artist").innerText = params.get("ar") || "Unknown";
         document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`);
     }
-    if(g_album == '') {
+    if (g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
         document.getElementById("album").innerText = params.get("al") || "Unknown";
         document.getElementById("album").href = encodeURI(`https://www.google.com/search?q=${g_album}`);
     }
-    if(g_albumArtist == '') {
+    if (g_albumArtist == '') {
         document.getElementById('albumArtist-zone').innerText = 'Unknown'
     } else {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
@@ -42,11 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("language").innerText = params.get("lang") || "Unknown";
     document.getElementById("length").innerText = params.get("len") || "Unknown";
     const relArray = (params.get("rel") || "None").split(';');
-    if(relArray[0] == 'None') {
+    if (relArray[0] == 'None') {
         document.getElementById('related').innerText = 'None'
     } else {
-        for(let i = 0; i <= relArray.length - 1; i++) {
-            if(i != 0) {
+        for (let i = 0; i <= relArray.length - 1; i++) {
+            if (i != 0) {
                 const spanElement = document.createElement('span');
                 spanElement.innerText = ', '
                 document.getElementById('related').appendChild(spanElement)
@@ -75,23 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
-    if (Album == 'Nee, Sukitte Itai yo. ~Kokuhaku Jikkou Iinkai Character Song Collection~') {
-        searchVGMdbAlbumID('ねぇ、好きって痛いよ。~告白実行委員会キャラクターソング集~', AlbumArtist);
-    } else if (Album == 'Kono Tate ni, Kakuremasu.') {
-        searchVGMdbAlbumID('Kono Tate ni Kakuremasu', '純情のアフィリア')
-    } else if (Album == "μ's Best Album Best Live! Collection II") {
-        spotifySearchImage(Album, AlbumArtist)
-    } else if (Album == 'Monogatari Series | UTAMONOGATARI -Complete BOX-') {
-        customAlbumCover('https://coverartarchive.org/release/5c0ded57-ea89-4c9d-826a-b813f67d3e43/28531022627-1200.jpg')
-    } else if (Album == 'ONE PIECE 20th Anniversary BEST ALBUM') {
-        customAlbumCover('https://m.media-amazon.com/images/I/81j7gXXciYL._UF1000,1000_QL80_.jpg')
-    } else if(Album == 'Toaru Kagaku no Theme Songs') {
-        customAlbumCover('https://imusic.b-cdn.net/images/item/original/387/4988102620387.jpg?o-s-t-2021-toaru-kagaku-no-railgt-album-cd&class=scaled&v=1610529724')
-    } else if (Album == 'Kessoku Band') {
-        spotifySearchImage(Album, AlbumArtist)
-    } else if (Album == 'I' && AlbumArtist == 'Ikimono-gakari') {
-        customAlbumCover('https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/1d/89/72/1d8972f3-b7fc-01bf-054f-f4ec6611a85b/jacket_ESCL04091B00Z_550.jpg/1200x1200bf-60.jpg')
-    } else if (Album != '') {
+    if (Album != '' || vgm_album_id != '') {
         searchVGMdbAlbumID(Album, AlbumArtist);
     } else {
         document.getElementById('loading-cover').remove();
@@ -289,50 +274,55 @@ function validatePowerSearch(data) {
 
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchVGMdbAlbumID(albumName, artistName) {
-    const apiUrl = `https://vgmdb.info/search?q=${g_title}%20by%20${g_artist}&format=json`;
-    $(document).ready(function () {
-        $(".now-precess").html("Searching album cover by track");
-    });
-    console.log('Searching album cover by track')
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const albums = data.results.albums;
-
-            if (albums.length > 0) {
-                const albumId = albums[0].link.split("/").pop();
-                displayVGMdbAlbumCover(albumId);
-                console.log('Found VGMdb album ID : ' + albumId)
-            } else {
-                console.log('Not found change to searching by album')
-                const apiUrl2 = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
-                $(document).ready(function () {
-                    $(".now-precess").html("Searching album cover by album");
-                });
-                fetch(apiUrl2)
-                    .then(response => response.json())
-                    .then(data => {
-                        const albums = data.results.albums;
-
-                        if (albums.length > 0) {
-                            const albumId = albums[0].link.split("/").pop();
-                            displayVGMdbAlbumCover(albumId);
-                            console.log('Found VGMdb album ID : ' + albumId)
-                        } else {
-                            console.log("Album not found on VGMdb begin search in Spotify");
-                            spotifySearchImage(g_album, g_albumArtist);
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching vgmdb data", error);
-                        coverLoadFail()
-                    });
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching vgmdb data", error);
-            coverLoadFail()
+    if (vgm_album_id != '') {
+        console.log('Has AlbumID tag : ' + vgm_album_id)
+        displayVGMdbAlbumCover(vgm_album_id)
+    } else {
+        const apiUrl = `https://vgmdb.info/search?q=${g_title}%20by%20${g_artist}&format=json`;
+        $(document).ready(function () {
+            $(".now-precess").html("Searching album cover by track");
         });
+        console.log('Searching album cover by track')
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const albums = data.results.albums;
+
+                if (albums.length > 0) {
+                    const albumId = albums[0].link.split("/").pop();
+                    displayVGMdbAlbumCover(albumId);
+                    console.log('Found VGMdb album ID : ' + albumId)
+                } else {
+                    console.log('Not found change to searching by album')
+                    const apiUrl2 = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
+                    $(document).ready(function () {
+                        $(".now-precess").html("Searching album cover by album");
+                    });
+                    fetch(apiUrl2)
+                        .then(response => response.json())
+                        .then(data => {
+                            const albums = data.results.albums;
+
+                            if (albums.length > 0) {
+                                const albumId = albums[0].link.split("/").pop();
+                                displayVGMdbAlbumCover(albumId);
+                                console.log('Found VGMdb album ID : ' + albumId)
+                            } else {
+                                console.log("Album not found on VGMdb begin search in Spotify");
+                                spotifySearchImage(g_album, g_albumArtist);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error fetching vgmdb data", error);
+                            coverLoadFail()
+                        });
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching vgmdb data", error);
+                coverLoadFail()
+            });
+    }
 }
 
 // ฟังก์ชันแสดงรูปปกของอัลบั้ม
