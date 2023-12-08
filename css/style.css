@@ -107,8 +107,10 @@ table,
 th,
 td {
     /* border: 1px solid black; */
-    height: 50px;
+    height: 40px;
     border-collapse: collapse;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #copyResultModal {
