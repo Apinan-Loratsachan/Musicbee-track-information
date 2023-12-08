@@ -11,34 +11,53 @@ document.addEventListener("DOMContentLoaded", function () {
     g_albumArtist = params.get("alar") || "";
 
     // ใส่ข้อมูลลงใน HTML
-    document.getElementById("title").innerText = params.get("tr") || "Unknown";
-    document.getElementById("title").href = `https://www.google.com/search?q=${g_title}`;
-    document.getElementById("artist").innerText = params.get("ar") || "Unknown";
-    document.getElementById("artist").href = `https://www.google.com/search?q=${g_artist}`;
-    document.getElementById("album").innerText = params.get("al") || "Unknown";
-    document.getElementById("album").href = `https://www.google.com/search?q=${g_album}`;
-    document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
-    document.getElementById("albumArtist").href = `https://www.google.com/search?q=${g_albumArtist}`;
+    if(g_title == '') {
+        document.getElementById('title-zone').innerText = 'Unknown'
+    } else {
+        document.getElementById("title").innerText = params.get("tr") || "Unknown";
+        document.getElementById("title").href = `https://www.google.com/search?q=${g_title}`;
+    }
+    if(g_artist == '') {
+        document.getElementById('artist-zone').innerText = 'Unknown'
+    } else {
+        document.getElementById("artist").innerText = params.get("ar") || "Unknown";
+        document.getElementById("artist").href = `https://www.google.com/search?q=${g_artist}`;
+    }
+    if(g_album == '') {
+        document.getElementById('album-zone').innerText = 'Unknown'
+    } else {
+        document.getElementById("album").innerText = params.get("al") || "Unknown";
+        document.getElementById("album").href = `https://www.google.com/search?q=${g_album}`;
+    }
+    if(g_albumArtist == '') {
+        document.getElementById('albumArtist-zone').innerText = 'Unknown'
+    } else {
+        document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
+        document.getElementById("albumArtist").href = `https://www.google.com/search?q=${g_albumArtist}`;
+    }
     document.getElementById("disc").innerText = `${params.get("dn") || "Unknown"} / ${params.get("dc") || "Unknown"}`;
     document.getElementById("track").innerText = `${params.get("tn") || "Unknown"} / ${params.get("tc") || "Unknown"}`;
     document.getElementById("genre").innerText = params.get("ge") || "Unknown";
     document.getElementById("year").innerText = params.get("y") || "Unknown";
     document.getElementById("language").innerText = params.get("lang") || "Unknown";
     document.getElementById("length").innerText = params.get("len") || "Unknown";
-    const relArray = (params.get("rel") || "Unknown").split(';');
-    for(let i = 0; i <= relArray.length - 1; i++) {
-        console.log(relArray[i].trim())
-        if(i != 0) {
-            const spanElement = document.createElement('span');
-            spanElement.innerText = ', '
-            document.getElementById('related').appendChild(spanElement)
+    const relArray = (params.get("rel") || "None").split(';');
+    if(relArray[0] == 'None') {
+        document.getElementById('related').innerText = 'None'
+    } else {
+        for(let i = 0; i <= relArray.length - 1; i++) {
+            if(i != 0) {
+                const spanElement = document.createElement('span');
+                spanElement.innerText = ', '
+                document.getElementById('related').appendChild(spanElement)
+            }
+            const linkElement = document.createElement('a');
+            linkElement.className = 'linkText'
+            linkElement.innerText = '#' + relArray[i].trim();
+            linkElement.href = `https://www.google.com/search?q=${relArray[i].trim()}`;
+            linkElement.setAttribute('target', '_blank')
+            document.getElementById('related').appendChild(linkElement)
         }
-        const linkElement = document.createElement('a');
-        linkElement.className = 'linkText'
-        linkElement.innerText = '#' + relArray[i].trim();
-        linkElement.href = `https://www.google.com/search?q=${relArray[i].trim()}`;
-        linkElement.setAttribute('target', '_blank')
-        document.getElementById('related').appendChild(linkElement)
     }
     // document.getElementById("related").innerText = (params.get("rel") || "Unknown").replaceAll(';',',');
 
