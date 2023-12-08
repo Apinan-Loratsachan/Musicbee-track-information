@@ -136,6 +136,7 @@ td {
 }
 
 .linkText {
+    color: blue;
     /* color: black; */
     transition: color 0.2s ease-out;
     text-decoration: none;
@@ -143,10 +144,10 @@ td {
 
 .linkText:hover {
     border-bottom: 1px solid;
-    color: blue;
+    color: #007bff;
 }
 
-/* .linkText[href^="http"] {
+/* .linkText[href^="http"]:hover {
     background: url(./../assets/icon/new_tab.png) no-repeat 100%;
     background-size: 16px 16px;
     padding-right: 19px;

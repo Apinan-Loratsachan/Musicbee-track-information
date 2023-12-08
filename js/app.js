@@ -15,25 +15,25 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('title-zone').innerText = 'Unknown'
     } else {
         document.getElementById("title").innerText = params.get("tr") || "Unknown";
-        document.getElementById("title").href = `https://www.google.com/search?q=${g_title}`;
+        document.getElementById("title").href = encodeURI(`https://www.google.com/search?q=${g_title}`);
     }
     if(g_artist == '') {
         document.getElementById('artist-zone').innerText = 'Unknown'
     } else {
         document.getElementById("artist").innerText = params.get("ar") || "Unknown";
-        document.getElementById("artist").href = `https://www.google.com/search?q=${g_artist}`;
+        document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`);
     }
     if(g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
         document.getElementById("album").innerText = params.get("al") || "Unknown";
-        document.getElementById("album").href = `https://www.google.com/search?q=${g_album}`;
+        document.getElementById("album").href = encodeURI(`https://www.google.com/search?q=${g_album}`);
     }
     if(g_albumArtist == '') {
         document.getElementById('albumArtist-zone').innerText = 'Unknown'
     } else {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
-        document.getElementById("albumArtist").href = `https://www.google.com/search?q=${g_albumArtist}`;
+        document.getElementById("albumArtist").href = encodeURI(`https://www.google.com/search?q=${g_albumArtist}`);
     }
     document.getElementById("disc").innerText = `${params.get("dn") || "Unknown"} / ${params.get("dc") || "Unknown"}`;
     document.getElementById("track").innerText = `${params.get("tn") || "Unknown"} / ${params.get("tc") || "Unknown"}`;
@@ -54,12 +54,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const linkElement = document.createElement('a');
             linkElement.className = 'linkText'
             linkElement.innerText = '#' + relArray[i].trim();
-            linkElement.href = `https://www.google.com/search?q=${relArray[i].trim()}`;
+            linkElement.href = encodeURI(`https://www.google.com/search?q=${relArray[i].trim()}`);
             linkElement.setAttribute('target', '_blank')
             document.getElementById('related').appendChild(linkElement)
         }
     }
-    // document.getElementById("related").innerText = (params.get("rel") || "Unknown").replaceAll(';',',');
 
     // เพิ่มปุ่ม Copy
     addCopyButton("btn-copy-title", "Title", params.get("tr") || "");
