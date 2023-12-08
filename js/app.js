@@ -23,6 +23,39 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('artist-zone').innerText = 'Unknown'
     } else {
         document.getElementById("artist").innerText = params.get("ar") || "Unknown";
+        let artistTemp = document.getElementById("artist").innerText = params.get("ar") || "Unknown"
+
+        artistString = (params.get("ar") || "");
+        const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv|Cv|CV|va\.|Va\.|VA\.|va:|Va:|VA:|va|Va|VA|&|\(\s*|\s*\)|\[|\]|,)/g)
+    .filter(artist => artist.trim() !== "")
+    .map(artist => artist.trim());
+
+        if (artistArray.length > 1) {
+            const thElement = document.createElement('th')
+            thElement.innerText = 'Contain Artists'
+            thElement.setAttribute('scope', 'row')
+            document.getElementById('containArtistZone').appendChild(thElement)
+
+            const tdElement = document.createElement('td')
+            tdElement.id = 'containArtistTD'
+            tdElement.setAttribute('colspan', '2')
+            document.getElementById('containArtistZone').appendChild(tdElement)
+
+            for (let i = 0; i <= artistArray.length - 1; i++) {
+                if (i != 0) {
+                    const spanElement = document.createElement('span');
+                    spanElement.innerText = ', '
+                    // spanElement.setAttribute('style', 'padding-left: 10px;')
+                    document.getElementById('containArtistTD').appendChild(spanElement)
+                }
+                const linkElement = document.createElement('a');
+                linkElement.className = 'linkText'
+                linkElement.innerText = artistArray[i].trim();
+                linkElement.href = encodeURI(`https://www.google.com/search?q=${artistArray[i].trim()}`);
+                linkElement.setAttribute('target', '_blank')
+                document.getElementById('containArtistTD').appendChild(linkElement)
+            }
+        }
         document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`);
     }
     if (g_album == '') {
@@ -33,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (g_albumArtist == '') {
         document.getElementById('albumArtist-zone').innerText = 'Unknown'
+    } else if (g_albumArtist == 'Various Artists') {
+        document.getElementById('albumArtist-zone').innerText = 'Various Artists'
     } else {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
         document.getElementById("albumArtist").href = encodeURI(`https://www.google.com/search?q=${g_albumArtist}`);
@@ -50,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i <= relArray.length - 1; i++) {
             if (i != 0) {
                 const spanElement = document.createElement('span');
-                spanElement.innerText = ', '
+                spanElement.setAttribute('style', 'padding-left: 10px;')
                 document.getElementById('related').appendChild(spanElement)
             }
             const linkElement = document.createElement('a');
@@ -63,27 +98,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // เพิ่มปุ่ม Copy
-    addCopyButton("btn-copy-title", "Title", params.get("tr") || "");
-    addCopyButton("btn-copy-artist", "Artist", params.get("ar") || "");
-    addCopyButton("btn-copy-album", "Album", params.get("al") || "");
-    addCopyButton("btn-copy-albumArtist", "Album artist", params.get("alar") || "");
-
-    const Title = params.get("tr") || ""
-    const Artist = params.get("ar") || ""
-    const Album = params.get("al") || ""
-    const AlbumArtist = params.get("alar") || ""
+    addCopyButton("btn-copy-title", params.get("tr") || "");
+    addCopyButton("btn-copy-artist", params.get("ar") || "");
+    addCopyButton("btn-copy-album", params.get("al") || "");
+    addCopyButton("btn-copy-albumArtist", params.get("alar") || "");
 
     validateData(g_title)
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
-    if (Album != '' && spotify_album_id != '') {
+    if (g_album != '' && spotify_album_id != '') {
         console.log('Has Spotify album ID tag : ' + spotify_album_id)
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
         spotifySearchImageByID(spotify_album_id)
-    } else if (Album != '' || vgm_album_id != '') {
+    } else if (g_album != '' || vgm_album_id != '') {
         console.log('Has VGMDB album ID tag : ' + vgm_album_id)
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
@@ -171,23 +201,8 @@ function searchAlbumCover() {
     }
 }
 
-// function addCopyButton(id, fieldName, value) {
-//     if (value !== "") {
-//         const element = document.getElementById(id);
-//         const button = document.createElement("button");
-//         button.className = "btn btn-outline-dark btn-copy";
-//         button.innerText = "Copy";
-//         button.addEventListener("click", function () {
-//             copyToClipboard(value);
-//             showCopyResultModal(fieldName, value); // เรียกใช้ฟังก์ชันแสดงผล Modal
-//         });
-
-//         element.appendChild(button);
-//     }
-// }
-
-function addCopyButton(id, fieldName, value) {
-    if (value !== "") {
+function addCopyButton(id, value) {
+    if (value != "" && value != 'Various Artists') {
         const element = document.getElementById(id);
         const button = document.createElement("button");
         button.className = "btn btn-outline-dark btn-copy";

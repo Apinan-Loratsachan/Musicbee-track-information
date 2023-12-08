@@ -107,7 +107,7 @@ table,
 th,
 td {
     /* border: 1px solid black; */
-    height: 40px;
+    height: 50px;
     border-collapse: collapse;
 }
 
@@ -151,4 +151,9 @@ td {
     background: url(./../assets/icon/new_tab.png) no-repeat 100%;
     background-size: 16px 16px;
     padding-right: 19px;
+} */
+
+/* tr {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 } */
