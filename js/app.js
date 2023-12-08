@@ -5,33 +5,53 @@ document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
 
-    g_title = params.get("Title") || "";
-    g_artist = params.get("Artist") || "";
-    g_album = params.get("Album") || "";
-    g_albumArtist = params.get("AlbumArtist") || "";
+    g_title = params.get("tr") || "";
+    g_artist = params.get("ar") || "";
+    g_album = params.get("al") || "";
+    g_albumArtist = params.get("alar") || "";
 
     // ใส่ข้อมูลลงใน HTML
-    document.getElementById("title").innerText = params.get("Title") || "Unknown";
-    document.getElementById("artist").innerText = params.get("Artist") || "Unknown";
-    document.getElementById("album").innerText = params.get("Album") || "Unknown";
-    document.getElementById("albumArtist").innerText = params.get("AlbumArtist") || "Unknown";
-    document.getElementById("disc").innerText = `${params.get("DiscNo") || "Unknown"} / ${params.get("DiscCount") || "Unknown"}`;
-    document.getElementById("track").innerText = `${params.get("TrackNo") || "Unknown"} / ${params.get("TrackCount") || "Unknown"}`;
-    document.getElementById("genre").innerText = params.get("Genre") || "Unknown";
-    document.getElementById("year").innerText = params.get("Year") || "Unknown";
-    document.getElementById("language").innerText = params.get("Language") || "Unknown";
-    document.getElementById("length").innerText = params.get("Length") || "Unknown";
+    document.getElementById("title").innerText = params.get("tr") || "Unknown";
+    document.getElementById("title").href = `https://www.google.com/search?q=${g_title}`;
+    document.getElementById("artist").innerText = params.get("ar") || "Unknown";
+    document.getElementById("artist").href = `https://www.google.com/search?q=${g_artist}`;
+    document.getElementById("album").innerText = params.get("al") || "Unknown";
+    document.getElementById("album").href = `https://www.google.com/search?q=${g_album}`;
+    document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
+    document.getElementById("albumArtist").href = `https://www.google.com/search?q=${g_albumArtist}`;
+    document.getElementById("disc").innerText = `${params.get("dn") || "Unknown"} / ${params.get("dc") || "Unknown"}`;
+    document.getElementById("track").innerText = `${params.get("tn") || "Unknown"} / ${params.get("tc") || "Unknown"}`;
+    document.getElementById("genre").innerText = params.get("ge") || "Unknown";
+    document.getElementById("year").innerText = params.get("y") || "Unknown";
+    document.getElementById("language").innerText = params.get("lang") || "Unknown";
+    document.getElementById("length").innerText = params.get("len") || "Unknown";
+    const relArray = (params.get("rel") || "Unknown").split(';');
+    for(let i = 0; i <= relArray.length - 1; i++) {
+        console.log(relArray[i].trim())
+        if(i != 0) {
+            const spanElement = document.createElement('span');
+            spanElement.innerText = ', '
+            document.getElementById('related').appendChild(spanElement)
+        }
+        const linkElement = document.createElement('a');
+        linkElement.className = 'linkText'
+        linkElement.innerText = '#' + relArray[i].trim();
+        linkElement.href = `https://www.google.com/search?q=${relArray[i].trim()}`;
+        linkElement.setAttribute('target', '_blank')
+        document.getElementById('related').appendChild(linkElement)
+    }
+    // document.getElementById("related").innerText = (params.get("rel") || "Unknown").replaceAll(';',',');
 
     // เพิ่มปุ่ม Copy
-    addCopyButton("btn-copy-title", "Title", params.get("Title") || "");
-    addCopyButton("btn-copy-artist", "Artist", params.get("Artist") || "");
-    addCopyButton("btn-copy-album", "Album", params.get("Album") || "");
-    addCopyButton("btn-copy-albumArtist", "Album artist", params.get("AlbumArtist") || "");
+    addCopyButton("btn-copy-title", "Title", params.get("tr") || "");
+    addCopyButton("btn-copy-artist", "Artist", params.get("ar") || "");
+    addCopyButton("btn-copy-album", "Album", params.get("al") || "");
+    addCopyButton("btn-copy-albumArtist", "Album artist", params.get("alar") || "");
 
-    const Title = params.get("Title") || ""
-    const Artist = params.get("Artist") || ""
-    const Album = params.get("Album") || ""
-    const AlbumArtist = params.get("AlbumArtist") || ""
+    const Title = params.get("tr") || ""
+    const Artist = params.get("ar") || ""
+    const Album = params.get("al") || ""
+    const AlbumArtist = params.get("alar") || ""
 
     validateData(g_title)
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
