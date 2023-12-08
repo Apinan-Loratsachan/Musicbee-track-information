@@ -467,7 +467,7 @@ async function spotifySearchImage(album, album_artist) {
 async function spotifySearchImageByID(spotify_album_id) {
     try {
         $(document).ready(function () {
-            $(".now-precess").html("Searching album cover in streaming platform");
+            $(".now-precess").html("Getting album art");
         });
 
         const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
