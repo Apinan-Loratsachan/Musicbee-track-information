@@ -114,10 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         spotifySearchImageByID(spotify_album_id)
     } else if (g_album != '' || vgm_album_id != '') {
-        console.log('Has VGMDB album ID tag : ' + vgm_album_id)
-        $(document).ready(function () {
-            $(".now-precess").html("Reading tag");
-        });
         searchVGMdbAlbumID(g_album, g_albumArtist)
     } else {
         document.getElementById('loading-cover').remove();
@@ -301,7 +297,10 @@ function validatePowerSearch(data) {
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchVGMdbAlbumID(albumName, artistName) {
     if (vgm_album_id != '' && flag) {
-        console.log('Has VGMdb album ID tag : ' + vgm_album_id)
+        console.log('Has VGMDB album ID tag : ' + vgm_album_id)
+        $(document).ready(function () {
+            $(".now-precess").html("Reading tag");
+        });
         displayVGMdbAlbumCoverByTag(vgm_album_id)
     } else {
         const apiUrl = `https://vgmdb.info/search?q=${g_title}%20by%20${g_artist}&format=json`;
