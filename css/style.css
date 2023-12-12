@@ -178,7 +178,7 @@ td {
     width: 5px;
     border-radius: 50px;
     margin: 0 5px;
-    animation: animate 0.5s linear infinite;
+    animation: animate 0.55s linear infinite;
 }
 
 @keyframes animate{
@@ -207,13 +207,13 @@ td {
 }
 
 .stroke:nth-child(5) {
-    animation-delay: 0.2s;
+    animation-delay: 0.4s;
 }
 
 .stroke:nth-child(6) {
-    animation-delay: 0.1s;
+    animation-delay: 0.5s;
 }
 
 .stroke:nth-child(7) {
-    animation-delay: 0s;
+    animation-delay: 0.6s;
 }
