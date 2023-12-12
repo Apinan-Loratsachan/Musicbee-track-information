@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function searchForAlbumCover() {
     if (g_album != '' && spotify_album_id != '') {
-        console.log('Has Spotify album ID tag : ' + spotify_album_id)
+        console.log('Has Spotify album ID tag : ' + spotify_album_id + "\n(https://open.spotify.com/album/" + potify_album_id + ")")
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
@@ -306,7 +306,7 @@ function validatePowerSearch(data) {
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchVGMdbAlbumID(albumName, artistName) {
     if (vgm_album_id != '' && flag) {
-        console.log('Has VGMDB album ID tag : ' + vgm_album_id)
+        console.log('Has VGMDB album ID tag : ' + vgm_album_id + " (https://vgmdb.net/album/" + vgm_album_id + ")")
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
@@ -340,7 +340,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
                             if (albums.length > 0) {
                                 const albumId = albums[0].link.split("/").pop();
                                 displayVGMdbAlbumCover(albumId);
-                                console.log('Found VGMdb album ID : ' + albumId)
+                                console.log('Found VGMdb album ID : ' + albumId + " (https://vgmdb.net/album/" + albumId + ")")
                             } else {
                                 console.log("Album not found on VGMdb begin search in Spotify");
                                 spotifySearchImage(g_album, g_albumArtist);
@@ -468,6 +468,9 @@ async function spotifySearchImage(album, album_artist) {
 
     // Check if there are albums in the search result
     if (searchData.albums && searchData.albums.items.length > 0) {
+        const albumID = searchData.albums.items[0].id;
+        console.log("Found Spotify album ID : " + albumID + "\n(https://open.spotify.com/album/" + albumID+ ")")
+        console.log('Getting album cover')
         $(document).ready(function () {
             $(".now-precess").html("Getting album art");
         });
@@ -587,6 +590,7 @@ function showCoverImageBycti(image) {
     coverElement.style.opacity = 0;
 
     coverElement.onload = function () {
+        console.log("Getting album art")
         $(document).ready(function () {
             $(".now-precess").html("Getting album art");
         });
