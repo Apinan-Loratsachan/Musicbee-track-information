@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function searchForAlbumCover() {
     if (g_album != '' && spotify_album_id != '') {
-        console.log('Has Spotify album ID tag : ' + spotify_album_id + "\n(https://open.spotify.com/album/" + potify_album_id + ")")
+        console.log('Has Spotify album ID tag : ' + spotify_album_id + "\n(https://open.spotify.com/album/" + spotify_album_id + ")")
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
