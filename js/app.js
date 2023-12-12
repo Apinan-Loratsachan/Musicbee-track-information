@@ -12,8 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
     spotify_album_id = params.get("ref1") || '';
     vgm_album_id = params.get("ref2") || '';
     custom_image = params.get("cti") || '';
+    title_artist = params.get("ar") || "Unknow artist";
 
     // ใส่ข้อมูลลงใน HTML
+    if (g_title != '') {
+        document.title = g_title + ' - ' + title_artist
+    }
     if (g_title == '') {
         document.getElementById('title-zone').innerText = 'Unknown'
     } else {
@@ -568,6 +572,8 @@ function showCoverImage(image) {
     coverElement.style.opacity = 0;
 
     coverElement.onload = function () {
+        const favicon = document.getElementById('favicon');
+        favicon.setAttribute('herf',image)
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
         document.getElementById("imageSection").appendChild(coverElement);
@@ -590,6 +596,8 @@ function showCoverImageBycti(image) {
     coverElement.style.opacity = 0;
 
     coverElement.onload = function () {
+        const favicon = document.getElementById('favicon');
+        favicon.setAttribute('herf',image)
         console.log("Getting album art")
         $(document).ready(function () {
             $(".now-precess").html("Getting album art");
