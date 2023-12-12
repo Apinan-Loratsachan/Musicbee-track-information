@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     g_albumArtist = params.get("alar") || "";
     spotify_album_id = params.get("ref1") || '';
     vgm_album_id = params.get("ref2") || '';
+    custom_image = params.get("cti") || '';
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title == '') {
@@ -27,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         artistString = (params.get("ar") || "");
         const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv|Cv|CV|va\.|Va\.|VA\.|va:|Va:|VA:|va|Va|VA|&|\(\s*|\s*\)|\[|\]|,)/g)
-    .filter(artist => artist.trim() !== "")
-    .map(artist => artist.trim());
+            .filter(artist => artist.trim() !== "")
+            .map(artist => artist.trim());
 
         if (artistArray.length > 1) {
             const thElement = document.createElement('th')
@@ -107,6 +108,14 @@ document.addEventListener("DOMContentLoaded", function () {
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
+    if (custom_image !== '') {
+        customAlbumCover(custom_image);
+    } else {
+        searchForAlbumCover();
+    }
+});
+
+function searchForAlbumCover() {
     if (g_album != '' && spotify_album_id != '') {
         console.log('Has Spotify album ID tag : ' + spotify_album_id)
         $(document).ready(function () {
@@ -123,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
         messageElement.id = "noImageText"
         document.getElementById('imageSection').appendChild(messageElement);
     }
-});
+}
 
 function searchGoogle() {
     if (g_artist == "") {
@@ -565,6 +574,35 @@ function showCoverImage(image) {
     };
 }
 
+function showCoverImageBycti(image) {
+    console.log('Has custom album cover tag : ' + custom_image)
+    $(document).ready(function () {
+        $(".now-precess").html("Reading tag");
+    });
+    const coverElement = document.createElement("img");
+    coverElement.src = image;
+    coverElement.alt = "Album Cover";
+    coverElement.className = "card album-image";
+    coverElement.id = 'albumImage';
+    coverElement.style.opacity = 0;
+
+    coverElement.onload = function () {
+        $(document).ready(function () {
+            $(".now-precess").html("Getting album art");
+        });
+        document.getElementById('loading-cover').remove();
+        document.getElementById('searching-text').remove();
+        document.getElementById("imageSection").appendChild(coverElement);
+        setTimeout(function () {
+            coverElement.style.opacity = 1;
+        }, 50);
+    };
+    coverElement.onerror = function () {
+        console.log("Can't get image for this URL. Proceed to the next step.")
+        searchForAlbumCover()
+    }
+}
+
 function coverLoadFail() {
     const messageElement = document.createElement('b');
     messageElement.innerText = 'Failed to get album art try to refresh this site.';
@@ -575,6 +613,6 @@ function coverLoadFail() {
 }
 
 function customAlbumCover(image) {
-    showCoverImage(image)
+    showCoverImageBycti(image)
     setCoverToBG(image)
 }
