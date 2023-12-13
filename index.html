@@ -13,9 +13,11 @@
 
 <body>
     <div class="container mt-5">
+        <div id="audio-section" style="margin: auto; text-align: center;">
+        </div>
         <div id="musicInfo" class="card blur">
-            <div style="padding-top: 30px;">
-                <h1 style="color: black; text-align: center; padding-top: 10px;">Track Information</h1>
+            <div id="header" style="padding-top: 30px;">
+                <h1 id="headerText" style="color: black; text-align: center; padding-top: 10px;">Track Information</h1>
             </div>
             <div class="card-body">
                 <div id="imageSection" style="text-align: center;">
@@ -32,6 +34,7 @@
                     <!-- <div class="spinner-border m-5" id="loading-cover" role="status"></div> -->
                 </div>
                 <div class="row d-flex align-items-center">
+                    <div class="row"></div>
                     <div class="col d-flex justify-content-center">
                         <button type="button" class="btn btn-outline-dark" onclick="searchTrackCover()">
                             <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Track Cover

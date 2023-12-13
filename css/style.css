@@ -46,6 +46,14 @@ body {
     transition: opacity 0.5s ease-in-out;
 }
 
+#audio-section {
+    padding-top: 15px;
+}
+
+#audio-preview {
+    max-width: 84%;
+}
+
 #noImageText {
     display: block;
     text-align: center;
