@@ -549,6 +549,7 @@ async function spotifySearchImageByID(spotify_album_id) {
                 setCoverToBG(albumImages[0].url);
                 console.log('Get album cover in Spotify success');
                 if (searchData.preview_url != null) {
+                    document.getElementById('body-container').classList = 'container mt-3'
                     console.log('This track has audio preview')
                     const previewText = document.createElement('h4')
                     previewText.innerText = `Track preview : ${g_title}`
