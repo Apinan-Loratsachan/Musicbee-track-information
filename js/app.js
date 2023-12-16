@@ -706,16 +706,10 @@ function ahowAudioControlWithSpotifySrc(src) {
     audioElement.className = 'audio-preview'
     audioElement.src = src
     audioElement.controls = true
-    audioElement.autoplay = true
-    audioElement.loop = true
-    document.getElementById('audio-section').classList = 'row align-items-center card blur'
+    audioElement.autoplay = false
+    audioElement.loop = false
+    document.getElementById('audio-section').classList = 'row align-items-center card blur card-body'
     document.getElementById('audio-section').appendChild(audioElement)
-    const fullSongBtn = document.createElement('button')
-    fullSongBtn.id = 'full-song-btn'
-    fullSongBtn.classList = 'btn btn-outline-dark long-btn'
-    fullSongBtn.innerText = 'Listen full music'
-    fullSongBtn.onclick = function() {window.open(`https://open.spotify.com/track/${audio}`, "_blank");}
-    document.getElementById('audio-section').appendChild(fullSongBtn)
     console.log('Get audio preview sucsess')
 }
 

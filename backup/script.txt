@@ -1,0 +1,6 @@
+    const fullSongBtn = document.createElement('button')
+    fullSongBtn.id = 'full-song-btn'
+    fullSongBtn.classList = 'btn btn-outline-dark long-btn'
+    fullSongBtn.innerText = 'Listen full music'
+    fullSongBtn.onclick = function() {window.open(`https://open.spotify.com/track/${audio}`, "_blank");}
+    document.getElementById('audio-section').appendChild(fullSongBtn)
