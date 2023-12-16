@@ -552,9 +552,13 @@ async function spotifySearchImageByID(spotify_album_id) {
                 if (searchData.preview_url != null) {
                     console.log('This track has audio preview')
                     const previewText = document.createElement('h4')
-                    previewText.innerText = `Track preview : ${g_title}`
-                    previewText.setAttribute('style', 'margin-bottom: 10px;')
+                    previewText.innerText = `Track preview`
+                    previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: bold;')
                     document.getElementById('audio-section').appendChild(previewText)
+                    const previewTitle = document.createElement('strong')
+                    previewTitle.innerText = `${g_title} - ${g_artist}`
+                    previewTitle.setAttribute('style', 'margin-bottom: 10px;')
+                    document.getElementById('audio-section').appendChild(previewTitle)
                     const audioElement = document.createElement('audio')
                     audioElement.id = 'audio-preview'
                     audioElement.className = 'audio-preview'
@@ -566,7 +570,6 @@ async function spotifySearchImageByID(spotify_album_id) {
                     document.getElementById('audio-section').classList = 'row align-items-center card blur'
                     document.getElementById('audio-section').appendChild(audioElement)
                     console.log('Get audio preview sucsess')
-                    document.getElementById('audio-preview').play()
                 } else {
                     console.log('This track not have audio preview')
                 }
