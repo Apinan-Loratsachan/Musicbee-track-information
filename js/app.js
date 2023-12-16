@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     vgm_album_id = params.get("ref2") || '';
     custom_image = params.get("cti") || '';
     title_artist = params.get("ar") || "Unknow artist";
+    audio = params.get("au") || "";
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
@@ -125,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function searchForAlbumCover() {
+    if (audio != '') {
+        getSpotifyTrackPreview(audio)
+    }
     if (g_album != '' && spotify_album_id != '') {
         if (spotify_album_id.includes('track/')) {
             console.log('Has Spotify track ID tag : ' + spotify_album_id.replace('track/', '') + "\n(https://open.spotify.com/" + spotify_album_id + ")")
@@ -504,7 +508,6 @@ async function spotifySearchImage(album, album_artist) {
 }
 
 async function spotifySearchImageByID(spotify_album_id) {
-    let urlText
     try {
         $(document).ready(function () {
             $(".now-precess").html("Getting album art");
@@ -527,88 +530,82 @@ async function spotifySearchImageByID(spotify_album_id) {
         const tokenData = await tokenResponse.json();
         const accessToken = tokenData.access_token;
 
-        if (spotify_album_id.includes('track/')) {
-            urlText = `${spotify_album_id.replace('track/', 'tracks/')}`
-            // Search for track images by ID
-            const searchResponse = await fetch(`https://api.spotify.com/v1/${urlText}`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-
-            const searchData = await searchResponse.json();
-            console.log(searchData)
-            // console.log(searchData.preview_url)
-
-            // Check if the album is found
-            if (searchData.album.images && searchData.album.images.length > 0) {
-                $(document).ready(function () {
-                    $(".now-precess").html("Getting album art");
-                });
-                const albumImages = searchData.album.images;
-                showCoverImage(albumImages[0].url);
-                setCoverToBG(albumImages[0].url);
-                console.log('Get album cover in Spotify success');
-                if (searchData.preview_url != null) {
-                    console.log('This track has audio preview')
-                    const previewText = document.createElement('h4')
-                    previewText.innerText = `Track preview`
-                    previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: bold;')
-                    document.getElementById('audio-section').appendChild(previewText)
-                    const previewTitle = document.createElement('strong')
-                    previewTitle.innerText = `${g_title} - ${g_artist}`
-                    previewTitle.setAttribute('style', 'margin-bottom: 10px;')
-                    document.getElementById('audio-section').appendChild(previewTitle)
-                    const audioElement = document.createElement('audio')
-                    audioElement.id = 'audio-preview'
-                    audioElement.className = 'audio-preview'
-                    audioElement.src = searchData.preview_url
-                    audioElement.controls = true
-                    audioElement.autoplay = true
-                    audioElement.loop = true
-                    audioElement.setAttribute('style', 'margin-bottom: 25px;')
-                    document.getElementById('audio-section').classList = 'row align-items-center card blur'
-                    document.getElementById('audio-section').appendChild(audioElement)
-                    console.log('Get audio preview sucsess')
-                } else {
-                    console.log('This track not have audio preview')
-                }
-            } else {
-                // If no album found, display a message
-                console.log("Can't get image in spotify")
-                searchVGMdbAlbumID(g_album, g_albumArtist)
+        // Search for album images by ID
+        const searchResponse = await fetch(`https://api.spotify.com/v1/albums/${spotify_album_id}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
             }
+        });
+
+        const searchData = await searchResponse.json();
+
+        // Check if the album is found
+        if (searchData.images && searchData.images.length > 0) {
+            $(document).ready(function () {
+                $(".now-precess").html("Getting album art");
+            });
+            const albumImages = searchData.images;
+            showCoverImage(albumImages[0].url);
+            setCoverToBG(albumImages[0].url);
+            console.log('Get album cover in Spotify success');
         } else {
-            urlText = `albums/${spotify_album_id}`
-            // Search for album images by ID
-            const searchResponse = await fetch(`https://api.spotify.com/v1/${urlText}`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-
-            const searchData = await searchResponse.json();
-
-            // Check if the album is found
-            if (searchData.images && searchData.images.length > 0) {
-                $(document).ready(function () {
-                    $(".now-precess").html("Getting album art");
-                });
-                const albumImages = searchData.images;
-                showCoverImage(albumImages[0].url);
-                setCoverToBG(albumImages[0].url);
-                console.log('Get album cover in Spotify success');
-            } else {
-                // If no album found, display a message
-                console.log("Can't get image in spotify")
-                searchVGMdbAlbumID(g_album, g_albumArtist)
-            }
+            // If no album found, display a message
+            console.log("Can't get image in spotify")
+            searchVGMdbAlbumID(g_album, g_albumArtist)
         }
 
     } catch {
         console.log("Can't get image in spotify")
         searchVGMdbAlbumID(g_album, g_albumArtist)
     }
+}
+
+async function getSpotifyTrackPreview(spotify_track_id) {
+    try {
+        $(document).ready(function () {
+            $(".now-precess").html("Getting album art");
+        });
+
+        const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
+        const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
+        const base64Credentials = btoa(`${clientId}:${clientSecret}`);
+
+        // Get access token
+        const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${base64Credentials}`
+            },
+            body: 'grant_type=client_credentials'
+        });
+
+        const tokenData = await tokenResponse.json();
+        const accessToken = tokenData.access_token;
+
+        // Search for track images by ID
+        const searchResponse = await fetch(`https://api.spotify.com/v1/tracks/${spotify_track_id}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        const searchData = await searchResponse.json();
+        // console.log(searchData.preview_url)
+
+        // Check if the album is found
+        if (searchData.preview_url != null) {
+            ahowAudioControlWithSpotifySrc(searchData.preview_url)
+        } else {
+            // If no album found, display a message
+            console.log('This track not have audio preview')
+        }
+
+    } catch {
+        console.log("Can't get image in spotify")
+        searchVGMdbAlbumID(g_album, g_albumArtist)
+    }
+
 }
 
 function setCoverToBG(url) {
@@ -693,3 +690,32 @@ function customAlbumCover(image) {
     showCoverImageBycti(image)
     setCoverToBG(image)
 }
+
+function ahowAudioControlWithSpotifySrc(src) {
+    console.log(`This track has audio preview\n(https://open.spotify.com/track/${audio})`)
+    const previewText = document.createElement('h4')
+    previewText.innerText = `Track preview`
+    previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: bold;')
+    document.getElementById('audio-section').appendChild(previewText)
+    const previewTitle = document.createElement('strong')
+    previewTitle.innerText = `${g_title} - ${g_artist}`
+    previewTitle.setAttribute('style', 'margin-bottom: 10px;')
+    document.getElementById('audio-section').appendChild(previewTitle)
+    const audioElement = document.createElement('audio')
+    audioElement.id = 'audio-preview'
+    audioElement.className = 'audio-preview'
+    audioElement.src = src
+    audioElement.controls = true
+    audioElement.autoplay = true
+    audioElement.loop = true
+    document.getElementById('audio-section').classList = 'row align-items-center card blur'
+    document.getElementById('audio-section').appendChild(audioElement)
+    const fullSongBtn = document.createElement('button')
+    fullSongBtn.id = 'full-song-btn'
+    fullSongBtn.classList = 'btn btn-outline-dark long-btn'
+    fullSongBtn.innerText = 'Listen full music'
+    fullSongBtn.onclick = function() {window.open(`https://open.spotify.com/track/${audio}`, "_blank");}
+    document.getElementById('audio-section').appendChild(fullSongBtn)
+    console.log('Get audio preview sucsess')
+}
+
