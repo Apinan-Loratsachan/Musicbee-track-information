@@ -1,4 +1,4 @@
-let g_title, g_artist, g_album, g_albumArtist, flag = true;
+let g_title, g_artist, g_album, g_albumArtist, flag = true, spcid = '1cfc4e305f1c44b6a0807cc3de69f353', spsid = '94d43218fd704db69eaa3184a26b11a6';
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`);
     }
+    
     if (g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
@@ -323,7 +324,7 @@ function validatePowerSearch(data) {
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchVGMdbAlbumID(albumName, artistName) {
     if (vgm_album_id != '' && flag) {
-        console.log('Has VGMDB album ID tag : ' + vgm_album_id + " (https://vgmdb.net/album/" + vgm_album_id + ")")
+        console.log('Has VGMDB album ID tag : ' + vgm_album_id + "\n(https://vgmdb.net/album/" + vgm_album_id + ")")
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
@@ -342,7 +343,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
                 if (albums.length > 0) {
                     const albumId = albums[0].link.split("/").pop();
                     displayVGMdbAlbumCover(albumId);
-                    console.log('Found VGMdb album ID : ' + albumId)
+                    console.log('Found VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")")
                 } else {
                     console.log('Not found change to searching by album')
                     const apiUrl2 = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
@@ -357,7 +358,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
                             if (albums.length > 0) {
                                 const albumId = albums[0].link.split("/").pop();
                                 displayVGMdbAlbumCover(albumId);
-                                console.log('Found VGMdb album ID : ' + albumId + " (https://vgmdb.net/album/" + albumId + ")")
+                                console.log('Found VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")")
                             } else {
                                 console.log("Album not found on VGMdb begin search in Spotify");
                                 spotifySearchImage(g_album, g_albumArtist);
@@ -457,8 +458,8 @@ async function spotifySearchImage(album, album_artist) {
     $(document).ready(function () {
         $(".now-precess").html("Searching album cover in streaming platform");
     });
-    const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
-    const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
+    const clientId = spcid;
+    const clientSecret = spsid;
     const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
     // Get access token
@@ -513,8 +514,8 @@ async function spotifySearchImageByID(spotify_album_id) {
             $(".now-precess").html("Getting album art");
         });
 
-        const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
-        const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
+        const clientId = spcid;
+        const clientSecret = spsid;
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         // Get access token
@@ -566,8 +567,8 @@ async function getSpotifyTrackPreview(spotify_track_id) {
             $(".now-precess").html("Getting album art");
         });
 
-        const clientId = '1cfc4e305f1c44b6a0807cc3de69f353';
-        const clientSecret = '94d43218fd704db69eaa3184a26b11a6';
+        const clientId = spcid;
+        const clientSecret = spsid;
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         // Get access token

@@ -13,7 +13,10 @@ body {
 
 .container {
     max-width: 800px;
-    margin: auto;
+}
+
+#body-container {
+    margin-bottom: 50px;
 }
 
 .jumbotron {
@@ -195,11 +198,12 @@ td {
     animation: animate 0.55s linear infinite;
 }
 
-@keyframes animate{
-    50%{
+@keyframes animate {
+    50% {
         height: 20%;
     }
-    100%{
+
+    100% {
         height: 100%;
     }
 }
