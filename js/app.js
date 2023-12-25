@@ -17,11 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
-        // const trackTitle = document.createElement('h3')
-        // trackTitle.innerText = g_title
-        // trackTitle.setAttribute('style', 'color: black; text-align: center; padding-top: 10px;')
-        // document.getElementById('header').appendChild(trackTitle)
-        // document.getElementById('headerText').innerText = g_title
         document.title = g_title + ' - ' + title_artist
     }
     if (g_title == '') {
@@ -592,11 +587,10 @@ async function getSpotifyTrackPreview(spotify_track_id) {
         });
 
         const searchData = await searchResponse.json();
-        // console.log(searchData.preview_url)
 
         // Check if the album is found
         if (searchData.preview_url != null) {
-            ahowAudioControlWithSpotifySrc(searchData.preview_url)
+            showAudioControlWithSpotifySrc(searchData.preview_url)
         } else {
             // If no album found, display a message
             console.log('This track not have audio preview')
@@ -692,7 +686,7 @@ function customAlbumCover(image) {
     setCoverToBG(image)
 }
 
-function ahowAudioControlWithSpotifySrc(src) {
+function showAudioControlWithSpotifySrc(src) {
     console.log(`This track has audio preview\n(https://open.spotify.com/track/${audio})`)
     const previewText = document.createElement('h4')
     previewText.innerText = `Track preview`
@@ -711,6 +705,6 @@ function ahowAudioControlWithSpotifySrc(src) {
     audioElement.loop = false
     document.getElementById('audio-section').classList = 'row align-items-center card blur card-body'
     document.getElementById('audio-section').appendChild(audioElement)
-    console.log('Get audio preview sucsess')
+    console.log(`Get audio preview sucsess\n(${src})`)
 }
 
