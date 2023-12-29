@@ -116,33 +116,41 @@
 
                 <div class="container mt-3">
                     <div class="row">
-                        <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnGoogleSearch" class="btn btn-outline-dark"
-                                onclick="searchGoogle()">
-                                <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
-                                Google
-                            </button>
+                        <div class="col-6 d-flex justify-content-center small-search-button-container">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="btnGoogleSearch" class="btn btn-outline-dark small-search-button"
+                                    onclick="searchGoogle()">
+                                    <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
+                                    Google
+                                </button>
+                            </div>
+                            <span class="search-btn-spacer"></span>
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="btnYoutubeSearch" class="btn btn-outline-dark small-search-button"
+                                    onclick="searchYoutube()">
+                                    <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search
+                                    on
+                                    Youtube
+                                </button>
+                            </div>
                         </div>
-                        <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnYoutubeSearch" class="btn btn-outline-dark"
-                                onclick="searchYoutube()">
-                                <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search on
-                                Youtube
-                            </button>
-                        </div>
-                        <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnSpotifySearch" class="btn btn-outline-dark"
-                                onclick="searchSpotify()">
-                                <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i> Search
-                                on Spotify
-                            </button>
-                        </div>
-                        <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnAppleMusicSearch" class="btn btn-outline-dark"
-                                onclick="searchAppleMusic()">
-                                <i class="fa-brands fa-apple fa-beat fa-xl"></i> Search on Apple
-                                Music
-                            </button>
+                        <div class="col-6 d-flex justify-content-center small-search-button-container">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="btnSpotifySearch" class="btn btn-outline-dark small-search-button"
+                                    onclick="searchSpotify()">
+                                    <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i>
+                                    Search
+                                    on Spotify
+                                </button>
+                            </div>
+                            <span class="search-btn-spacer"></span>
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="btnAppleMusicSearch" class="btn btn-outline-dark small-search-button"
+                                    onclick="searchAppleMusic()">
+                                    <i class="fa-brands fa-apple fa-beat fa-xl"></i> Search on Apple
+                                    Music
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
