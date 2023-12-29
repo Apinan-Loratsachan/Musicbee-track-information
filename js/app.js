@@ -1,9 +1,10 @@
-let g_title, g_artist, g_album, g_albumArtist, flag = true, spcid = '1cfc4e305f1c44b6a0807cc3de69f353', spsid = '94d43218fd704db69eaa3184a26b11a6';
+let g_title, g_artist, g_album, g_albumArtist, flag = true, spcid = apikey[0], spsid = apikey[1];
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
+    
 
     g_title = params.get("tr") || "";
     g_artist = params.get("ar") || "";
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('title-zone').innerText = 'Unknown'
     } else {
         document.getElementById("title").innerText = params.get("tr") || "Unknown";
-        document.getElementById("title").href = encodeURI(`https://www.google.com/search?q=${g_title}`);
+        document.getElementById("title").href = encodeURI(`https://www.google.com/search?q=${g_title}`).replaceAll("&", "%26");
     }
     if (g_artist == '') {
         document.getElementById('artist-zone').innerText = 'Unknown'
@@ -67,14 +68,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('containArtistTD').appendChild(linkElement)
             }
         }
-        document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`);
+        document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`).replaceAll("&", "%26");
     }
     
     if (g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
         document.getElementById("album").innerText = params.get("al") || "Unknown";
-        document.getElementById("album").href = encodeURI(`https://www.google.com/search?q=${g_album}`);
+        document.getElementById("album").href = encodeURI(`https://www.google.com/search?q=${g_album}`).replaceAll("&", "%26");
     }
     if (g_albumArtist == '') {
         document.getElementById('albumArtist-zone').innerText = 'Unknown'
@@ -82,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('albumArtist-zone').innerText = 'Various Artists'
     } else {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
-        document.getElementById("albumArtist").href = encodeURI(`https://www.google.com/search?q=${g_albumArtist}`);
+        document.getElementById("albumArtist").href = encodeURI(`https://www.google.com/search?q=${g_albumArtist}`).replaceAll("&", "%26");
     }
     document.getElementById("disc").innerText = `${params.get("dn") || "Unknown"} / ${params.get("dc") || "Unknown"}`;
     document.getElementById("track").innerText = `${params.get("tn") || "Unknown"} / ${params.get("tc") || "Unknown"}`;
