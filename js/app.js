@@ -4,7 +4,7 @@ let g_title, g_artist, g_album, g_albumArtist, flag = true, spcid = apikey[0], s
 document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
-    
+
 
     g_title = params.get("tr") || "";
     g_artist = params.get("ar") || "";
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`).replaceAll("&", "%26");
     }
-    
+
     if (g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
@@ -121,6 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
     if (custom_image !== '') {
         customAlbumCover(custom_image);
+        if (audio != '') {
+            getSpotifyTrackPreview(audio)
+        }
     } else {
         searchForAlbumCover();
     }
