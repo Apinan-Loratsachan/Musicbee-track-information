@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
     custom_image = params.get("cti") || '';
     title_artist = params.get("ar") || "Unknow artist";
     audio = params.get("au") || "";
+    s_title = g_title.replaceAll("&", "%26");
+    s_artist = g_artist.replaceAll("&", "%26");
+    s_album = g_album.replaceAll("&", "%26");
+    s_albumArtist = g_albumArtist.replaceAll("&", "%26");
+    spotify_album_id = params.get("ref1") || '';
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
@@ -149,41 +154,41 @@ function searchForAlbumCover() {
 
 function searchGoogle() {
     if (g_artist == "") {
-        window.open(`https://www.google.com/search?q=${g_title}`, "_blank");
+        window.open(`https://www.google.com/search?q=${s_title}`, "_blank");
     } else {
-        window.open(`https://www.google.com/search?q=${g_title} - ${g_artist}`, "_blank");
+        window.open(`https://www.google.com/search?q=${s_title} - ${s_artist}`, "_blank");
     }
 }
 
 function searchLyrics() {
     if (g_artist == "") {
-        window.open(`https://www.google.com/search?q=lyrics ${g_title}`, "_blank");
+        window.open(`https://www.google.com/search?q=lyrics ${s_title}`, "_blank");
     } else {
-        window.open(`https://www.google.com/search?q=lyrics ${g_title} - ${g_artist}`, "_blank");
+        window.open(`https://www.google.com/search?q=lyrics ${s_title} - ${s_artist}`, "_blank");
     }
 }
 
 function powerSearchGoogle() {
     query = ""
     if (g_title != "") {
-        query = `${g_title}`
+        query = `${s_title}`
     } else {
         query = "Music"
     } if (g_artist != "") {
-        query += `%20by%20${g_artist}`
+        query += `%20by%20${s_artist}`
     } if (g_album != "") {
-        query += `%20album%20${g_album}`
+        query += `%20album%20${s_album}`
     } if (g_albumArtist != "") {
-        query += `%20by%20${g_albumArtist}`
+        query += `%20by%20${s_albumArtist}`
     }
     window.open(`https://www.google.com/search?q=${query}`, "_blank");
 }
 
 function searchYoutube() {
     if (g_artist == "") {
-        window.open(`https://www.youtube.com/results?search_query=${g_title}`, "_blank");
+        window.open(`https://www.youtube.com/results?search_query=${s_title}`, "_blank");
     } else {
-        window.open(`https://www.youtube.com/results?search_query=${g_title} - ${g_artist}`, "_blank");
+        window.open(`https://www.youtube.com/results?search_query=${s_title} - ${s_artist}`, "_blank");
     }
 }
 
@@ -197,25 +202,25 @@ function searchSpotify() {
 
 function searchAppleMusic() {
     if (g_artist == "") {
-        window.open(`https://music.apple.com/us/search?term=${g_title}`, "_blank");
+        window.open(`https://music.apple.com/us/search?term=${s_title}`, "_blank");
     } else {
-        window.open(`https://music.apple.com/us/search?term=${g_title} - ${g_artist}`, "_blank");
+        window.open(`https://music.apple.com/us/search?term=${s_title} - ${s_artist}`, "_blank");
     }
 }
 
 function searchTrackCover() {
     if (g_artist == "") {
-        window.open(`https://www.google.com/search?q=${g_title} album cover&tbm=isch`, "_blank");
+        window.open(`https://www.google.com/search?q=${s_title} album cover&tbm=isch`, "_blank");
     } else {
-        window.open(`https://www.google.com/search?q=${g_title} - ${g_artist} album cover&tbm=isch`, "_blank");
+        window.open(`https://www.google.com/search?q=${s_title} - ${s_artist} album cover&tbm=isch`, "_blank");
     }
 }
 
 function searchAlbumCover() {
     if (g_artist == "") {
-        window.open(`https://www.google.com/search?q=${g_album} album cover&tbm=isch`, "_blank");
+        window.open(`https://www.google.com/search?q=${s_album} album cover&tbm=isch`, "_blank");
     } else {
-        window.open(`https://www.google.com/search?q=${g_album} - ${g_albumArtist} album cover&tbm=isch`, "_blank");
+        window.open(`https://www.google.com/search?q=${s_album} - ${s_albumArtist} album cover&tbm=isch`, "_blank");
     }
 }
 
