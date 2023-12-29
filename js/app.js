@@ -392,7 +392,7 @@ function displayVGMdbAlbumCover(albumId) {
             console.log('Getting album cover')
             if (covers.length > 0) {
                 $(document).ready(function () {
-                    $(".now-precess").html("Getting album art");
+                    $(".now-precess").html("Getting album cover");
                 });
                 const coverUrl = covers[0].full;
                 showCoverImage(coverUrl)
@@ -400,7 +400,7 @@ function displayVGMdbAlbumCover(albumId) {
                 console.log('Get album cover success')
             } else if (picture != '') {
                 $(document).ready(function () {
-                    $(".now-precess").html("Getting album art");
+                    $(".now-precess").html("Getting album cover");
                 });
                 console.log('Not found cover in "covers" tag looking for "picture" tag')
                 const coverUrl = picture;
@@ -430,7 +430,7 @@ function displayVGMdbAlbumCoverByTag(albumId) {
             console.log('Getting album cover')
             if (covers.length > 0) {
                 $(document).ready(function () {
-                    $(".now-precess").html("Getting album art");
+                    $(".now-precess").html("Getting album cover");
                 });
                 const coverUrl = covers[0].full;
                 showCoverImage(coverUrl)
@@ -438,7 +438,7 @@ function displayVGMdbAlbumCoverByTag(albumId) {
                 console.log('Get album cover success')
             } else if (picture != '') {
                 $(document).ready(function () {
-                    $(".now-precess").html("Getting album art");
+                    $(".now-precess").html("Getting album cover");
                 });
                 console.log('Not found cover in "covers" tag looking for "picture" tag')
                 const coverUrl = picture;
@@ -493,7 +493,7 @@ async function spotifySearchImage(album, album_artist) {
         console.log("Found Spotify album ID : " + albumID + "\n(https://open.spotify.com/album/" + albumID + ")")
         console.log('Getting album cover')
         $(document).ready(function () {
-            $(".now-precess").html("Getting album art");
+            $(".now-precess").html("Getting album cover");
         });
         const albumImages = searchData.albums.items[0].images;
         showCoverImage(albumImages[0].url)
@@ -514,7 +514,7 @@ async function spotifySearchImage(album, album_artist) {
 async function spotifySearchImageByID(spotify_album_id) {
     try {
         $(document).ready(function () {
-            $(".now-precess").html("Getting album art");
+            $(".now-precess").html("Getting album cover");
         });
 
         const clientId = spcid;
@@ -546,7 +546,7 @@ async function spotifySearchImageByID(spotify_album_id) {
         // Check if the album is found
         if (searchData.images && searchData.images.length > 0) {
             $(document).ready(function () {
-                $(".now-precess").html("Getting album art");
+                $(".now-precess").html("Getting album cover");
             });
             const albumImages = searchData.images;
             showCoverImage(albumImages[0].url);
@@ -567,7 +567,7 @@ async function spotifySearchImageByID(spotify_album_id) {
 async function getSpotifyTrackPreview(spotify_track_id) {
     try {
         $(document).ready(function () {
-            $(".now-precess").html("Getting album art");
+            $(".now-precess").html("Getting album cover");
         });
 
         const clientId = spcid;
@@ -663,9 +663,9 @@ function showCoverImageBycti(image) {
     coverElement.onload = function () {
         const favicon = document.getElementById('favicon');
         favicon.setAttribute('herf', image)
-        console.log("Getting album art")
+        console.log("Getting album cover")
         $(document).ready(function () {
-            $(".now-precess").html("Getting album art");
+            $(".now-precess").html("Getting album cover");
         });
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
@@ -673,6 +673,7 @@ function showCoverImageBycti(image) {
         setTimeout(function () {
             coverElement.style.opacity = 1;
         }, 50);
+        console.log("Get album cover success")
     };
     coverElement.onerror = function () {
         console.log("Can't get image for this URL. Proceed to the next step.")
@@ -682,7 +683,7 @@ function showCoverImageBycti(image) {
 
 function coverLoadFail() {
     const messageElement = document.createElement('b');
-    messageElement.innerText = 'Failed to get album art try to refresh this site.';
+    messageElement.innerText = 'Failed to get album cover try to refresh this site.';
     messageElement.id = "noImageText"
     document.getElementById('loading-cover').remove();
     document.getElementById('searching-text').remove();
