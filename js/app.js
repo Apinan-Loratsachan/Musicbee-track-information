@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     s_artist = g_artist.replaceAll("&", "%26");
     s_album = g_album.replaceAll("&", "%26");
     s_albumArtist = g_albumArtist.replaceAll("&", "%26");
-    spotify_album_id = params.get("ref1") || '';
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
