@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
     custom_image = params.get("cti") || '';
     title_artist = params.get("ar") || "Unknow artist";
     audio = params.get("au") || "";
-    s_title = g_title.replaceAll("&", "%26");
-    s_artist = g_artist.replaceAll("&", "%26");
-    s_album = g_album.replaceAll("&", "%26");
-    s_albumArtist = g_albumArtist.replaceAll("&", "%26");
+    s_title = encodeURIComponent(g_title);
+    s_artist = encodeURIComponent(g_artist);
+    s_album = encodeURIComponent(g_album);
+    s_albumArtist = encodeURIComponent(g_albumArtist);
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('title-zone').innerText = 'Unknown'
     } else {
         document.getElementById("title").innerText = params.get("tr") || "Unknown";
-        document.getElementById("title").href = encodeURI(`https://www.google.com/search?q=${g_title}`).replaceAll("&", "%26");
+        document.getElementById("title").href = `https://www.google.com/search?q=${s_title}`;
     }
     if (g_artist == '') {
         document.getElementById('artist-zone').innerText = 'Unknown'
@@ -62,19 +62,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 const linkElement = document.createElement('a');
                 linkElement.className = 'linkText'
                 linkElement.innerText = artistArray[i].trim();
-                linkElement.href = encodeURI(`https://www.google.com/search?q=${artistArray[i].trim()}`);
+                linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(artistArray[i].trim())}`;
                 linkElement.setAttribute('target', '_blank')
                 document.getElementById('containArtistTD').appendChild(linkElement)
             }
         }
-        document.getElementById("artist").href = encodeURI(`https://www.google.com/search?q=${g_artist}`).replaceAll("&", "%26");
+        document.getElementById("artist").href = `https://www.google.com/search?q=${encodeURIComponent(g_artist)}`;
     }
 
     if (g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
         document.getElementById("album").innerText = params.get("al") || "Unknown";
-        document.getElementById("album").href = encodeURI(`https://www.google.com/search?q=${g_album}`).replaceAll("&", "%26");
+        document.getElementById("album").href = `https://www.google.com/search?q=${s_album}`;
     }
     if (g_albumArtist == '') {
         document.getElementById('albumArtist-zone').innerText = 'Unknown'
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('albumArtist-zone').innerText = 'Various Artists'
     } else {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
-        document.getElementById("albumArtist").href = encodeURI(`https://www.google.com/search?q=${g_albumArtist}`).replaceAll("&", "%26");
+        document.getElementById("albumArtist").href = `https://www.google.com/search?q=${s_albumArtist}`;
     }
     document.getElementById("disc").innerText = `${params.get("dn") || "Unknown"} / ${params.get("dc") || "Unknown"}`;
     document.getElementById("track").innerText = `${params.get("tn") || "Unknown"} / ${params.get("tc") || "Unknown"}`;
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const linkElement = document.createElement('a');
             linkElement.className = 'linkText'
             linkElement.innerText = '#' + relArray[i].trim();
-            linkElement.href = encodeURI(`https://www.google.com/search?q=${relArray[i].trim()}`);
+            linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(relArray[i].trim())}`;
             linkElement.setAttribute('target', '_blank')
             document.getElementById('related').appendChild(linkElement)
         }
@@ -397,7 +397,7 @@ function displayVGMdbAlbumCover(albumId) {
                 const coverUrl = covers[0].full;
                 showCoverImage(coverUrl)
                 setCoverToBG(coverUrl)
-                console.log('Get album cover success')
+                console.log('%cGet album cover success', 'color: green')
             } else if (picture != '') {
                 $(document).ready(function () {
                     $(".now-precess").html("Getting album cover");
@@ -406,7 +406,7 @@ function displayVGMdbAlbumCover(albumId) {
                 const coverUrl = picture;
                 showCoverImage(coverUrl)
                 setCoverToBG(coverUrl)
-                console.log('Get album cover success')
+                console.log('%cGet album cover success', 'color: green')
             } else {
                 console.log("Not found album cover on this vgmdb album ID");
                 console.log("Begin search in Spotify");
@@ -435,7 +435,7 @@ function displayVGMdbAlbumCoverByTag(albumId) {
                 const coverUrl = covers[0].full;
                 showCoverImage(coverUrl)
                 setCoverToBG(coverUrl)
-                console.log('Get album cover success')
+                console.log('%cGet album cover success', 'color: green')
             } else if (picture != '') {
                 $(document).ready(function () {
                     $(".now-precess").html("Getting album cover");
@@ -444,7 +444,7 @@ function displayVGMdbAlbumCoverByTag(albumId) {
                 const coverUrl = picture;
                 showCoverImage(coverUrl)
                 setCoverToBG(coverUrl)
-                console.log('Get album cover success')
+                console.log('%cGet album cover success', 'color: green')
             } else {
                 console.log("Not found album cover on this vgmdb album ID");
                 console.log("Begin search in Spotify");
@@ -498,7 +498,7 @@ async function spotifySearchImage(album, album_artist) {
         const albumImages = searchData.albums.items[0].images;
         showCoverImage(albumImages[0].url)
         setCoverToBG(albumImages[0].url)
-        console.log('Get album cover in Spotify success')
+        console.log('%cGet album cover in Spotify success', 'color: green')
     } else {
         // If no album found, display a message
         const messageElement = document.createElement('b');
@@ -551,7 +551,7 @@ async function spotifySearchImageByID(spotify_album_id) {
             const albumImages = searchData.images;
             showCoverImage(albumImages[0].url);
             setCoverToBG(albumImages[0].url);
-            console.log('Get album cover in Spotify success');
+            console.log('%cGet album cover in Spotify success', 'color: green');
         } else {
             // If no album found, display a message
             console.log("Can't get image in spotify")
@@ -559,7 +559,7 @@ async function spotifySearchImageByID(spotify_album_id) {
         }
 
     } catch {
-        console.log("Can't get image in spotify")
+        console.log("%cCan't get image in spotify", 'color: red')
         searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 }
@@ -601,11 +601,11 @@ async function getSpotifyTrackPreview(spotify_track_id) {
             showAudioControlWithSpotifySrc(searchData.preview_url)
         } else {
             // If no album found, display a message
-            console.log('This track not have audio preview')
+            console.log(`%cThis track not have audio preview\n(https://open.spotify.com/track/${spotify_track_id})`, 'color: red')
         }
 
     } catch {
-        console.log("Can't get image in spotify")
+        console.log("%cFailed to get audio preview in spotify", 'color: red')
         searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 
@@ -673,7 +673,7 @@ function showCoverImageBycti(image) {
         setTimeout(function () {
             coverElement.style.opacity = 1;
         }, 50);
-        console.log("Get album cover success")
+        console.log("%cGet album cover success", 'color: green')
     };
     coverElement.onerror = function () {
         console.log("Can't get image for this URL. Proceed to the next step.")
@@ -714,6 +714,6 @@ function showAudioControlWithSpotifySrc(src) {
     audioElement.loop = false
     document.getElementById('audio-section').classList = 'row align-items-center card blur card-body'
     document.getElementById('audio-section').appendChild(audioElement)
-    console.log(`Get audio preview sucsess\n(${src})`)
+    console.log(`%cGet audio preview success\n(${src})`, 'color: green')
 }
 

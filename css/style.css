@@ -6,7 +6,7 @@
 
 body {
     transition: background-image 0.5s ease-out;
-    color: #224;
+    color: rgb(0, 0, 0);
     background:
         url(./../assets/images/background.jpg) center / cover no-repeat fixed;
 }
