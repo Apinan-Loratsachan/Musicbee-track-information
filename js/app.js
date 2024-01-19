@@ -1,4 +1,4 @@
-let g_title, g_artist, g_album, g_albumArtist, flag = true, spcid = apikey[0], spsid = apikey[1];
+let g_title, g_artist, g_album, g_albumArtist, flag = true;
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
@@ -464,8 +464,8 @@ async function spotifySearchImage(album, album_artist) {
         $(document).ready(function () {
             $(".now-precess").html("Searching album cover in streaming platform");
         });
-        const clientId = spcid;
-        const clientSecret = spsid;
+        const clientId = apikey[0];
+        const clientSecret = apikey[1];
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         // Get access token
@@ -525,8 +525,8 @@ async function spotifySearchImageByID(spotify_album_id) {
             $(".now-precess").html("Getting album cover");
         });
 
-        const clientId = spcid;
-        const clientSecret = spsid;
+        const clientId = apikey[0];
+        const clientSecret = apikey[1];
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         // Get access token
@@ -578,8 +578,8 @@ async function getSpotifyTrackPreview(spotify_track_id) {
             $(".now-precess").html("Getting album cover");
         });
 
-        const clientId = spcid;
-        const clientSecret = spsid;
+        const clientId = apikey[0];
+        const clientSecret = apikey[1];
         const base64Credentials = btoa(`${clientId}:${clientSecret}`);
 
         // Get access token
