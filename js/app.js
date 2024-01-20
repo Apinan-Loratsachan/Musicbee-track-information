@@ -524,7 +524,7 @@ async function spotifySearchImage(album, album_artist) {
 }
 
 async function spotifySearchImageByID(spotify_album_id) {
-    console.log("%c[COVER] %cGetting album cover by Spotify track ID", 'font-weight: bold', '')
+    console.log("%c[COVER | SPOTIFY] %cGetting album cover by album ID", 'font-weight: bold', '')
     try {
         $(document).ready(function () {
             $(".now-precess").html("Getting album cover");
