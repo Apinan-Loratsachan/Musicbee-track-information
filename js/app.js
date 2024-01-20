@@ -365,12 +365,12 @@ function searchVGMdbAlbumID(albumName, artistName) {
                                 console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold','')
                                 
                             } else {
-                                console.log("%c[COVER] %cAlbum not found on VGMdb begin search in Spotify", 'font-weight: bold', 'color: orange');
+                                console.log("%c[COVER | VGMDB] %cAlbum not found on VGMdb begin search in Spotify", 'font-weight: bold', 'color: orange');
                                 spotifySearchImage(g_album, g_albumArtist);
                             }
                         })
                         .catch(error => {
-                            console.error("Error fetching vgmdb data", error);
+                            console.error("%c[COVER | VGMDB] Error fetching album cover data\n%c" + error, 'font-weight: bold', '');
                             // coverLoadFail()
                             spotifySearchImage(g_album, g_albumArtist);
                         });
@@ -378,7 +378,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
             })
             .catch(error => {
                 console.error("%c[COVER | VGMDB] Error fetching album cover data\n%c" + error, 'font-weight: bold', '');
-                console.log("%c[COVER | VGMDB] %cFailed to search with VGMdb begin search with Spotify", 'font-weight: bold', 'color: red');
+                console.log("%c[COVER] %cFailed to search with VGMdb begin search with Spotify", 'font-weight: bold', 'color: red');
                 spotifySearchImage(g_album, g_albumArtist);
             });
     }
@@ -456,6 +456,7 @@ function displayVGMdbAlbumCoverByTag(albumId) {
             }
         })
         .catch(error => {
+            console.log('%c[COVER] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
             searchVGMdbAlbumID(g_album, g_albumArtist)
             flag = false
         });
@@ -496,7 +497,7 @@ async function spotifySearchImage(album, album_artist) {
         // Check if there are albums in the search result
         if (searchData.albums && searchData.albums.items.length > 0) {
             const albumID = searchData.albums.items[0].id;
-            console.log("%c[COVER | SPOTIFY]\n%cFound Spotify album ID : " + albumID + "\n(https://open.spotify.com/album/" + albumID + ")", 'font-weight: bold', '')
+            console.log("%c[COVER | SPOTIFY]\n%cFound album ID : " + albumID + "\n(https://open.spotify.com/album/" + albumID + ")", 'font-weight: bold', '')
             console.log('%c[COVER | SPOTIFY] %cGetting album cover', 'font-weight: bold', '')
             $(document).ready(function () {
                 $(".now-precess").html("Getting album cover");
@@ -504,7 +505,7 @@ async function spotifySearchImage(album, album_artist) {
             const albumImages = searchData.albums.items[0].images;
             showCoverImage(albumImages[0].url)
             setCoverToBG(albumImages[0].url)
-            console.log('%c[COVER | SPOTIFY] %cGet album cover in Spotify success', 'font-weight: bold', 'color: green')
+            console.log('%c[COVER | SPOTIFY] %cGet album cover success', 'font-weight: bold', 'color: green')
         } else {
             // If no album found, display a message
             const messageElement = document.createElement('b');
@@ -517,7 +518,7 @@ async function spotifySearchImage(album, album_artist) {
         }
     }
     catch (e) {
-        console.log("%c[COVER | SPOTIFY] %cFailed to get spotify data\n" + e, 'font-weight: bold', 'color: red')
+        console.log("%c[COVER | SPOTIFY] %cError fetching album cover data\n" + e, 'font-weight: bold', 'color: red')
         coverLoadFail()
     }
 }
@@ -563,7 +564,7 @@ async function spotifySearchImageByID(spotify_album_id) {
             const albumImages = searchData.images;
             showCoverImage(albumImages[0].url);
             setCoverToBG(albumImages[0].url);
-            console.log('%c[COVER | SPOTIFY] %cGet album cover in Spotify success', 'font-weight: bold', 'color: green');
+            console.log('%c[COVER | SPOTIFY] %cGet album cover success', 'font-weight: bold', 'color: green');
         } else {
             // If no album found, display a message
             console.log("%c[COVER | SPOTIFY] %cCan't get image in spotify", 'font-weight: bold', 'color: red')
@@ -571,7 +572,7 @@ async function spotifySearchImageByID(spotify_album_id) {
         }
 
     } catch {
-        console.log("%c[COVER | SPOTIFY] %cCan't get image in spotify", 'font-weight: bold', 'color: red')
+        console.log("%c[COVER] %cCan't get image in spotify", 'font-weight: bold', 'color: red')
         searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 }
