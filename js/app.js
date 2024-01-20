@@ -326,14 +326,14 @@ function validatePowerSearch(data) {
 
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchVGMdbAlbumID(albumName, artistName) {
-    console.log('%c[COVER] %cSearching with VGMdb', 'font-weight: bold', 'color: DodgerBlue')
     if (vgm_album_id != '' && flag) {
-        console.log('%c[COVER | VGMDB] %cHas VGMDB album ID tag : ' + vgm_album_id + "\n(https://vgmdb.net/album/" + vgm_album_id + ")", 'font-weight: bold','')
+        console.log('%c[COVER] %cHas VGMDB album ID tag : ' + vgm_album_id + "\n(https://vgmdb.net/album/" + vgm_album_id + ")", 'font-weight: bold','')
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
         displayVGMdbAlbumCoverByTag(vgm_album_id)
     } else {
+        console.log('%c[COVER] %cSearching with VGMdb', 'font-weight: bold', 'color: DodgerBlue')
         const apiUrl = `https://vgmdb.info/search?q=${g_title}%20by%20${g_artist}&format=json`;
         $(document).ready(function () {
             $(".now-precess").html("Searching album cover by track");
@@ -457,6 +457,7 @@ function displayVGMdbAlbumCoverByTag(albumId) {
         })
         .catch(error => {
             console.log('%c[COVER] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
+            console.log('%c[COVER] %cBegin searching', 'font-weight: bold', 'color: red')
             searchVGMdbAlbumID(g_album, g_albumArtist)
             flag = false
         });
