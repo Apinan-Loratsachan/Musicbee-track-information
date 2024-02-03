@@ -135,9 +135,9 @@ function searchForAlbumCover() {
     }
     if (g_album != '' && spotify_album_id != '') {
         if (spotify_album_id.includes('track/')) {
-            console.log('%c[COVER] %cHas Spotify track ID tag : ' + spotify_album_id.replace('track/', '') + "\n(https://open.spotify.com/" + spotify_album_id + ")", 'font-weight: bold','')
+            console.log('%c[COVER] %cHas Spotify track ID tag : ' + spotify_album_id.replace('track/', '') + "\n(https://open.spotify.com/" + spotify_album_id + ")", 'font-weight: bold', '')
         } else {
-            console.log('%c[COVER] %cHas Spotify album ID tag : ' + spotify_album_id + "\n(https://open.spotify.com/album/" + spotify_album_id + ")", 'font-weight: bold','')
+            console.log('%c[COVER] %cHas Spotify album ID tag : ' + spotify_album_id + "\n(https://open.spotify.com/album/" + spotify_album_id + ")", 'font-weight: bold', '')
         }
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
@@ -327,7 +327,7 @@ function validatePowerSearch(data) {
 // ฟังก์ชันค้นหา AlbumID จาก vgmdb API
 function searchVGMdbAlbumID(albumName, artistName) {
     if (vgm_album_id != '' && flag) {
-        console.log('%c[COVER] %cHas VGMDB album ID tag : ' + vgm_album_id + "\n(https://vgmdb.net/album/" + vgm_album_id + ")", 'font-weight: bold','')
+        console.log('%c[COVER] %cHas VGMDB album ID tag : ' + vgm_album_id + "\n(https://vgmdb.net/album/" + vgm_album_id + ")", 'font-weight: bold', '')
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
@@ -338,7 +338,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
         $(document).ready(function () {
             $(".now-precess").html("Searching album cover by track");
         });
-        console.log('%c[COVER | VGMDB] %cSearch by track', 'font-weight: bold','')
+        console.log('%c[COVER | VGMDB] %cSearch by track', 'font-weight: bold', '')
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
@@ -347,9 +347,9 @@ function searchVGMdbAlbumID(albumName, artistName) {
                 if (albums.length > 0) {
                     const albumId = albums[0].link.split("/").pop();
                     displayVGMdbAlbumCover(albumId);
-                    console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold','')
+                    console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold', '')
                 } else {
-                    console.log('%c[COVER | VGMDB] %cNot found change to search by album', 'font-weight: bold','')
+                    console.log('%c[COVER | VGMDB] %cNot found change to search by album', 'font-weight: bold', '')
                     const apiUrl2 = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
                     $(document).ready(function () {
                         $(".now-precess").html("Searching album cover by album");
@@ -362,8 +362,8 @@ function searchVGMdbAlbumID(albumName, artistName) {
                             if (albums.length > 0) {
                                 const albumId = albums[0].link.split("/").pop();
                                 displayVGMdbAlbumCover(albumId);
-                                console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold','')
-                                
+                                console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold', '')
+
                             } else {
                                 console.log("%c[COVER | VGMDB] %cAlbum not found on VGMdb begin search in Spotify", 'font-weight: bold', 'color: orange');
                                 spotifySearchImage(g_album, g_albumArtist);
@@ -391,9 +391,12 @@ function displayVGMdbAlbumCover(albumId) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
+            data_vgmdb = data
+            data_inuse = data
+            data_inuse_provider = 'VGMdb'
             const covers = data.covers;
             const picture = data.picture_full;
-            console.log('%c[COVER | VGMDB] %cGetting album cover', 'font-weight: bold','')
+            console.log('%c[COVER | VGMDB] %cGetting album cover', 'font-weight: bold', '')
             if (covers.length > 0) {
                 $(document).ready(function () {
                     $(".now-precess").html("Getting album cover");
@@ -429,6 +432,9 @@ function displayVGMdbAlbumCoverByTag(albumId) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
+            data_vgmdb = data
+            data_inuse = data
+            data_inuse_provider = 'VGMdb'
             const covers = data.covers;
             const picture = data.picture_full;
             console.log('%c[COVER | VGMDB] %cGetting album cover', 'font-weight: bold', '')
@@ -494,6 +500,9 @@ async function spotifySearchImage(album, album_artist) {
         });
 
         const searchData = await searchResponse.json();
+        data_spotify = searchData
+        data_inuse = searchData
+        data_inuse_provider = 'Spotify'
 
         // Check if there are albums in the search result
         if (searchData.albums && searchData.albums.items.length > 0) {
@@ -556,6 +565,9 @@ async function spotifySearchImageByID(spotify_album_id) {
         });
 
         const searchData = await searchResponse.json();
+        data_spotify = searchData
+        data_inuse = searchData
+        data_inuse_provider = 'Spotify'
 
         // Check if the album is found
         if (searchData.images && searchData.images.length > 0) {
@@ -705,6 +717,8 @@ function coverLoadFail() {
 }
 
 function customAlbumCover(image) {
+    data_inuse = null
+    data_inuse_provider = 'Tag'
     showCoverImageBycti(image)
     setCoverToBG(image)
 }
