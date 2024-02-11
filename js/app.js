@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (artistArray.length > 1) {
             const thElement = document.createElement('th')
-            thElement.innerText = 'Contain Artists'
+            thElement.innerText = '⤷ Contain Artists'
             thElement.setAttribute('scope', 'row')
             document.getElementById('containArtistZone').appendChild(thElement)
 
