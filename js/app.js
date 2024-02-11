@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
             for (let i = 0; i <= artistArray.length - 1; i++) {
                 if (i != 0) {
                     const spanElement = document.createElement('span');
-                    spanElement.innerText = ', '
+                    spanElement.innerText = ' / '
                     // spanElement.setAttribute('style', 'padding-left: 10px;')
                     document.getElementById('containArtistTD').appendChild(spanElement)
                 }
