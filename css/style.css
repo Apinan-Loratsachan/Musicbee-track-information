@@ -239,3 +239,24 @@ td {
 .search-btn-spacer {
     width: 25px;
 }
+
+.subThHeader {
+    font-weight: normal;
+    padding-left: 3px;
+    padding-right: 10px;
+}
+
+.subThHeaderText {
+    align-items: center;
+    font-size: 14px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.thDiv {
+    display: flex;
+}
+
+.subLink {
+    font-size: 14px;
+}

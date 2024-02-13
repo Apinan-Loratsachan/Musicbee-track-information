@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     g_artist = params.get("ar") || "";
     g_album = params.get("al") || "";
     g_albumArtist = params.get("alar") || "";
+    alt_title = params.get("atr") || "";
     spotify_album_id = params.get("ref1") || '';
     vgm_album_id = params.get("ref2") || '';
     custom_image = params.get("cti") || '';
@@ -23,6 +24,47 @@ document.addEventListener("DOMContentLoaded", function () {
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
         document.title = g_title + ' - ' + title_artist
+        if (alt_title != '') {
+            const thElement = document.createElement('th')
+            // thElement.innerText = '⤷ Alt Title'
+            thElement.setAttribute('scope', 'row')
+            thElement.className = 'subTH'
+            thElement.id = 'alt-title-th'
+            document.getElementById('altTitleZone').appendChild(thElement)
+            const altTitleThDivElement = document.createElement('div')
+            altTitleThDivElement.id = 'alt-title-div'
+            altTitleThDivElement.className = 'thDiv'
+            document.getElementById('alt-title-th').appendChild(altTitleThDivElement)
+            const altTitleThSpanElement = document.createElement('span')
+            altTitleThSpanElement.innerText = '⤷'
+            altTitleThSpanElement.className = 'subThHeader'
+            document.getElementById('alt-title-div').appendChild(altTitleThSpanElement)
+            const altTitleThDivNameElement = document.createElement('div')
+            altTitleThDivNameElement.innerText = 'Alternate Title'
+            altTitleThDivNameElement.className = 'subThHeaderText'
+            document.getElementById('alt-title-div').appendChild(altTitleThDivNameElement)
+
+            const tdElement = document.createElement('td')
+            tdElement.id = 'altTitleZoneTD'
+            tdElement.setAttribute('colspan', '2')
+            document.getElementById('altTitleZone').appendChild(tdElement)
+
+            const atrArray = alt_title.split(';');
+
+            for (let i = 0; i <= atrArray.length - 1; i++) {
+                if (i != 0) {
+                    const spanElement = document.createElement('span');
+                    spanElement.innerText = ' / '
+                    document.getElementById('altTitleZoneTD').appendChild(spanElement)
+                }
+                const linkElement = document.createElement('a');
+                linkElement.classList = 'linkText subLink'
+                linkElement.innerText = atrArray[i].trim();
+                linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(atrArray[i].trim())}`;
+                linkElement.setAttribute('target', '_blank')
+                document.getElementById('altTitleZoneTD').appendChild(linkElement)
+            }
+        }
     }
     if (g_title == '') {
         document.getElementById('title-zone').innerText = 'Unknown'
@@ -43,9 +85,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (artistArray.length > 1) {
             const thElement = document.createElement('th')
-            thElement.innerText = '⤷ Contain Artists'
+            // thElement.innerText = '⤷ Contain Artists'
+            // thElement.setAttribute('scope', 'row')
+            // document.getElementById('containArtistZone').appendChild(thElement)
+
             thElement.setAttribute('scope', 'row')
+            thElement.className = 'subTH'
+            thElement.id = 'contain-artist-th'
             document.getElementById('containArtistZone').appendChild(thElement)
+            const containArtistThDivElement = document.createElement('div')
+            containArtistThDivElement.id = 'contain-artist-div'
+            containArtistThDivElement.className = 'thDiv'
+            document.getElementById('contain-artist-th').appendChild(containArtistThDivElement)
+            const containArtistThSpanElement = document.createElement('span')
+            containArtistThSpanElement.innerText = '⤷'
+            containArtistThSpanElement.className = 'subThHeader'
+            document.getElementById('contain-artist-div').appendChild(containArtistThSpanElement)
+            const containArtistThDivNameElement = document.createElement('div')
+            containArtistThDivNameElement.innerText = 'Contain Artists'
+            containArtistThDivNameElement.className = 'subThHeaderText'
+            document.getElementById('contain-artist-div').appendChild(containArtistThDivNameElement)
 
             const tdElement = document.createElement('td')
             tdElement.id = 'containArtistTD'
@@ -56,11 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (i != 0) {
                     const spanElement = document.createElement('span');
                     spanElement.innerText = ' / '
-                    // spanElement.setAttribute('style', 'padding-left: 10px;')
                     document.getElementById('containArtistTD').appendChild(spanElement)
                 }
                 const linkElement = document.createElement('a');
-                linkElement.className = 'linkText'
+                linkElement.classList = 'linkText subLink'
                 linkElement.innerText = artistArray[i].trim();
                 linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(artistArray[i].trim())}`;
                 linkElement.setAttribute('target', '_blank')
