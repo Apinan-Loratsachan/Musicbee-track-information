@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let artistTemp = document.getElementById("artist").innerText = params.get("ar") || "Unknown"
 
         artistString = (params.get("ar") || "");
-        const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv|Cv|CV|va\.|Va\.|VA\.|va:|Va:|VA:|va|Va|VA|&|\(\s*|\s*\)|\[|\]|,)/g)
+        const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |&|\(\s*|\s*\)|\[|\]|,)/g)
             .filter(artist => artist.trim() !== "")
             .map(artist => artist.trim());
 
