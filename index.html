@@ -9,7 +9,9 @@
     <link id="favicon" rel="shortcut icon" href="assets/icon/logo_rounded.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animate.css">
 </head>
 
 <body>
@@ -19,12 +21,15 @@
         <div id="musicInfo" class="card blur">
             <div class="card-body">
                 <div id="header" style="padding: 10px;">
-                    <h1 id="headerText" style="color: black; text-align: center; padding-top: 10px;">Track Information
+                    <h1 id="headerText" class="animate__animated animate__bounceIn"
+                        style="color: black; text-align: center; padding-top: 10px;">Track Information
                     </h1>
                 </div>
                 <div id="imageSection" style="text-align: center;">
-                    <div id="searching-text"><strong class="now-precess">Searching artwork</strong></div>
-                    <div class="loader" id="loading-cover">
+                    <div id="searching-text" class="animate__animated animate__fadeInDown animate__faster"><strong
+                            class="now-precess animate__animated animate__pulse animate__faster animate__infinite">Searching
+                            artwork</strong></div>
+                    <div class="loader animate__animated animate__fadeInUp animate__faster" id="loading-cover">
                         <span class="stroke"></span>
                         <span class="stroke"></span>
                         <span class="stroke"></span>
@@ -37,15 +42,16 @@
                 </div>
                 <div class="row d-flex align-items-center">
                     <div class="row"></div>
-                    <div class="col d-flex justify-content-center">
+                    <div class="col d-flex justify-content-center animate__animated animate__fadeInRight">
                         <button type="button" class="btn btn-outline-dark" onclick="searchTrackCover()">
                             <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Track Cover
                         </button>
                     </div>
-                    <div class="col d-flex justify-content-center" style="text-align: center;">
+                    <div class="col d-flex justify-content-center animate__animated animate__fadeIn delay-2"
+                        style="text-align: center;">
                         Cover incorrect? Search it.
                     </div>
-                    <div class="col d-flex justify-content-center">
+                    <div class="col d-flex justify-content-center animate__animated animate__fadeInLeft">
                         <button type="button" class="btn btn-outline-dark" onclick="searchAlbumCover()">
                             <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Album Cover
                         </button>
@@ -60,54 +66,54 @@
                             <col style="width: 12%;">
                         </colgroup>
                         <tbody>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-1">
                                 <th scope="row">Title</th>
                                 <td id="title-zone"><a id="title" class="linkText" href="" target="_blank"></a></td>
                                 <td id="btn-copy-title"></td>
                             </tr>
-                            <tr id="altTitleZone">
-                            <tr>
+                            <tr id="altTitleZone" class="animate__animated animate__fadeInUp delay-1">
+                            <tr class="animate__animated animate__fadeInUp delay-2">
                                 <th scope="row">Artist</th>
                                 <td id="artist-zone"><a id="artist" class="linkText" href="" target="_blank"></a></td>
                                 <td id="btn-copy-artist"></td>
                             </tr>
-                            <tr id="containArtistZone">
-                            <tr>
+                            <tr id="containArtistZone" class="animate__animated animate__fadeInUp delay-2">
+                            <tr class="animate__animated animate__fadeInUp delay-3">
                                 <th scope="row">Album</th>
                                 <td id="album-zone"><a id="album" class="linkText" href="" target="_blank"></a></td>
                                 <td id="btn-copy-album"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-4">
                                 <th scope="row">Album Artist</th>
                                 <td id="albumArtist-zone"><a id="albumArtist" class="linkText" href=""
                                         target="_blank"></a></td>
                                 <td id="btn-copy-albumArtist"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-5">
                                 <th scope="row">Disc</th>
                                 <td id="disc" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-6">
                                 <th scope="row">Track</th>
                                 <td id="track" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-7">
                                 <th scope="row">Length</th>
                                 <td id="length" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-8">
                                 <th scope="row">Genre</th>
                                 <td id="genre" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-9">
                                 <th scope="row">Year</th>
                                 <td id="year" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-10">
                                 <th scope="row">Language</th>
                                 <td id="language" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr class="animate__animated animate__fadeInUp delay-11">
                                 <th scope="row">Related</th>
                                 <td id="related" colspan="2"></td>
                             </tr>
@@ -119,7 +125,8 @@
                     <div class="row">
                         <div class="col-6 d-flex justify-content-center small-search-button-container">
                             <div class="col d-flex justify-content-center">
-                                <button type="button" id="btnGoogleSearch" class="btn btn-outline-dark small-search-button"
+                                <button type="button" id="btnGoogleSearch"
+                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-12"
                                     onclick="searchGoogle()">
                                     <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
                                     Google
@@ -127,7 +134,8 @@
                             </div>
                             <span class="search-btn-spacer"></span>
                             <div class="col d-flex justify-content-center">
-                                <button type="button" id="btnYoutubeSearch" class="btn btn-outline-dark small-search-button"
+                                <button type="button" id="btnYoutubeSearch"
+                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-13"
                                     onclick="searchYoutube()">
                                     <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search
                                     on
@@ -137,7 +145,8 @@
                         </div>
                         <div class="col-6 d-flex justify-content-center small-search-button-container">
                             <div class="col d-flex justify-content-center">
-                                <button type="button" id="btnSpotifySearch" class="btn btn-outline-dark small-search-button"
+                                <button type="button" id="btnSpotifySearch"
+                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-14"
                                     onclick="searchSpotify()">
                                     <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i>
                                     Search
@@ -146,7 +155,8 @@
                             </div>
                             <span class="search-btn-spacer"></span>
                             <div class="col d-flex justify-content-center">
-                                <button type="button" id="btnAppleMusicSearch" class="btn btn-outline-dark small-search-button"
+                                <button type="button" id="btnAppleMusicSearch"
+                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-15"
                                     onclick="searchAppleMusic()">
                                     <i class="fa-brands fa-apple fa-beat fa-xl"></i> Search on Apple
                                     Music
@@ -159,14 +169,16 @@
                 <div class="container mt-3">
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnPowerSearch" class="btn btn-outline-dark long-btn"
+                            <button type="button" id="btnPowerSearch"
+                                class="btn btn-outline-dark long-btn animate__animated animate__fadeInUp delay-16"
                                 onclick="powerSearchGoogle()">
                                 <i class="fa-brands fa-searchengin fa-shake fa-xl"></i> Search on
                                 Google with all tag
                             </button>
                         </div>
                         <div class="col d-flex justify-content-center">
-                            <button type="button" id="btnLyricsSearch" class="btn btn-outline-dark long-btn"
+                            <button type="button" id="btnLyricsSearch"
+                                class="btn btn-outline-dark long-btn animate__animated animate__fadeInUp delay-17"
                                 onclick="searchLyrics()">
                                 <i class="fa-solid fa-sheet-plastic fa-bounce fa-xl"></i> Search lyrics
                             </button>

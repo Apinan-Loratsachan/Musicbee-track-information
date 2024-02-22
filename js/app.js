@@ -716,7 +716,7 @@ function showCoverImage(image) {
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image";
+    coverElement.className = "card album-image animate__animated animate__jackInTheBox";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -740,7 +740,7 @@ function showCoverImageBycti(image) {
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image";
+    coverElement.className = "card album-image animate__animated animate__jackInTheBox";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -786,10 +786,12 @@ function showAudioControlWithSpotifySrc(src) {
     const previewText = document.createElement('h4')
     previewText.innerText = `Track preview`
     previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: bold;')
+    previewText.classList = 'animate__animated animate__zoomIn'
     document.getElementById('audio-section').appendChild(previewText)
     const previewTitle = document.createElement('strong')
     previewTitle.innerText = `${g_title} - ${g_artist}`
     previewTitle.setAttribute('style', 'margin-bottom: 10px;')
+    previewTitle.classList = 'animate__animated animate__zoomIn'
     document.getElementById('audio-section').appendChild(previewTitle)
     const audioElement = document.createElement('audio')
     audioElement.id = 'audio-preview'
@@ -798,7 +800,7 @@ function showAudioControlWithSpotifySrc(src) {
     audioElement.controls = true
     audioElement.autoplay = false
     audioElement.loop = false
-    document.getElementById('audio-section').classList = 'row align-items-center card blur card-body'
+    document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
     document.getElementById('audio-section').appendChild(audioElement)
     console.log(`%c[AUDIO] %cGet audio preview success\n(${src})`, 'font-weight: bold', 'color: green')
 }
