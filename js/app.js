@@ -209,6 +209,7 @@ function searchForAlbumCover() {
         const messageElement = document.createElement('b');
         messageElement.innerText = 'Unknow album name.';
         messageElement.id = "noImageText"
+        messageElement.classList = 'animate__animated animate__headShake'
         document.getElementById('imageSection').appendChild(messageElement);
     }
 }
@@ -769,6 +770,7 @@ function coverLoadFail() {
     const messageElement = document.createElement('b');
     messageElement.innerText = 'Failed to get album cover try to refresh this site.';
     messageElement.id = "noImageText"
+    messageElement.classList = 'animate__animated animate__shakeY'
     document.getElementById('loading-cover').remove();
     document.getElementById('searching-text').remove();
     document.getElementById('imageSection').appendChild(messageElement);

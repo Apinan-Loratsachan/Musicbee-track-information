@@ -1,8 +1,36 @@
 :root {
-    --animate-delay: 0s; /* Starting delay */
+    --animate-delay: 0s;
 }
 
-/* Define classes for delays increasing by 0.10s */
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(1.2);
+    }
+    20% {
+        transform: scale(1);
+    }
+    30% {
+        transform: scale(1.2);
+    }
+    40% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.heartbeat {
+    animation-name: heartbeat;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+
+
 
 .delay-0 {
     animation-delay: calc(var(--animate-delay) + 0s) !important;
