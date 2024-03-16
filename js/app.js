@@ -740,6 +740,11 @@ function setCoverToBG(url) {
 
 
 function showCoverImage(image) {
+    const linkElement = document.createElement("a");
+    linkElement.id = 'albumImageLink';
+    linkElement.href = image
+    linkElement.setAttribute('target', '_blank')
+
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
@@ -752,7 +757,8 @@ function showCoverImage(image) {
         favicon.setAttribute('herf', image)
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
-        document.getElementById("imageSection").appendChild(coverElement);
+        document.getElementById("imageSection").appendChild(linkElement);
+        document.getElementById("albumImageLink").appendChild(coverElement);
         setTimeout(function () {
             coverElement.style.opacity = 1;
         }, 50);
@@ -772,15 +778,18 @@ function showCoverImageBycti(image) {
     coverElement.style.opacity = 0;
 
     coverElement.onload = function () {
-        const favicon = document.getElementById('favicon');
-        favicon.setAttribute('herf', image)
+        const linkElement = document.createElement("a");
+        linkElement.id = 'albumImageLink';
+        linkElement.href = image
+        linkElement.setAttribute('target', '_blank')
         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
         $(document).ready(function () {
             $(".now-precess").html("Getting album cover");
         });
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
-        document.getElementById("imageSection").appendChild(coverElement);
+        document.getElementById("imageSection").appendChild(linkElement);
+        document.getElementById("albumImageLink").appendChild(coverElement);
         setTimeout(function () {
             coverElement.style.opacity = 1;
         }, 50);
