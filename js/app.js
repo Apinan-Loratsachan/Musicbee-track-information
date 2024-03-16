@@ -255,7 +255,9 @@ function searchYoutube() {
 }
 
 function searchSpotify() {
-    if (g_artist == "") {
+    if (audio != "") {
+        window.open(`https://open.spotify.com/track/${audio}`, "_blank");
+    } else if (g_artist == "") {
         window.open(`https://open.spotify.com/search/${g_title}/tracks`, "_blank");
     } else {
         window.open(`https://open.spotify.com/search/${g_artist} ${g_title}/tracks`, "_blank");
@@ -680,17 +682,20 @@ async function getSpotifyTrackPreview(spotify_track_id) {
         });
 
         const searchData = await searchResponse.json();
+        audio_data = searchData
+        audio_provider = 'Spotify'
 
         // Check if the album is found
         if (searchData.preview_url != null) {
-            showAudioControlWithSpotifySrc(searchData.preview_url)
+            showAudioControlAndMoreDataWithSpotifySrc(searchData.preview_url, searchData.name, searchData.artists)
         } else {
             // If no album found, display a message
             console.log(`%c[AUDIO] %cThis track not have audio preview\n(https://open.spotify.com/track/${spotify_track_id})`, 'font-weight: bold', 'color: red')
         }
 
-    } catch {
-        console.log(`%c[AUDIO] %cFailed to get audio preview in spotify)`, 'font-weight: bold', 'color: red')
+    } catch (e) {
+        console.log(`%c[AUDIO] %cFailed to get audio preview in spotify`, 'font-weight: bold', 'color: red')
+        console.error(e)
         searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 
@@ -783,27 +788,98 @@ function customAlbumCover(image) {
     setCoverToBG(image)
 }
 
-function showAudioControlWithSpotifySrc(src) {
+function showAudioControlAndMoreDataWithSpotifySrc(imageSrc, titleSrc, artistSrc) {
     console.log(`%c[AUDIO] %cThis track has audio preview\n(https://open.spotify.com/track/${audio})`, 'font-weight: bold', 'color: Black')
-    const previewText = document.createElement('h4')
+
+    document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
+
+    const previewText = document.createElement('h2')
     previewText.innerText = `Track preview`
-    previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: bold;')
+    previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: normal;')
     previewText.classList = 'animate__animated animate__zoomIn'
     document.getElementById('audio-section').appendChild(previewText)
-    const previewTitle = document.createElement('strong')
-    previewTitle.innerText = `${g_title} - ${g_artist}`
+
+    const previewTitle = document.createElement('h6')
+    previewTitleText = `${g_title} - ${g_artist}`
+    previewTitle.innerText = previewTitleText
     previewTitle.setAttribute('style', 'margin-bottom: 10px;')
-    previewTitle.classList = 'animate__animated animate__zoomIn'
+    previewTitle.classList = 'animate__animated animate__zoomIn delay-3'
     document.getElementById('audio-section').appendChild(previewTitle)
+
+    const spotifypreviewText = document.createElement('h6')
+    var spotifyArtistsArrey = "";
+    const artists = artistSrc;
+    artists.forEach(artist => {
+        const artistName = artist.name;
+        if (spotifyArtistsArrey.length == 0) {
+            spotifyArtistsArrey = artistName
+        } else {
+            spotifyArtistsArrey = `${spotifyArtistsArrey}, ${artistName}`
+        }
+    });
+    spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
+    spotifypreviewText.innerText = `(${spotifyPreviewDisplayText})`
+    spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
+    if (spotifyPreviewDisplayText != previewTitleText) {
+        document.getElementById('audio-section').appendChild(spotifypreviewText)
+    }
+
     const audioElement = document.createElement('audio')
     audioElement.id = 'audio-preview'
-    audioElement.className = 'audio-preview'
-    audioElement.src = src
+    audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
+    audioElement.src = imageSrc
     audioElement.controls = true
     audioElement.autoplay = false
     audioElement.loop = false
-    document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
     document.getElementById('audio-section').appendChild(audioElement)
-    console.log(`%c[AUDIO] %cGet audio preview success\n(${src})`, 'font-weight: bold', 'color: green')
+
+    console.log(`%c[AUDIO] %cGet audio preview success\n(${imageSrc})`, 'font-weight: bold', 'color: green')
+
+    if (alt_title == '' && titleSrc != g_title) {
+        console.log(`%c[DATA] %cFound more data in Spotify`, 'font-weight: bold', 'color: Blue')
+        const thElement = document.createElement('th')
+        thElement.setAttribute('scope', 'row')
+        thElement.className = 'subTH'
+        thElement.id = 'alt-title-th'
+        document.getElementById('altTitleZone').appendChild(thElement)
+        const altTitleThDivElement = document.createElement('div')
+        altTitleThDivElement.id = 'alt-title-div'
+        altTitleThDivElement.className = 'thDiv'
+        document.getElementById('alt-title-th').appendChild(altTitleThDivElement)
+        const altTitleThSpanElement = document.createElement('span')
+        altTitleThSpanElement.innerText = '⤷'
+        altTitleThSpanElement.className = 'subThHeader'
+        document.getElementById('alt-title-div').appendChild(altTitleThSpanElement)
+        const altTitleThDivNameElement = document.createElement('div')
+        altTitleThDivNameElement.innerText = 'Alternate Title'
+        altTitleThDivNameElement.className = 'subThHeaderText'
+        document.getElementById('alt-title-div').appendChild(altTitleThDivNameElement)
+
+        const tdElement = document.createElement('td')
+        tdElement.id = 'altTitleZoneTD'
+        tdElement.setAttribute('colspan', '2')
+        document.getElementById('altTitleZone').appendChild(tdElement)
+
+        const linkElement = document.createElement('a');
+        linkElement.classList = 'linkText subLink'
+        linkElement.innerText = titleSrc;
+        linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(titleSrc)}`;
+        linkElement.setAttribute('target', '_blank')
+        document.getElementById('altTitleZoneTD').appendChild(linkElement)
+        console.log(`%c[DATA] %cCreate and add more data to table success`, 'font-weight: bold', 'color: Green')
+    } else if (alt_title != '' && titleSrc != g_title && alt_title.includes(titleSrc) == false) {
+        console.log(`%c[DATA] %cFound more data in Spotify`, 'font-weight: bold', 'color: Blue')
+        const spanElement = document.createElement('span');
+        spanElement.innerText = ' / '
+        document.getElementById('altTitleZoneTD').appendChild(spanElement)
+        const linkElement = document.createElement('a');
+        linkElement.classList = 'linkText subLink'
+        linkElement.innerText = titleSrc;
+        linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(titleSrc)}`;
+        linkElement.setAttribute('target', '_blank')
+        document.getElementById('altTitleZoneTD').appendChild(linkElement)
+        console.log(`%c[DATA] %cAdd more data to table success`, 'font-weight: bold', 'color: Green')
+    }
 }
+
 
