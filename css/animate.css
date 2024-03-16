@@ -23,14 +23,35 @@
     }
 }
 
+@keyframes btn-heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(0.9);
+    }
+    20% {
+        transform: scale(1.1);
+    }
+    30% {
+        transform: scale(0.9);
+    }
+    40% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .heartbeat {
     animation-name: heartbeat;
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
-
-
-
 
 .delay-0 {
     animation-delay: calc(var(--animate-delay) + 0s) !important;
@@ -102,4 +123,26 @@
 
 .delay-17 {
     animation-delay: calc(var(--animate-delay) + 1.60s) !important;
+}
+.spotify-animate {
+    animation-name: btn-heartbeat;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.btn-hover {
+    scale: 1;
+    transition: all 0.5s;
+    &:hover {
+        scale: 1.2;
+        /* border: 0; */
+    }
+}
+
+.long-btn-hover {
+    scale: 1;
+    transition: all 0.5s;
+    &:hover {
+        scale: 1.1;
+    }
 }

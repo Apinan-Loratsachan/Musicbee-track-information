@@ -21,6 +21,27 @@ document.addEventListener("DOMContentLoaded", function () {
     s_album = encodeURIComponent(g_album);
     s_albumArtist = encodeURIComponent(g_albumArtist);
 
+    if (audio != "") {
+        document.getElementById("btnSpotifySearch").innerText = ''
+        // document.getElementById("btnSpotifySearch").classList.remove("btn-hover")
+        document.getElementById("btnSpotifySearch").classList.add("spotify-active")
+
+        const div = document.createElement('div')
+        div.id = 'spotifyBtnDiv'
+        div.classList = 'spotify-animate'
+        document.getElementById("btnSpotifySearch").appendChild(div)
+
+        const spotifyIcon = document.createElement('i')
+        spotifyIcon.classList = 'fa-brands fa-spotify fa-beat-fade fa-xl'
+        spotifyIcon.setAttribute('style', "color: #1ed760;")
+        document.getElementById("spotifyBtnDiv").appendChild(spotifyIcon)
+
+        const spotifyText = document.createElement('span')
+        spotifyText.innerText = ' Open in Spotify'
+        spotifyText.classList = 'spotify-animate'
+        document.getElementById("spotifyBtnDiv").appendChild(spotifyText)
+    }
+
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
         document.title = g_title + ' - ' + title_artist
@@ -292,7 +313,7 @@ function addCopyButton(id, value) {
     if (value != "" && value != 'Various Artists') {
         const element = document.getElementById(id);
         const button = document.createElement("button");
-        button.className = "btn btn-outline-dark btn-copy";
+        button.className = "btn btn-outline-dark btn-copy btn-hover";
         button.innerText = "Copy";
         button.addEventListener("click", function () {
             copyToClipboard(value);
