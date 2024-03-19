@@ -124,6 +124,11 @@
 .delay-17 {
     animation-delay: calc(var(--animate-delay) + 1.60s) !important;
 }
+
+.delay-18 {
+    animation-delay: calc(var(--animate-delay) + 1.70s) !important;
+}
+
 .spotify-animate {
     animation-name: btn-heartbeat;
     animation-duration: 2s;
@@ -147,7 +152,14 @@
     }
 }
 
+.very-long-btn-hover {
+    scale: 1;
+    transition: all 0.5s;
+    &:hover {
+        scale: 1.05;
+    }
+}
+
 #albumImageLink {
     transition: all;
-    
 }

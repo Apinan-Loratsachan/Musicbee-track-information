@@ -177,11 +177,39 @@ document.addEventListener("DOMContentLoaded", function () {
     addCopyButton("btn-copy-album", params.get("al") || "");
     addCopyButton("btn-copy-albumArtist", params.get("alar") || "");
 
-    validateData(g_title)
+    validateData(g_title, g_album)
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
     if (spotify_album_id != '') {
+        document.getElementById('openAlbumBtn').innerText = ''
+
+        const spotifyOpenAlbum = document.createElement('button')
+        spotifyOpenAlbum.id = 'spotifyOpenAlbumBtn'
+        spotifyOpenAlbum.classList = 'btn btn-outline-dark long-btn very-long-btn-hover spotify-active'
+        spotifyOpenAlbum.addEventListener("click", function () {
+            window.open(`https://open.spotify.com/album/${spotify_album_id}`, "_blank")
+        })
+        document.getElementById('openAlbumBtn').appendChild(spotifyOpenAlbum)
+
+        const div = document.createElement('div')
+        div.id = 'spotifyAlbumBtnDiv'
+        // div.classList = 'spotify-animate delay-16'
+        document.getElementById("spotifyOpenAlbumBtn").appendChild(div)
+
+        const spotifyIcon = document.createElement('i')
+        spotifyIcon.classList = 'fa-brands fa-spotify fa-beat-fade fa-xl'
+        spotifyIcon.setAttribute('style', "color: #1ed760;")
+        document.getElementById("spotifyAlbumBtnDiv").appendChild(spotifyIcon)
+
+        const spotifyTextSpace = document.createElement('span')
+        spotifyTextSpace.setAttribute('style', 'margin: 5px; font-weight: normal;')
+        document.getElementById("spotifyAlbumBtnDiv").appendChild(spotifyTextSpace)
+
+        const spotifyText = document.createElement('span')
+        spotifyText.innerText = 'Open album in Spotify'
+        spotifyText.classList = 'spotify-animate'
+        document.getElementById("spotifyAlbumBtnDiv").appendChild(spotifyText)
         getSpotifyAlbumData()
     }
     else if (custom_image !== '') {
@@ -297,6 +325,14 @@ function searchAlbumCover() {
     }
 }
 
+function searchAlbum() {
+    if (g_albumArtist == "") {
+        window.open(`https://www.google.com/search?q=music album ${s_album}`, "_blank");
+    } else {
+        window.open(`https://www.google.com/search?q=${s_album} - ${s_albumArtist}`, "_blank");
+    }
+}
+
 function addCopyButton(id, value) {
     if (value != "" && value != 'Various Artists') {
         const element = document.getElementById(id);
@@ -370,19 +406,29 @@ function disableObjact(id, state) {
     document.getElementById(id).disabled = state;
 }
 
-function validateData(data) {
-    if (data != "") {
+function validateData(title, album) {
+    if (title != "") {
+        disableObjact("btnSearchTrackCover", false)
         disableObjact("btnGoogleSearch", false)
         disableObjact("btnYoutubeSearch", false)
         disableObjact("btnSpotifySearch", false)
         disableObjact("btnAppleMusicSearch", false)
         disableObjact("btnLyricsSearch", false)
     } else {
+        disableObjact("btnSearchTrackCover", true)
         disableObjact("btnGoogleSearch", true)
         disableObjact("btnYoutubeSearch", true)
         disableObjact("btnSpotifySearch", true)
         disableObjact("btnAppleMusicSearch", true)
         disableObjact("btnLyricsSearch", true)
+    }
+
+    if (album != "") {
+        disableObjact("btnSearchAlbumCover", false)
+        disableObjact("btnAlbumSearch", false)
+    } else {
+        disableObjact("btnSearchAlbumCover", true)
+        disableObjact("btnAlbumSearch", true)
     }
 }
 
@@ -844,7 +890,6 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 
         const previewText = document.createElement('h2')
         previewText.innerText = `Track Preview`
-        // previewText.setAttribute('style', 'margin-bottom: 15px; font-weight: normal;')
         previewText.setAttribute('style', 'margin: 0px; padding: 5px; font-weight: normal;')
         previewText.classList = 'animate__animated animate__zoomIn'
         document.getElementById('audio-section').appendChild(previewText)

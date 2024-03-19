@@ -19,7 +19,7 @@
         <div id="audio-section" style="margin: 0px; text-align: center;">
         </div>
         <div id="musicInfo" class="card blur">
-            <div class="card-body">
+            <div class="card-body info-section">
                 <div id="header" style="padding: 10px;">
                     <h1 id="headerText" class="animate__animated animate__bounceIn"
                         style="color: black; text-align: center; padding-top: 10px;">Track Information
@@ -45,9 +45,8 @@
                     </div>
                 </div>
                 <div class="row d-flex align-items-center">
-                    <div class="row"></div>
                     <div class="col d-flex justify-content-center animate__animated animate__fadeInRight">
-                        <button type="button" class="btn btn-outline-dark btn-hover" onclick="searchTrackCover()">
+                        <button type="button" id="btnSearchTrackCover" class="btn btn-outline-dark btn-hover" onclick="searchTrackCover()">
                             <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Track Cover
                         </button>
                     </div>
@@ -56,7 +55,7 @@
                         Cover incorrect? Search it.
                     </div>
                     <div class="col d-flex justify-content-center animate__animated animate__fadeInLeft">
-                        <button type="button" class="btn btn-outline-dark btn-hover" onclick="searchAlbumCover()">
+                        <button type="button" id="btnSearchAlbumCover" class="btn btn-outline-dark btn-hover" onclick="searchAlbumCover()">
                             <i class="fa-solid fa-image fa-xl" style="color: #1567f4;"></i> Album Cover
                         </button>
                     </div>
@@ -129,18 +128,18 @@
                 <div class="container mt-3">
                     <div class="row">
                         <div class="col-6 d-flex justify-content-center small-search-button-container">
-                            <div class="col d-flex justify-content-center">
+                            <div class="col d-flex justify-content-center animate__animated animate__fadeInUp delay-12">
                                 <button type="button" id="btnGoogleSearch"
-                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-12 btn-hover"
+                                    class="btn btn-outline-dark small-search-button btn-hover"
                                     onclick="searchGoogle()">
                                     <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search on
                                     Google
                                 </button>
                             </div>
                             <span class="search-btn-spacer"></span>
-                            <div class="col d-flex justify-content-center">
+                            <div class="col d-flex justify-content-center animate__animated animate__fadeInUp delay-13">
                                 <button type="button" id="btnYoutubeSearch"
-                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-13 btn-hover"
+                                    class="btn btn-outline-dark small-search-button btn-hover"
                                     onclick="searchYoutube()">
                                     <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;"></i> Search
                                     on
@@ -149,19 +148,19 @@
                             </div>
                         </div>
                         <div class="col-6 d-flex justify-content-center small-search-button-container">
-                            <div class="col d-flex justify-content-center">
+                            <div class="col d-flex justify-content-center  animate__animated animate__fadeInUp delay-14">
                                 <button type="button" id="btnSpotifySearch"
-                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-14 btn-hover"
+                                    class="btn btn-outline-dark small-search-button btn-hover"
                                     onclick="searchSpotify()">
-                                        <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i>
-                                        Search
-                                        on Spotify
+                                    <i class="fa-brands fa-spotify fa-beat-fade fa-xl" style="color: #1ed760;"></i>
+                                    Search
+                                    on Spotify
                                 </button>
                             </div>
                             <span class="search-btn-spacer"></span>
-                            <div class="col d-flex justify-content-center">
+                            <div class="col d-flex justify-content-center  animate__animated animate__fadeInUp delay-15">
                                 <button type="button" id="btnAppleMusicSearch"
-                                    class="btn btn-outline-dark small-search-button animate__animated animate__fadeInUp delay-15 btn-hover"
+                                    class="btn btn-outline-dark small-search-button btn-hover"
                                     onclick="searchAppleMusic()">
                                     <i class="fa-brands fa-apple fa-beat fa-xl"></i> Search on Apple
                                     Music
@@ -173,21 +172,31 @@
 
                 <div class="container mt-3">
                     <div class="row">
-                        <div class="col d-flex justify-content-center">
+                        <div class="col d-flex justify-content-center animate__animated animate__fadeInUp delay-16">
                             <button type="button" id="btnPowerSearch"
-                                class="btn btn-outline-dark long-btn animate__animated animate__fadeInUp delay-16 long-btn-hover"
+                                class="btn btn-outline-dark long-btn long-btn-hover"
                                 onclick="powerSearchGoogle()">
                                 <i class="fa-brands fa-searchengin fa-shake fa-xl"></i> Search on
                                 Google with all tag
                             </button>
                         </div>
-                        <div class="col d-flex justify-content-center">
+                        <div class="col d-flex justify-content-center animate__animated animate__fadeInUp delay-17">
                             <button type="button" id="btnLyricsSearch"
-                                class="btn btn-outline-dark long-btn animate__animated animate__fadeInUp delay-17 long-btn-hover"
+                                class="btn btn-outline-dark long-btn long-btn-hover"
                                 onclick="searchLyrics()">
                                 <i class="fa-solid fa-sheet-plastic fa-bounce fa-xl"></i> Search lyrics
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                <div class="animate__animated animate__fadeInUp delay-18">
+                    <div id="openAlbumBtn" class="container mt-3">
+                        <button type="button" id="btnAlbumSearch"
+                            class="btn btn-outline-dark long-btn very-long-btn-hover" onclick="searchAlbum()">
+                            <i class="fa-brands fa-google fa-shake fa-xl" style="color: #006eff;"></i> Search album on
+                            Google
+                        </button>
                     </div>
                 </div>
             </div>

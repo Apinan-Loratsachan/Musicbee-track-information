@@ -158,7 +158,7 @@ td {
 .linkText {
     color: blue;
     /* color: black; */
-    transition: color 0.2s ease-out;
+    transition: all 0.2s ease-out;
     text-decoration: none;
 }
 
@@ -263,6 +263,15 @@ td {
 }
 
 .spotify-active {
+    position: relative;
     background-color: rgb(33, 37, 41);
     color: #fff;
+}
+
+.spotify-active:hover {
+    color: rgb(29, 208, 93);
+}
+
+.info-section{
+    margin-bottom: 10px;
 }
