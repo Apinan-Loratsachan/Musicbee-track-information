@@ -741,8 +741,6 @@ function showCoverImage(image) {
     coverElement.style.opacity = 0;
 
     coverElement.onload = function () {
-        const favicon = document.getElementById('favicon');
-        favicon.setAttribute('herf', image)
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
         document.getElementById("imageSection").appendChild(linkElement);
