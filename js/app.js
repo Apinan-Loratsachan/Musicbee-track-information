@@ -841,49 +841,51 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         document.getElementById("spotifyBtnDiv").appendChild(spotifyText)
     }
 
-    document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
+    if (audioSrc != null) {
+        document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
 
-    const previewText = document.createElement('h2')
-    previewText.innerText = `Track preview`
-    previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: normal;')
-    previewText.classList = 'animate__animated animate__zoomIn'
-    document.getElementById('audio-section').appendChild(previewText)
+        const previewText = document.createElement('h2')
+        previewText.innerText = `Track preview`
+        previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: normal;')
+        previewText.classList = 'animate__animated animate__zoomIn'
+        document.getElementById('audio-section').appendChild(previewText)
 
-    const previewTitle = document.createElement('h6')
-    previewTitleText = `${g_title} - ${g_artist}`
-    previewTitle.innerText = previewTitleText
-    previewTitle.setAttribute('style', 'margin-bottom: 10px;')
-    previewTitle.classList = 'animate__animated animate__zoomIn delay-3'
-    document.getElementById('audio-section').appendChild(previewTitle)
+        const previewTitle = document.createElement('h6')
+        previewTitleText = `${g_title} - ${g_artist}`
+        previewTitle.innerText = previewTitleText
+        previewTitle.setAttribute('style', 'margin-bottom: 10px;')
+        previewTitle.classList = 'animate__animated animate__zoomIn delay-3'
+        document.getElementById('audio-section').appendChild(previewTitle)
 
-    const spotifypreviewText = document.createElement('h6')
-    var spotifyArtistsArrey = "";
-    const artists = artistSrc;
-    artists.forEach(artist => {
-        const artistName = artist.name;
-        if (spotifyArtistsArrey.length == 0) {
-            spotifyArtistsArrey = artistName
-        } else {
-            spotifyArtistsArrey = `${spotifyArtistsArrey}, ${artistName}`
+        const spotifypreviewText = document.createElement('h6')
+        var spotifyArtistsArrey = "";
+        const artists = artistSrc;
+        artists.forEach(artist => {
+            const artistName = artist.name;
+            if (spotifyArtistsArrey.length == 0) {
+                spotifyArtistsArrey = artistName
+            } else {
+                spotifyArtistsArrey = `${spotifyArtistsArrey}, ${artistName}`
+            }
+        });
+        spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
+        spotifypreviewText.innerText = `(${spotifyPreviewDisplayText})`
+        spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
+        if (spotifyPreviewDisplayText != previewTitleText) {
+            document.getElementById('audio-section').appendChild(spotifypreviewText)
         }
-    });
-    spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
-    spotifypreviewText.innerText = `(${spotifyPreviewDisplayText})`
-    spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
-    if (spotifyPreviewDisplayText != previewTitleText) {
-        document.getElementById('audio-section').appendChild(spotifypreviewText)
+
+        const audioElement = document.createElement('audio')
+        audioElement.id = 'audio-preview'
+        audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
+        audioElement.src = audioSrc
+        audioElement.controls = true
+        audioElement.autoplay = false
+        audioElement.loop = false
+        document.getElementById('audio-section').appendChild(audioElement)
+
+        console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
     }
-
-    const audioElement = document.createElement('audio')
-    audioElement.id = 'audio-preview'
-    audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
-    audioElement.src = audioSrc
-    audioElement.controls = true
-    audioElement.autoplay = false
-    audioElement.loop = false
-    document.getElementById('audio-section').appendChild(audioElement)
-
-    console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
 
     if (alt_title == '' && titleSrc != g_title) {
 
@@ -1001,7 +1003,11 @@ async function getSpotifyAlbumData() {
                 if (searchData.tracks.items[i].disc_number == g_discNumber && searchData.tracks.items[i].track_number == g_trackNumber) {
                     console.log('%c[DATA | SPOTIFY] %cFound this track', 'font-weight: bold', 'color: green');
                     trackData = searchData.tracks.items[i]
-                    console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
+                    if (trackData.preview_url == 'null') {
+                        console.log('%c[DATA] %cThis track not have audio preview', 'font-weight: bold', 'color: yellow');
+                    } else {
+                        console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
+                    }
                     showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
                     return
                 }
@@ -1009,7 +1015,11 @@ async function getSpotifyAlbumData() {
             console.log("%c[DATA | SPOTIFY] %cCan't find this track in album", 'font-weight: bold', 'color: red')
         } else {
             const trackData = searchData.tracks.items[g_trackNumber - 1]
-            console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
+            if (trackData.preview_url == null) {
+                console.log('%c[DATA] %cThis track not have audio preview', 'font-weight: bold', 'color: red');
+            } else {
+                console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
+            }
             showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
         }
         console.log('%c[DATA] %cGet track data in this album success', 'font-weight: bold', 'color: green');
