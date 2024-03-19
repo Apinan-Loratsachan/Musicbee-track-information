@@ -1002,7 +1002,7 @@ async function getSpotifyAlbumData() {
                 if (searchData.tracks.items[i].disc_number == g_discNumber && searchData.tracks.items[i].track_number == g_trackNumber) {
                     console.log('%c[DATA | SPOTIFY] %cFound this track', 'font-weight: bold', 'color: green');
                     trackData = searchData.tracks.items[i]
-                    console.log('%c[DATA → AUDIO] %cGeting audio preview', 'font-weight: bold', '');
+                    console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
                     showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
                     return
                 }
