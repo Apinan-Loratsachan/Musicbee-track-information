@@ -1,4 +1,4 @@
-let g_title, g_artist, g_album, g_albumArtist, flag = true;
+let g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true;
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
@@ -10,8 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
     g_artist = params.get("ar") || "";
     g_album = params.get("al") || "";
     g_albumArtist = params.get("alar") || "";
+    g_trackNumber = params.get("tn") || "";
+    g_discNumber = params.get("dn") || "";
+    g_discCount = params.get("dc") || "";
     alt_title = params.get("atr") || "";
-    spotify_album_id = params.get("ref1") || '';
+    spotify_album_id = params.get("aref") || "";
+    spotify_album_cover_id = params.get("ref1") || '';
     vgm_album_id = params.get("ref2") || '';
     custom_image = params.get("cti") || '';
     title_artist = params.get("ar") || "Unknow artist";
@@ -20,27 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
     s_artist = encodeURIComponent(g_artist);
     s_album = encodeURIComponent(g_album);
     s_albumArtist = encodeURIComponent(g_albumArtist);
-
-    if (audio != "") {
-        document.getElementById("btnSpotifySearch").innerText = ''
-        // document.getElementById("btnSpotifySearch").classList.remove("btn-hover")
-        document.getElementById("btnSpotifySearch").classList.add("spotify-active")
-
-        const div = document.createElement('div')
-        div.id = 'spotifyBtnDiv'
-        div.classList = 'spotify-animate'
-        document.getElementById("btnSpotifySearch").appendChild(div)
-
-        const spotifyIcon = document.createElement('i')
-        spotifyIcon.classList = 'fa-brands fa-spotify fa-beat-fade fa-xl'
-        spotifyIcon.setAttribute('style', "color: #1ed760;")
-        document.getElementById("spotifyBtnDiv").appendChild(spotifyIcon)
-
-        const spotifyText = document.createElement('span')
-        spotifyText.innerText = ' Open in Spotify'
-        spotifyText.classList = 'spotify-animate'
-        document.getElementById("spotifyBtnDiv").appendChild(spotifyText)
-    }
 
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
@@ -198,7 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
     // spotifySearchImage(Title, Artist, Album, AlbumArtist);
-    if (custom_image !== '') {
+    if (spotify_album_id != '') {
+        getSpotifyAlbumData()
+    }
+    else if (custom_image !== '') {
         customAlbumCover(custom_image);
         if (audio != '') {
             getSpotifyTrackPreview(audio)
@@ -212,16 +198,16 @@ function searchForAlbumCover() {
     if (audio != '') {
         getSpotifyTrackPreview(audio)
     }
-    if (g_album != '' && spotify_album_id != '') {
-        if (spotify_album_id.includes('track/')) {
-            console.log('%c[COVER] %cHas Spotify track ID tag : ' + spotify_album_id.replace('track/', '') + "\n(https://open.spotify.com/" + spotify_album_id + ")", 'font-weight: bold', '')
+    if (g_album != '' && spotify_album_cover_id != '') {
+        if (spotify_album_cover_id.includes('track/')) {
+            console.log('%c[COVER] %cHas Spotify track ID tag : ' + spotify_album_cover_id.replace('track/', '') + "\n(https://open.spotify.com/" + spotify_album_cover_id + ")", 'font-weight: bold', '')
         } else {
-            console.log('%c[COVER] %cHas Spotify album ID tag : ' + spotify_album_id + "\n(https://open.spotify.com/album/" + spotify_album_id + ")", 'font-weight: bold', '')
+            console.log('%c[COVER] %cHas Spotify album ID tag : ' + spotify_album_cover_id + "\n(https://open.spotify.com/album/" + spotify_album_cover_id + ")", 'font-weight: bold', '')
         }
         $(document).ready(function () {
             $(".now-precess").html("Reading tag");
         });
-        spotifySearchImageByID(spotify_album_id)
+        spotifySearchImageByID(spotify_album_cover_id)
     } else if (g_album != '' || vgm_album_id != '') {
         searchVGMdbAlbumID(g_album, g_albumArtist)
     } else {
@@ -276,7 +262,9 @@ function searchYoutube() {
 }
 
 function searchSpotify() {
-    if (audio != "") {
+    if (spotifyDirectURL != null) {
+        window.open(spotifyDirectURL, "_blank");
+    } else if (audio != "") {
         window.open(`https://open.spotify.com/track/${audio}`, "_blank");
     } else if (g_artist == "") {
         window.open(`https://open.spotify.com/search/${g_title}/tracks`, "_blank");
@@ -615,7 +603,7 @@ async function spotifySearchImage(album, album_artist) {
     }
 }
 
-async function spotifySearchImageByID(spotify_album_id) {
+async function spotifySearchImageByID(spotify_album_cover_id) {
     console.log("%c[COVER | SPOTIFY] %cGetting album cover by album ID", 'font-weight: bold', '')
     try {
         $(document).ready(function () {
@@ -640,7 +628,7 @@ async function spotifySearchImageByID(spotify_album_id) {
         const accessToken = tokenData.access_token;
 
         // Search for album images by ID
-        const searchResponse = await fetch(`https://api.spotify.com/v1/albums/${spotify_album_id}`, {
+        const searchResponse = await fetch(`https://api.spotify.com/v1/albums/${spotify_album_cover_id}`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
@@ -796,8 +784,17 @@ function showCoverImageBycti(image) {
         console.log("%c[COVER | CUSTOM] %cGet album cover success", 'font-weight: bold', 'color: green')
     };
     coverElement.onerror = function () {
-        console.log("%c[COVER | CUSTOM] %cCan't get image for this URL. Begin searcing for album cover.", 'font-weight: bold', 'color: red')
-        searchForAlbumCover()
+        if (spotifyCustomImageFlag == false) {
+            console.log(`%c[COVER | CUSTOM] %cCan't get image for this URL.\n(${custom_image})`, 'font-weight: bold', 'color: red')
+            console.log(`%c[DATA → COVER] %cError on load custom album cover. Using album data instead.`, 'font-weight: bold', '')
+            showCoverImage(spotifyAlbumDataTemp.images[0].url);
+            setCoverToBG(spotifyAlbumDataTemp.images[0].url);
+            console.log(`%c[COVER] %cGet album cover success`, 'font-weight: bold', 'color: Green')
+        }
+        else {
+            console.log("%c[COVER | CUSTOM] %cCan't get image for this URL. Begin searcing for album cover.", 'font-weight: bold', 'color: red')
+            searchForAlbumCover()
+        }
     }
 }
 
@@ -818,8 +815,32 @@ function customAlbumCover(image) {
     setCoverToBG(image)
 }
 
-function showAudioControlAndMoreDataWithSpotifySrc(imageSrc, titleSrc, artistSrc) {
-    console.log(`%c[AUDIO] %cThis track has audio preview\n(https://open.spotify.com/track/${audio})`, 'font-weight: bold', 'color: Black')
+function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc, spotifyURL) {
+    if (audio != "" || spotifyURL != '') {
+        if (spotifyURL != '') {
+            spotifyDirectURL = spotifyURL
+            console.log(`%c[AUDIO] %cThis track has audio preview\n(${spotifyURL})`, 'font-weight: bold', 'color: Black')
+        } else {
+            console.log(`%c[AUDIO] %cThis track has audio preview\n(https://open.spotify.com/track/${audio})`, 'font-weight: bold', 'color: Black')
+        }
+        document.getElementById("btnSpotifySearch").innerText = ''
+        document.getElementById("btnSpotifySearch").classList.add("spotify-active")
+
+        const div = document.createElement('div')
+        div.id = 'spotifyBtnDiv'
+        div.classList = 'spotify-animate'
+        document.getElementById("btnSpotifySearch").appendChild(div)
+
+        const spotifyIcon = document.createElement('i')
+        spotifyIcon.classList = 'fa-brands fa-spotify fa-beat-fade fa-xl'
+        spotifyIcon.setAttribute('style', "color: #1ed760;")
+        document.getElementById("spotifyBtnDiv").appendChild(spotifyIcon)
+
+        const spotifyText = document.createElement('span')
+        spotifyText.innerText = ' Open in Spotify'
+        spotifyText.classList = 'spotify-animate'
+        document.getElementById("spotifyBtnDiv").appendChild(spotifyText)
+    }
 
     document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
 
@@ -857,29 +878,34 @@ function showAudioControlAndMoreDataWithSpotifySrc(imageSrc, titleSrc, artistSrc
     const audioElement = document.createElement('audio')
     audioElement.id = 'audio-preview'
     audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
-    audioElement.src = imageSrc
+    audioElement.src = audioSrc
     audioElement.controls = true
     audioElement.autoplay = false
     audioElement.loop = false
     document.getElementById('audio-section').appendChild(audioElement)
 
-    console.log(`%c[AUDIO] %cGet audio preview success\n(${imageSrc})`, 'font-weight: bold', 'color: green')
+    console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
 
     if (alt_title == '' && titleSrc != g_title) {
+
         console.log(`%c[DATA] %cFound more data in Spotify`, 'font-weight: bold', 'color: Blue')
+
         const thElement = document.createElement('th')
         thElement.setAttribute('scope', 'row')
         thElement.className = 'subTH'
         thElement.id = 'alt-title-th'
         document.getElementById('altTitleZone').appendChild(thElement)
+
         const altTitleThDivElement = document.createElement('div')
         altTitleThDivElement.id = 'alt-title-div'
         altTitleThDivElement.className = 'thDiv'
         document.getElementById('alt-title-th').appendChild(altTitleThDivElement)
+
         const altTitleThSpanElement = document.createElement('span')
         altTitleThSpanElement.innerText = '⤷'
         altTitleThSpanElement.className = 'subThHeader'
         document.getElementById('alt-title-div').appendChild(altTitleThSpanElement)
+
         const altTitleThDivNameElement = document.createElement('div')
         altTitleThDivNameElement.innerText = 'Alternate Title'
         altTitleThDivNameElement.className = 'subThHeaderText'
@@ -896,20 +922,103 @@ function showAudioControlAndMoreDataWithSpotifySrc(imageSrc, titleSrc, artistSrc
         linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(titleSrc)}`;
         linkElement.setAttribute('target', '_blank')
         document.getElementById('altTitleZoneTD').appendChild(linkElement)
+
         console.log(`%c[DATA] %cCreate and add more data to table success`, 'font-weight: bold', 'color: Green')
+
     } else if (alt_title != '' && titleSrc != g_title && alt_title.includes(titleSrc) == false) {
+
         console.log(`%c[DATA] %cFound more data in Spotify`, 'font-weight: bold', 'color: Blue')
+
         const spanElement = document.createElement('span');
         spanElement.innerText = ' / '
         document.getElementById('altTitleZoneTD').appendChild(spanElement)
+
         const linkElement = document.createElement('a');
         linkElement.classList = 'linkText subLink'
         linkElement.innerText = titleSrc;
         linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(titleSrc)}`;
         linkElement.setAttribute('target', '_blank')
         document.getElementById('altTitleZoneTD').appendChild(linkElement)
+
         console.log(`%c[DATA] %cAdd more data to table success`, 'font-weight: bold', 'color: Green')
     }
 }
 
+async function getSpotifyAlbumData() {
+    console.log("%c[DATA] %cHas Spotify album tag", 'font-weight: bold', 'color: Blue')
+    console.log("%c[DATA | SPOTIFY] %cGetting album data in Spotify by album ID", 'font-weight: bold', '')
+    try {
+        $(document).ready(function () {
+            $(".now-precess").html("Getting album data");
+        });
 
+        const clientId = apikey[0];
+        const clientSecret = apikey[1];
+        const base64Credentials = btoa(`${clientId}:${clientSecret}`);
+
+        // Get access token
+        const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${base64Credentials}`
+            },
+            body: 'grant_type=client_credentials'
+        });
+
+        const tokenData = await tokenResponse.json();
+        const accessToken = tokenData.access_token;
+
+        // Search for album images by ID
+        const searchResponse = await fetch(`https://api.spotify.com/v1/albums/${spotify_album_id}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        const searchData = await searchResponse.json();
+        data_spotify = searchData
+        data_inuse = searchData
+        data_inuse_provider = 'Spotify'
+        spotifyAlbumDataTemp = searchData
+        if (custom_image != '' && spotifyCustomImageFlag) {
+            console.log('%c[DATA → COVER] %cHas custom album cover tag change to custom cover function', 'font-weight: bold', '');
+            spotifyCustomImageFlag = false
+            customAlbumCover(custom_image);
+        } else {
+            console.log('%c[DATA → COVER] %cGeting album cover', 'font-weight: bold', '');
+            $(document).ready(function () {
+                $(".now-precess").html("Getting album cover");
+            });
+            const albumImages = searchData.images;
+            showCoverImage(albumImages[0].url);
+            setCoverToBG(albumImages[0].url);
+            console.log('%c[COVER] %cGet album cover in Spotify success', 'font-weight: bold', 'color: green');
+        }
+        if (g_discCount != 1) {
+            console.log('%c[DATA | SPOTIFY] %cThis album is multiple disc search for track in this album', 'font-weight: bold', 'color: blue');
+            let trackData
+            for (i = 0; i <= searchData.tracks.items.length - 1; i++) {
+                if (searchData.tracks.items[i].disc_number == g_discNumber && searchData.tracks.items[i].track_number == g_trackNumber) {
+                    console.log('%c[DATA | SPOTIFY] %cFound this track', 'font-weight: bold', 'color: green');
+                    trackData = searchData.tracks.items[i]
+                    console.log('%c[DATA → AUDIO] %cGeting audio preview', 'font-weight: bold', '');
+                    showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
+                    return
+                }
+            }
+            console.log("%c[DATA | SPOTIFY] %cCan't find this track in album", 'font-weight: bold', 'color: red')
+        } else {
+            const trackData = searchData.tracks.items[g_trackNumber - 1]
+            console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
+            showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
+        }
+        console.log('%c[DATA] %cGet track data in this album success', 'font-weight: bold', 'color: green');
+
+
+    } catch (e) {
+        console.error(e)
+        console.log("%c[DATA] %cCan't get album data in spotify", 'font-weight: bold', 'color: red')
+        searchVGMdbAlbumID(g_album, g_albumArtist)
+    }
+}
