@@ -1014,7 +1014,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         document.getElementById('alt-album-div').appendChild(altTitleThSpanElement)
 
         const altTitleThDivNameElement = document.createElement('div')
-        altTitleThDivNameElement.innerText = 'Alternate Title'
+        altTitleThDivNameElement.innerText = 'Alt Album Name'
         altTitleThDivNameElement.className = 'subThHeaderText'
         document.getElementById('alt-album-div').appendChild(altTitleThDivNameElement)
 
