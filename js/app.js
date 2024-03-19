@@ -819,7 +819,6 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
     if (audio != "" || spotifyURL != '') {
         if (spotifyURL != '') {
             spotifyDirectURL = spotifyURL
-            console.log(`%c[AUDIO] %cThis track has audio preview\n(${spotifyURL})`, 'font-weight: bold', 'color: Black')
         } else {
             console.log(`%c[AUDIO] %cThis track has audio preview\n(https://open.spotify.com/track/${audio})`, 'font-weight: bold', 'color: Black')
         }
