@@ -845,17 +845,23 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
 
         const previewText = document.createElement('h2')
-        previewText.innerText = `Track preview`
-        previewText.setAttribute('style', 'margin-bottom: 10px; font-weight: normal;')
+        previewText.innerText = `Track Preview`
+        // previewText.setAttribute('style', 'margin-bottom: 15px; font-weight: normal;')
+        previewText.setAttribute('style', 'margin: 0px; padding: 5px; font-weight: normal;')
         previewText.classList = 'animate__animated animate__zoomIn'
         document.getElementById('audio-section').appendChild(previewText)
+
+        const previewTitleDiv = document.createElement('div')
+        previewTitleDiv.id = 'previewTitleDiv'
+        previewTitleDiv.setAttribute('style', 'padding: 0px;')
+        document.getElementById('audio-section').appendChild(previewTitleDiv)
 
         const previewTitle = document.createElement('h6')
         previewTitleText = `${g_title} - ${g_artist}`
         previewTitle.innerText = previewTitleText
-        previewTitle.setAttribute('style', 'margin-bottom: 10px;')
+        previewTitle.setAttribute('style', 'margin: 10px; font-weight: normal;')
         previewTitle.classList = 'animate__animated animate__zoomIn delay-3'
-        document.getElementById('audio-section').appendChild(previewTitle)
+        document.getElementById('previewTitleDiv').appendChild(previewTitle)
 
         const spotifypreviewText = document.createElement('h6')
         var spotifyArtistsArrey = "";
@@ -870,9 +876,10 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         });
         spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
         spotifypreviewText.innerText = `(${spotifyPreviewDisplayText})`
+        spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
         spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
         if (spotifyPreviewDisplayText != previewTitleText) {
-            document.getElementById('audio-section').appendChild(spotifypreviewText)
+            document.getElementById('previewTitleDiv').appendChild(spotifypreviewText)
         }
 
         const audioElement = document.createElement('audio')
