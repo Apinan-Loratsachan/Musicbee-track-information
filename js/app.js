@@ -859,7 +859,7 @@ function customAlbumCover(image) {
     setCoverToBG(image)
 }
 
-function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc, spotifyURL) {
+function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc, spotifyURL, albumSrc) {
     if (audio != "" || spotifyURL != '') {
         if (spotifyURL != '') {
             spotifyDirectURL = spotifyURL
@@ -939,7 +939,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 
     if (alt_title == '' && titleSrc != g_title) {
 
-        console.log(`%c[DATA] %cFound more data in Spotify`, 'font-weight: bold', 'color: Blue')
+        console.log(`%c[DATA] %cFound alternate title in Spotify`, 'font-weight: bold', 'color: Blue')
 
         const thElement = document.createElement('th')
         thElement.setAttribute('scope', 'row')
@@ -974,11 +974,11 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         linkElement.setAttribute('target', '_blank')
         document.getElementById('altTitleZoneTD').appendChild(linkElement)
 
-        console.log(`%c[DATA] %cCreate and add more data to table success`, 'font-weight: bold', 'color: Green')
+        console.log(`%c[DATA] %cCreate and add alternate title to table success`, 'font-weight: bold', 'color: Green')
 
     } else if (alt_title != '' && titleSrc != g_title && alt_title.includes(titleSrc) == false) {
 
-        console.log(`%c[DATA] %cFound more data in Spotify`, 'font-weight: bold', 'color: Blue')
+        console.log(`%c[DATA] %cFound alternate title in Spotify`, 'font-weight: bold', 'color: Blue')
 
         const spanElement = document.createElement('span');
         spanElement.innerText = ' / '
@@ -991,7 +991,46 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         linkElement.setAttribute('target', '_blank')
         document.getElementById('altTitleZoneTD').appendChild(linkElement)
 
-        console.log(`%c[DATA] %cAdd more data to table success`, 'font-weight: bold', 'color: Green')
+        console.log(`%c[DATA] %cAdd alternate title to table success`, 'font-weight: bold', 'color: Green')
+    }
+
+    if (albumSrc != null) {
+        console.log(`%c[DATA] %cFound alternate album name in Spotify`, 'font-weight: bold', 'color: Blue')
+
+        const thElement = document.createElement('th')
+        thElement.setAttribute('scope', 'row')
+        thElement.className = 'subTH'
+        thElement.id = 'alt-album-th'
+        document.getElementById('altAlbumZone').appendChild(thElement)
+
+        const altAlbumThDivElement = document.createElement('div')
+        altAlbumThDivElement.id = 'alt-album-div'
+        altAlbumThDivElement.className = 'thDiv'
+        document.getElementById('alt-album-th').appendChild(altAlbumThDivElement)
+
+        const altTitleThSpanElement = document.createElement('span')
+        altTitleThSpanElement.innerText = '⤷'
+        altTitleThSpanElement.className = 'subThHeader'
+        document.getElementById('alt-album-div').appendChild(altTitleThSpanElement)
+
+        const altTitleThDivNameElement = document.createElement('div')
+        altTitleThDivNameElement.innerText = 'Alternate Title'
+        altTitleThDivNameElement.className = 'subThHeaderText'
+        document.getElementById('alt-album-div').appendChild(altTitleThDivNameElement)
+
+        const tdElement = document.createElement('td')
+        tdElement.id = 'altAlbumZoneTD'
+        tdElement.setAttribute('colspan', '2')
+        document.getElementById('altAlbumZone').appendChild(tdElement)
+
+        const linkElement = document.createElement('a');
+        linkElement.classList = 'linkText subLink'
+        linkElement.innerText = albumSrc;
+        linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(albumSrc)}`;
+        linkElement.setAttribute('target', '_blank')
+        document.getElementById('altAlbumZoneTD').appendChild(linkElement)
+
+        console.log(`%c[DATA] %cCreate and add alternate album name to table success`, 'font-weight: bold', 'color: Green')
     }
 }
 
@@ -1032,6 +1071,7 @@ async function getSpotifyAlbumData() {
         data_inuse = searchData
         data_inuse_provider = 'Spotify'
         spotifyAlbumDataTemp = searchData
+        console.log(searchData.name)
         if (custom_image != '' && spotifyCustomImageFlag) {
             console.log('%c[DATA → COVER] %cHas custom album cover tag change to custom cover function', 'font-weight: bold', '');
             spotifyCustomImageFlag = false
@@ -1058,7 +1098,7 @@ async function getSpotifyAlbumData() {
                     } else {
                         console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
                     }
-                    showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
+                    showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name)
                     return
                 }
             }
@@ -1070,10 +1110,9 @@ async function getSpotifyAlbumData() {
             } else {
                 console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', '');
             }
-            showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify)
+            showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name)
         }
         console.log('%c[DATA] %cGet track data in this album success', 'font-weight: bold', 'color: green');
-
 
     } catch (e) {
         console.error(e)
