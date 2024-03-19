@@ -830,7 +830,7 @@ function showCoverImageBycti(image) {
     coverElement.onerror = function () {
         if (spotifyCustomImageFlag == false) {
             console.log(`%c[COVER | CUSTOM] %cCan't get image for this URL.\n(${custom_image})`, 'font-weight: bold', 'color: red')
-            console.log(`%c[DATA → COVER] %cError on load custom album cover. Using album data instead.`, 'font-weight: bold', 'color: Violet')
+            console.log(`%c[DATA → COVER] %cError on load custom album cover. Using album data instead.`, 'font-weight: bold', 'color: Fuchsia')
             showCoverImage(spotifyAlbumDataTemp.images[0].url);
             setCoverToBG(spotifyAlbumDataTemp.images[0].url);
             console.log(`%c[COVER] %cGet album cover success`, 'font-weight: bold', 'color: Green')
@@ -1073,11 +1073,11 @@ async function getSpotifyAlbumData() {
         spotifyAlbumDataTemp = searchData
         console.log(searchData.name)
         if (custom_image != '' && spotifyCustomImageFlag) {
-            console.log('%c[DATA → COVER] %cHas custom album cover tag change to custom cover function', 'font-weight: bold', 'color: Violet');
+            console.log('%c[DATA → COVER] %cHas custom album cover tag change to custom cover function', 'font-weight: bold', 'color: Fuchsia');
             spotifyCustomImageFlag = false
             customAlbumCover(custom_image);
         } else {
-            console.log('%c[DATA → COVER] %cSend image src to cover function', 'font-weight: bold', 'color: Violet');
+            console.log('%c[DATA → COVER] %cSend image src to cover function', 'font-weight: bold', 'color: Fuchsia');
             $(document).ready(function () {
                 $(".now-precess").html("Getting album cover");
             });
@@ -1096,7 +1096,7 @@ async function getSpotifyAlbumData() {
                     if (trackData.preview_url == 'null') {
                         console.log('%c[DATA] %cThis track not have audio preview', 'font-weight: bold', 'color: red');
                     } else {
-                        console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Violet');
+                        console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Fuchsia');
                     }
                     showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name)
                     return
@@ -1108,7 +1108,7 @@ async function getSpotifyAlbumData() {
             if (trackData.preview_url == null) {
                 console.log('%c[DATA] %cThis track not have audio preview', 'font-weight: bold', 'color: red');
             } else {
-                console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Violet');
+                console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Fuchsia');
             }
             showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name)
         }
