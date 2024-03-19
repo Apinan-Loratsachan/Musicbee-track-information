@@ -994,7 +994,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         console.log(`%c[DATA] %cAdd alternate title to table success`, 'font-weight: bold', 'color: Green')
     }
 
-    if (albumSrc != null) {
+    if (albumSrc != null && albumSrc != g_album) {
         console.log(`%c[DATA] %cFound alternate album name in Spotify`, 'font-weight: bold', 'color: Blue')
 
         const thElement = document.createElement('th')
