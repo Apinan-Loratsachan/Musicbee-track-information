@@ -1071,7 +1071,6 @@ async function getSpotifyAlbumData() {
         data_inuse = searchData
         data_inuse_provider = 'Spotify'
         spotifyAlbumDataTemp = searchData
-        console.log(searchData.name)
         if (custom_image != '' && spotifyCustomImageFlag) {
             console.log('%c[DATA → COVER] %cHas custom album cover tag change to custom cover function', 'font-weight: bold', 'color: Fuchsia');
             spotifyCustomImageFlag = false
