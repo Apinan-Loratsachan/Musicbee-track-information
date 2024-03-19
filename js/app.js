@@ -985,7 +985,7 @@ async function getSpotifyAlbumData() {
             spotifyCustomImageFlag = false
             customAlbumCover(custom_image);
         } else {
-            console.log('%c[DATA → COVER] %cGeting album cover', 'font-weight: bold', '');
+            console.log('%c[DATA → COVER] %cSend image src to cover function', 'font-weight: bold', '');
             $(document).ready(function () {
                 $(".now-precess").html("Getting album cover");
             });
