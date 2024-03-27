@@ -83,28 +83,27 @@ document.addEventListener("DOMContentLoaded", function () {
         let artistTemp = document.getElementById("artist").innerText = params.get("ar") || "Unknown"
 
         artistString = (params.get("ar") || "");
-        const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |&|\(\s*|\s*\)|\[|\]|,)/g)
+        const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |vo\.|Vo\.|VO\.|vo:|Vo:|VO:|vo |Vo |VO |&|\(\s*|\s*\)|\[|\]|,)/g)
             .filter(artist => artist.trim() !== "")
             .map(artist => artist.trim());
 
         if (artistArray.length > 1) {
             const thElement = document.createElement('th')
-            // thElement.innerText = '⤷ Contain Artists'
-            // thElement.setAttribute('scope', 'row')
-            // document.getElementById('containArtistZone').appendChild(thElement)
-
             thElement.setAttribute('scope', 'row')
             thElement.className = 'subTH'
             thElement.id = 'contain-artist-th'
             document.getElementById('containArtistZone').appendChild(thElement)
+            
             const containArtistThDivElement = document.createElement('div')
             containArtistThDivElement.id = 'contain-artist-div'
             containArtistThDivElement.className = 'thDiv'
             document.getElementById('contain-artist-th').appendChild(containArtistThDivElement)
+
             const containArtistThSpanElement = document.createElement('span')
             containArtistThSpanElement.innerText = '⤷'
             containArtistThSpanElement.className = 'subThHeader'
             document.getElementById('contain-artist-div').appendChild(containArtistThSpanElement)
+
             const containArtistThDivNameElement = document.createElement('div')
             containArtistThDivNameElement.innerText = 'Contain Artists'
             containArtistThDivNameElement.className = 'subThHeaderText'
@@ -917,11 +916,11 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                 spotifyArtistsArrey = `${spotifyArtistsArrey}, ${artistName}`
             }
         });
-        spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
-        spotifypreviewText.innerText = `(${spotifyPreviewDisplayText})`
-        spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
-        spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
-        if (spotifyPreviewDisplayText != previewTitleText) {
+        if (g_title != titleSrc || g_artist != spotifyArtistsArrey.replaceAll("μ","µ")) {
+            spotifyPreviewDisplayText = `${titleSrc} – ${spotifyArtistsArrey}`
+            spotifypreviewText.innerText = `( ${spotifyPreviewDisplayText} )`
+            spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
+            spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
             document.getElementById('previewTitleDiv').appendChild(spotifypreviewText)
         }
 
