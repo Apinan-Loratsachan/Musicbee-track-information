@@ -917,7 +917,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
             }
         });
         if (g_title != titleSrc || g_artist != spotifyArtistsArrey.replaceAll("μ","µ")) {
-            spotifyPreviewDisplayText = `${titleSrc} – ${spotifyArtistsArrey}`
+            spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
             spotifypreviewText.innerText = `( ${spotifyPreviewDisplayText} )`
             spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
             spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
