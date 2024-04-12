@@ -2,7 +2,7 @@ var coverHeight, coverWidth
 
 const params = new URLSearchParams(window.location.search);
 
-const imageUrl = `https://${params.get('image')}`;
+const imageUrl = `https://${params.get('cover')}`;
 const title = `${params.get('title')}`;
 
 const img = new Image();
