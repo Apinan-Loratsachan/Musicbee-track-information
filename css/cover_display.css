@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Noto+Sans+Thai&display=swap');
+@import "animate.css";
+
+* {
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+html {
+    background-color: black;
+    position: fixed;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#image-viewer-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+#image-info-container {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: aliceblue;
+    align-items: center;
+    text-align: center;
+    bottom: 0;
+}
+
+#image-title-container {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: aliceblue;
+    align-items: center;
+    text-align: center;
+    top: 0;
+}
+
+#cover {
+    max-height: 100%;
+    max-width: 100%;
+    aspect-ratio: auto;
+}
+
+.responsive {
+    height: 100%;
+}
+
+.spacing {
+    height: 25px;
+}

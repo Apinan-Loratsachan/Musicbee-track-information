@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
 
-
     g_title = params.get("tr") || "";
     g_artist = params.get("ar") || "";
     g_album = params.get("al") || "";
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.title = g_title + ' - ' + title_artist
         if (alt_title != '') {
             const thElement = document.createElement('th')
-            // thElement.innerText = '⤷ Alt Title'
             thElement.setAttribute('scope', 'row')
             thElement.className = 'subTH'
             thElement.id = 'alt-title-th'
@@ -756,6 +754,13 @@ async function getSpotifyTrackPreview(spotify_track_id) {
 }
 
 function setCoverToBG(url) {
+    var link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+    }
+    link.href = url;
     // สร้างอิลิเมนต์ภาพ
     const img = new Image();
 
@@ -775,7 +780,7 @@ function setCoverToBG(url) {
 function showCoverImage(image) {
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = image
+    linkElement.href = `cover.html?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
 
     const coverElement = document.createElement("img");
@@ -811,7 +816,7 @@ function showCoverImageBycti(image) {
     coverElement.onload = function () {
         const linkElement = document.createElement("a");
         linkElement.id = 'albumImageLink';
-        linkElement.href = image
+        linkElement.href = `cover.html?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&cover=${encodeURIComponent(image.replace('https://', ''))}`
         linkElement.setAttribute('target', '_blank')
         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
         $(document).ready(function () {
