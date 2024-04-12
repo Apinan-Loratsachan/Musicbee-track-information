@@ -17,6 +17,7 @@ img.onload = function () {
 }
 img.src = imageUrl;
 img.id = 'cover'
+img.alt = `albim cover of ${title}`
 img.classList = 'cover'
 
 var link = document.querySelector("link[rel~='icon']");
