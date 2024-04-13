@@ -47,8 +47,12 @@ html {
     bottom: 0;
 }
 
+#info-div {
+    width: fit-content;
+    margin: auto;
+}
+
 #image-title-container {
-    padding: 1%;
     position: fixed;
     width: 100%;
     color: white;
@@ -57,11 +61,20 @@ html {
     top: 0;
 }
 
-#title-div {
+#title-div{
     width: fit-content;
-    padding-left: 30px;
-    padding-right: 30px;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+.title-linear {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+.title-radial {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 
 #cover {

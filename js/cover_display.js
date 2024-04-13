@@ -17,7 +17,10 @@ try {
         document.getElementById('loader').remove()
         coverWidth = this.naturalWidth
         coverHeight = this.naturalHeight
-        document.getElementById('image-info-container').innerText = coverWidth + ' × ' + coverHeight;
+        const infoDiv = document.createElement('div')
+        infoDiv.id = 'info-div'
+        document.getElementById('image-info-container').appendChild(infoDiv)
+        document.getElementById('info-div').innerText = coverWidth + ' × ' + coverHeight
         setCoverToBG(imageUrl)
         if (title != null) {
             document.title = `Cover | ${title}`
@@ -25,6 +28,7 @@ try {
             titleDiv.id = 'title-div'
             titleDiv.innerText = title + ' | ' + album
             document.getElementById('image-title-container').appendChild(titleDiv)
+            adjustTitleStyle()
         }
     }
 
@@ -39,8 +43,16 @@ try {
         errorDetail.innerHTML = 'Failed to load image';
         document.getElementById('image-viewer-container').appendChild(errorDetail)
         document.title = `Cover | Failed to load image`
+
+        var link = document.querySelector("link[rel~='icon']");
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.head.appendChild(link);
+        }
+        link.href = 'assets/icon/logo_rounded.png';
     }
-    
+
     var link = document.querySelector("link[rel~='icon']");
     if (!link) {
         link = document.createElement('link');
@@ -48,8 +60,8 @@ try {
         document.head.appendChild(link);
     }
     link.href = imageUrl;
-    
-    document.getElementById('image-viewer-container').appendChild(img);    
+
+    document.getElementById('image-viewer-container').appendChild(img);
 
     function setCoverToBG(url) {
 
@@ -65,4 +77,24 @@ try {
 } catch (e) {
     console.error(e)
     document.title = `Cover | Something went wrong`
+}
+
+window.addEventListener('resize', function() {
+    adjustTitleStyle()
+});
+
+function adjustTitleStyle() {
+    var titleDiv = document.getElementById('title-div');
+    var imageTitleContainer = document.getElementById('image-title-container');
+    var screenWidth = window.innerWidth;
+    var titleDivWidth = titleDiv.offsetWidth;
+    var titleDivHight = titleDiv.offsetHeight;
+    
+    if (titleDivHight > 28) {
+        titleDiv.className = 'title-radial'
+        imageTitleContainer.style.paddingTop = '0vh'
+    } else {
+        titleDiv.className = 'title-linear'
+        imageTitleContainer.style.paddingTop = '2vh'
+    }
 }
