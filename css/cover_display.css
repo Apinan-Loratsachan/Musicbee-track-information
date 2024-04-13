@@ -3,16 +3,21 @@
 
 * {
     font-family: 'Noto Sans Thai', sans-serif;
+    z-index: 100;
 }
 
 body {
+    position: fixed;
     margin: 0px;
     padding: 0px;
+    width: 100%;
     height: 100%;
+    color: rgb(0, 0, 0);
+    background:
+        url(./../assets/images/background.jpg) center / cover no-repeat fixed;
 }
 
 html {
-    background-color: black;
     margin: 0px;
     padding: 0px;
     height: 100%;
@@ -27,24 +32,36 @@ html {
     height: 100%;
 }
 
+.bg-blur {
+    backdrop-filter: blur(calc(3vw + 10px));
+    -webkit-backdrop-filter: blur(calc(3vw + 10px));
+}
+
 #image-info-container {
     position: fixed;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.75);
-    color: aliceblue;
+    color: white;
     align-items: center;
     text-align: center;
     bottom: 0;
 }
 
 #image-title-container {
+    padding: 1%;
     position: fixed;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    color: aliceblue;
+    color: white;
     align-items: center;
     text-align: center;
     top: 0;
+}
+
+#title-div {
+    width: fit-content;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-image: radial-gradient(circle ,rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
 #cover {
@@ -59,4 +76,14 @@ html {
 
 .spacing {
     height: 25px;
+}
+
+.blur {
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }

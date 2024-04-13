@@ -780,9 +780,8 @@ function setCoverToBG(url) {
 function showCoverImage(image) {
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${g_album}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
-
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
@@ -816,7 +815,7 @@ function showCoverImageBycti(image) {
     coverElement.onload = function () {
         const linkElement = document.createElement("a");
         linkElement.id = 'albumImageLink';
-        linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+        linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${g_album}&cover=${encodeURIComponent(image.replace('https://', ''))}`
         linkElement.setAttribute('target', '_blank')
         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
         $(document).ready(function () {
