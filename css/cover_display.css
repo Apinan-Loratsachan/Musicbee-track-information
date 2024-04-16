@@ -47,8 +47,13 @@ html {
     bottom: 0;
 }
 
-#info-div {
-    width: fit-content;
+.info-floating {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+}
+
+.info-bottom {
     margin: auto;
 }
 
@@ -105,6 +110,7 @@ html {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    pointer-events:none;
 }
 
 .loader {
