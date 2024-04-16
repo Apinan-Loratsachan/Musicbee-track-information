@@ -447,7 +447,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
         displayVGMdbAlbumCoverByTag(vgm_album_id)
     } else {
         console.log('%c[COVER] %cSearching with VGMdb', 'font-weight: bold', 'color: DodgerBlue')
-        const apiUrl = `https://vgmdb.info/search?q=${g_title}%20by%20${g_artist}&format=json`;
+        const apiUrl = `https://vgmdb.info/search?q=${encodeURIComponent(g_title)}%20by%20${encodeURIComponent(g_artist)}&format=json`;
         $(document).ready(function () {
             $(".now-precess").html("Searching album cover by track");
         });
@@ -463,7 +463,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
                     console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold', '')
                 } else {
                     console.log('%c[COVER | VGMDB] %cNot found change to search by album', 'font-weight: bold', '')
-                    const apiUrl2 = `https://vgmdb.info/search?q=${albumName}%20by%20${artistName}&format=json`;
+                    const apiUrl2 = `https://vgmdb.info/search?q=${encodeURIComponent(albumName)}%20by%20${encodeURIComponent(artistName)}&format=json`;
                     $(document).ready(function () {
                         $(".now-precess").html("Searching album cover by album");
                     });
@@ -499,7 +499,7 @@ function searchVGMdbAlbumID(albumName, artistName) {
 
 // ฟังก์ชันแสดงรูปปกของอัลบั้ม
 function displayVGMdbAlbumCover(albumId) {
-    const apiUrl = `https://vgmdb.info/album/${albumId}?format=json`;
+    const apiUrl = `https://vgmdb.info/album/${encodeURIComponent(albumId)}?format=json`;
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -540,7 +540,7 @@ function displayVGMdbAlbumCover(albumId) {
 }
 
 function displayVGMdbAlbumCoverByTag(albumId) {
-    const apiUrl = `https://vgmdb.info/album/${albumId}?format=json`;
+    const apiUrl = `https://vgmdb.info/album/${encodeURIComponent(albumId)}?format=json`;
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -606,7 +606,7 @@ async function spotifySearchImage(album, album_artist) {
         const accessToken = tokenData.access_token;
 
         // Search for album images
-        const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${album} ${album_artist}&type=album&limit=1&offset=0`, {
+        const searchResponse = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(album)} ${encodeURIComponent(album_artist)}&type=album&limit=1&offset=0`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
@@ -781,7 +781,7 @@ function setCoverToBG(url) {
 function showCoverImage(image) {
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${g_album}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
     const coverElement = document.createElement("img");
     coverElement.src = image;
@@ -816,7 +816,7 @@ function showCoverImageBycti(image) {
     coverElement.onload = function () {
         const linkElement = document.createElement("a");
         linkElement.id = 'albumImageLink';
-        linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${g_album}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+        linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
         linkElement.setAttribute('target', '_blank')
         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
         $(document).ready(function () {
