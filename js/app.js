@@ -1,4 +1,4 @@
-let g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true;
+let g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false;
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function searchForAlbumCover() {
-    if (audio != '') {
+    if (audio != '' && !alreadyAudio) {
         getSpotifyTrackPreview(audio)
     }
     if (g_album != '' && spotify_album_cover_id != '') {
@@ -739,6 +739,7 @@ async function getSpotifyTrackPreview(spotify_track_id) {
 
         // Check if the album is found
         if (searchData.preview_url != null) {
+            alreadyAudio = true
             showAudioControlAndMoreDataWithSpotifySrc(searchData.preview_url, searchData.name, searchData.artists)
         } else {
             // If no album found, display a message

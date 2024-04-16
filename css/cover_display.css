@@ -47,9 +47,12 @@ html {
     bottom: 0;
 }
 
+.info-floating-container {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
 .info-floating {
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.75);
     color: white;
 }
 
