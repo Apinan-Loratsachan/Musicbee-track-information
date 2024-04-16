@@ -33,7 +33,7 @@ try {
         infoDiv = document.createElement('div')
         infoDiv.id = 'info-div'
         infoDiv.style.width = this.width + 'px'
-        infoDiv.style.textShadow = `1px 1px 5px rgb(${dominantPalette[titleTextShadowColorIndex][0]}, ${dominantPalette[titleTextShadowColorIndex][1]}, ${dominantPalette[titleTextShadowColorIndex][2]})`
+        // infoDiv.style.textShadow = `1px 1px 5px rgb(${dominantPalette[titleTextShadowColorIndex][0]}, ${dominantPalette[titleTextShadowColorIndex][1]}, ${dominantPalette[titleTextShadowColorIndex][2]})`
         document.getElementById('info-div-container').appendChild(infoDiv)
         document.getElementById('info-div').innerText = coverWidth + ' × ' + coverHeight
         setCoverToBG(imageUrl)
@@ -44,8 +44,8 @@ try {
             titleDiv.id = 'title-div'
             titleDiv.innerText = title + ' | ' + album
             // titleDiv.style.color = `rgb(${dominantPalette[titleTextColorIndex][0]}, ${dominantPalette[titleTextColorIndex][1]}, ${dominantPalette[titleTextColorIndex][2]})`
-            titleDiv.style.backgroundImage = `linear-gradient(to right, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
-            titleDiv.style.textShadow = `1px 1px 5px rgb(${dominantPalette[titleTextShadowColorIndex][0]}, ${dominantPalette[titleTextShadowColorIndex][1]}, ${dominantPalette[titleTextShadowColorIndex][2]})`
+            // titleDiv.style.backgroundImage = `linear-gradient(to right, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
+            // titleDiv.style.textShadow = `1px 1px 5px rgb(${dominantPalette[titleTextShadowColorIndex][0]}, ${dominantPalette[titleTextShadowColorIndex][1]}, ${dominantPalette[titleTextShadowColorIndex][2]})`
             document.getElementById('image-title-container').appendChild(titleDiv)
             adjustTitleStyle()
         }
@@ -112,11 +112,11 @@ function adjustTitleStyle() {
 
     if (titleDivHight > 28) {
         titleDiv.className = 'title-radial'
-        titleDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
+        // titleDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
         imageTitleContainer.style.paddingTop = '0vh'
     } else {
         titleDiv.className = 'title-linear'
-        titleDiv.style.backgroundImage = `linear-gradient(to right, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
+        // titleDiv.style.backgroundImage = `linear-gradient(to right, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
         imageTitleContainer.style.paddingTop = '2vh'
     }
 }
@@ -129,7 +129,7 @@ function adjustInfoStyle() {
     const coverElement = document.getElementById('cover')
     if (coverHeight + 24 > window.innerHeight || coverWidth > window.innerWidth) {
         infoDiv.innerText = `Render at ${coverElement.offsetWidth} × ${coverElement.offsetHeight} | Original Size ${coverWidth} × ${coverHeight}`
-        infoDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[infoBgColorIndex][0]}, ${dominantPalette[infoBgColorIndex][1]}, ${dominantPalette[infoBgColorIndex][2]}, 0.5), rgba(${dominantPalette[infoBg2ColorIndex][0]}, ${dominantPalette[infoBg2ColorIndex][1]}, ${dominantPalette[infoBg2ColorIndex][2]}, 0.5))`
+        // infoDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[infoBgColorIndex][0]}, ${dominantPalette[infoBgColorIndex][1]}, ${dominantPalette[infoBgColorIndex][2]}, 0.5), rgba(${dominantPalette[infoBg2ColorIndex][0]}, ${dominantPalette[infoBg2ColorIndex][1]}, ${dominantPalette[infoBg2ColorIndex][2]}, 0.5))`
         if (imageViewerContainer.querySelector('#info-div') !== null) {
             infoDivElement.remove()
             imageTopSpace.style.height = '0px'
@@ -140,7 +140,7 @@ function adjustInfoStyle() {
     } else {
         infoDiv.innerText = `${coverWidth} × ${coverHeight}`
         infoDiv.style.width = `${coverElement.offsetWidth}px`
-        infoDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[infoBgColorIndex][0]}, ${dominantPalette[infoBgColorIndex][1]}, ${dominantPalette[infoBgColorIndex][2]}, 0.5), rgba(${dominantPalette[infoBg2ColorIndex][0]}, ${dominantPalette[infoBg2ColorIndex][1]}, ${dominantPalette[infoBg2ColorIndex][2]}, 0.5))`
+        // infoDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[infoBgColorIndex][0]}, ${dominantPalette[infoBgColorIndex][1]}, ${dominantPalette[infoBgColorIndex][2]}, 0.5), rgba(${dominantPalette[infoBg2ColorIndex][0]}, ${dominantPalette[infoBg2ColorIndex][1]}, ${dominantPalette[infoBg2ColorIndex][2]}, 0.5))`
         imageTopSpace.style.height = '24px'
         if (imageInfoContainer.querySelector('#info-div') !== null) {
             infoDivElement.remove()
