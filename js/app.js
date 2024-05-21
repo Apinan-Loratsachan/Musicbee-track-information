@@ -805,7 +805,7 @@ function showCoverImage(image) {
 function showCoverImageBycti(image) {
     console.log('%c[COVER] %cHas custom album cover tag\n(' + custom_image + ')', 'font-weight: bold', '')
     $(document).ready(function () {
-        $(".now-precess").html("Reading tag");
+        $(".now-precess").html("Getting album cover");
     });
     const coverElement = document.createElement("img");
     coverElement.src = image;
@@ -821,7 +821,7 @@ function showCoverImageBycti(image) {
         linkElement.setAttribute('target', '_blank')
         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
         $(document).ready(function () {
-            $(".now-precess").html("Getting album cover");
+            $(".now-precess").html("displaying album cover");
         });
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
