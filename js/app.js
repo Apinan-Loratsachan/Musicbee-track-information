@@ -793,6 +793,7 @@ function showCoverImage(image) {
     coverElement.onload = function () {
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
+        document.getElementById("imageSection").className = 'imageCenter';
         document.getElementById("imageSection").appendChild(linkElement);
         document.getElementById("albumImageLink").appendChild(coverElement);
         setTimeout(function () {
@@ -824,6 +825,7 @@ function showCoverImageBycti(image) {
         });
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
+        document.getElementById("imageSection").className = "imageCenter";
         document.getElementById("imageSection").appendChild(linkElement);
         document.getElementById("albumImageLink").appendChild(coverElement);
         setTimeout(function () {
@@ -853,6 +855,7 @@ function coverLoadFail() {
     messageElement.classList = 'animate__animated animate__shakeY'
     document.getElementById('loading-cover').remove();
     document.getElementById('searching-text').remove();
+    document.getElementById('imageSection').classList.remove("imageCenter");
     document.getElementById('imageSection').appendChild(messageElement);
 }
 
@@ -921,7 +924,11 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                 spotifyArtistsArrey = `${spotifyArtistsArrey}, ${artistName}`
             }
         });
-        if (g_title != titleSrc || g_artist != spotifyArtistsArrey.replaceAll("μ","µ")) {
+        const g_artist_arrey = g_artist.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |vo\.|Vo\.|VO\.|vo:|Vo:|VO:|vo |Vo |VO |&|\(\s*|\s*\)|\[|\]|,)/g)
+        .filter(artist => artist.trim() !== "")
+        .map(artist => artist.trim());
+        const compareArtist = g_artist_arrey.join(", ");
+        if (g_title != titleSrc || compareArtist != spotifyArtistsArrey.replaceAll("μ","µ")) {
             spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
             spotifypreviewText.innerText = `( ${spotifyPreviewDisplayText} )`
             spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')

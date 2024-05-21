@@ -42,11 +42,22 @@ body {
     margin-bottom: 0.5rem;
 }
 
+#imageSection {
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+
+.imageCenter {
+    display: flex;
+    justify-content: center;
+}
+
+#albumImageLink {
+    display: contents;
+}
+
 #albumImage {
-    display: block;
-    margin: auto;
-    max-width: 100%;
-    height: auto;
     transition: all 0.5s;
     &:hover {
         scale: 1.05;
@@ -65,11 +76,6 @@ body {
 #noImageText {
     display: block;
     text-align: center;
-}
-
-#imageSection {
-    padding-top: 15px;
-    padding-bottom: 30px;
 }
 
 #full-song-btn {
@@ -273,6 +279,6 @@ td {
     color: rgb(29, 208, 93);
 }
 
-.info-section{
+.info-section {
     margin-bottom: 10px;
 }
