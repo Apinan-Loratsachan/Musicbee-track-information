@@ -25,6 +25,8 @@ try {
         coverWidth = this.naturalWidth
         coverHeight = this.naturalHeight
 
+        document.getElementById('image-viewer-container').appendChild(img);
+
         const infoDivContainer = document.createElement('div')
         infoDivContainer.id = 'info-div-container'
         infoDivContainer.className = 'info-floating-container'
@@ -82,7 +84,6 @@ try {
     const imgTopSpace = document.createElement('div')
     imgTopSpace.id = 'img-top-space'
     document.getElementById('image-viewer-container').appendChild(imgTopSpace)
-    document.getElementById('image-viewer-container').appendChild(img);
 
     function setCoverToBG(url) {
 
