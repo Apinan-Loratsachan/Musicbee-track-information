@@ -5,6 +5,23 @@
     font-family: 'Noto Sans Thai', sans-serif;
 }
 
+.prevent-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.prevent-pointer {
+    pointer-events:none;
+}
+
+.prevent-all {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events:none;
+}
+
 body {
     transition: background-image 0.5s ease-out;
     color: rgb(0, 0, 0);
@@ -20,9 +37,15 @@ body {
     margin-bottom: 50px;
 }
 
-.jumbotron {
-    background-color: #007bff;
-    color: #fff;
+/* .headerCenter {
+    display: flex;
+    justify-content: center;
+} */
+
+.headerText {
+    color: black;
+    text-align: center;
+    padding-top: 10px;
 }
 
 #musicInfo {
@@ -59,6 +82,7 @@ body {
 
 #albumImage {
     transition: all 0.5s;
+
     &:hover {
         scale: 1.05;
     }

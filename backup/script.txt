@@ -4,3 +4,45 @@
     fullSongBtn.innerText = 'Listen full music'
     fullSongBtn.onclick = function() {window.open(`https://open.spotify.com/track/${audio}`, "_blank");}
     document.getElementById('audio-section').appendChild(fullSongBtn)
+
+
+
+
+
+    const headerText = document.getElementById("headerText")
+        const header = document.getElementById("header")
+        const artistHearder = document.createElement("h6")
+        artistHearder.innerText = `By ${g_artist}`
+        artistHearder.id = "headerSubText"
+        artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown"
+        if (g_title.length < 35) {
+            setTimeout(function () {
+                headerText.classList.remove("animate__bounceIn")
+                headerText.classList.add("animate__bounceOut")
+                setTimeout(function () {
+                    // header.classList.remove("headerCenter")
+                    headerText.innerText = g_title
+                    headerText.classList.remove("animate__bounceOut")
+                    headerText.classList.add("animate__bounceIn")
+                    header.appendChild(artistHearder)
+                    // changeHeader()
+                }, 750);
+            }, 750);
+        } else {
+            setTimeout(function () {
+                headerText.classList.remove("animate__bounceIn")
+                headerText.classList.add("animate__bounceOut")
+
+                const newHeaderText = document.createElement("h2")
+                newHeaderText.id = 'headerText'
+                newHeaderText.classList = 'headerText prevent-all animate__animated animate__bounceIn'
+                newHeaderText.innerText = g_title
+                setTimeout(function () {
+                    headerText.remove()
+                    // header.classList.remove("headerCenter")
+                    header.appendChild(newHeaderText)
+                    header.appendChild(artistHearder)
+                    // changeHeader()
+                }, 750);
+            }, 750);
+        }

@@ -1,4 +1,4 @@
-let g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false;
+let g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
@@ -27,6 +27,22 @@ document.addEventListener("DOMContentLoaded", function () {
     // ใส่ข้อมูลลงใน HTML
     if (g_title != '') {
         document.title = g_title + ' - ' + title_artist
+        const headerText = document.getElementById("headerText")
+        setTimeout(function () {
+            headerText.classList.remove("animate__bounceIn")
+            headerText.classList.add("animate__bounceOut")
+            setTimeout(function () {
+                headerText.innerText = g_title
+                headerText.classList.remove("animate__bounceOut")
+                headerText.classList.add("animate__bounceIn")
+                // changeHeader()
+            }, 750);
+        }, 750);
+        const artistHearder = document.createElement("h6")
+        artistHearder.innerText = `By ${g_artist}`
+        artistHearder.id = "headerSubText"
+        artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown delay-15"
+        document.getElementById("header").appendChild(artistHearder)
         if (alt_title != '') {
             const thElement = document.createElement('th')
             thElement.setAttribute('scope', 'row')
@@ -91,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
             thElement.className = 'subTH'
             thElement.id = 'contain-artist-th'
             document.getElementById('containArtistZone').appendChild(thElement)
-            
+
             const containArtistThDivElement = document.createElement('div')
             containArtistThDivElement.id = 'contain-artist-div'
             containArtistThDivElement.className = 'thDiv'
@@ -777,6 +793,43 @@ function setCoverToBG(url) {
     img.src = url;
 }
 
+function changeHeader() {
+    const headerText = document.getElementById("headerText")
+    const headerSubText = document.getElementById("headerSubText")
+    if (headerIsTitle) {
+        setTimeout(function () {
+            headerText.classList.remove("animate__bounceIn")
+            headerText.classList.add("animate__bounceOut")
+            setTimeout(function () {
+                headerSubText.classList.remove("delay-15")
+                headerText.innerText = 'Track Information'
+                headerText.classList.remove("animate__bounceOut")
+                headerText.classList.add("animate__bounceIn")
+                headerSubText.classList.remove("animate__fadeInDown")
+                headerSubText.classList.add("animate__fadeOutUp")
+                headerIsTitle = false
+            }, 750);
+            headerIsTitle = false
+            changeHeader()
+        }, 5000);
+    } else {
+        setTimeout(function () {
+            headerText.classList.remove("animate__bounceIn")
+            headerText.classList.add("animate__bounceOut")
+            setTimeout(function () {
+                headerText.innerText = g_title
+                headerText.classList.remove("animate__bounceOut")
+                headerText.classList.add("animate__bounceIn")
+                headerSubText.classList.remove("animate__fadeOutUp")
+                headerSubText.classList.add("animate__fadeInDown")
+                headerIsTitle = false
+            }, 750);
+            headerIsTitle = true
+            changeHeader()
+        }, 5000);
+    }
+}
+
 
 function showCoverImage(image) {
     const linkElement = document.createElement("a");
@@ -786,7 +839,7 @@ function showCoverImage(image) {
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image animate__animated animate__jackInTheBox";
+    coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -796,9 +849,16 @@ function showCoverImage(image) {
         document.getElementById("imageSection").className = 'imageCenter';
         document.getElementById("imageSection").appendChild(linkElement);
         document.getElementById("albumImageLink").appendChild(coverElement);
+
+        const coverSearchText = document.getElementById("coverSearchText")
+        coverSearchText.classList.remove("animate__fadeIn")
+        coverSearchText.classList.remove("delay-5")
+        coverSearchText.classList.add("animate__fadeOutUp")
         setTimeout(function () {
-            coverElement.style.opacity = 1;
-        }, 50);
+            coverSearchText.innerText = "Search other cover"
+            coverSearchText.classList.remove("animate__fadeOutUp")
+            coverSearchText.classList.add("animate__fadeInUp")
+        }, 500);
     };
 }
 
@@ -810,7 +870,7 @@ function showCoverImageBycti(image) {
     const coverElement = document.createElement("img");
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image animate__animated animate__jackInTheBox";
+    coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -828,9 +888,16 @@ function showCoverImageBycti(image) {
         document.getElementById("imageSection").className = "imageCenter";
         document.getElementById("imageSection").appendChild(linkElement);
         document.getElementById("albumImageLink").appendChild(coverElement);
+
+        const coverSearchText = document.getElementById("coverSearchText")
+        coverSearchText.classList.remove("animate__fadeIn")
+        coverSearchText.classList.remove("delay-5")
+        coverSearchText.classList.add("animate__fadeOutUp")
         setTimeout(function () {
-            coverElement.style.opacity = 1;
-        }, 50);
+            coverSearchText.innerText = "Search other cover"
+            coverSearchText.classList.remove("animate__fadeOutUp")
+            coverSearchText.classList.add("animate__fadeInUp")
+        }, 500);
         console.log("%c[COVER | CUSTOM] %cGet album cover success", 'font-weight: bold', 'color: green')
     };
     coverElement.onerror = function () {
@@ -898,7 +965,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         const previewText = document.createElement('h2')
         previewText.innerText = `Track Preview`
         previewText.setAttribute('style', 'margin: 0px; padding: 5px; font-weight: normal;')
-        previewText.classList = 'animate__animated animate__zoomIn'
+        previewText.classList = 'animate__animated animate__zoomIn prevent-all'
         document.getElementById('audio-section').appendChild(previewText)
 
         const previewTitleDiv = document.createElement('div')
@@ -925,10 +992,10 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
             }
         });
         const g_artist_arrey = g_artist.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |vo\.|Vo\.|VO\.|vo:|Vo:|VO:|vo |Vo |VO |&|\(\s*|\s*\)|\[|\]|,)/g)
-        .filter(artist => artist.trim() !== "")
-        .map(artist => artist.trim());
+            .filter(artist => artist.trim() !== "")
+            .map(artist => artist.trim());
         const compareArtist = g_artist_arrey.join(", ");
-        if (g_title != titleSrc || compareArtist != spotifyArtistsArrey.replaceAll("μ","µ")) {
+        if (g_title != titleSrc || compareArtist != spotifyArtistsArrey.replaceAll("μ", "µ")) {
             spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
             spotifypreviewText.innerText = `( ${spotifyPreviewDisplayText} )`
             spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
