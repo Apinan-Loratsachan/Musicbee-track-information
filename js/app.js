@@ -143,8 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
         document.getElementById("albumArtist").href = `https://www.google.com/search?q=${s_albumArtist}`;
     }
-    document.getElementById("disc").innerText = `${params.get("dn") || "Unknown"} / ${params.get("dc") || "Unknown"}`;
-    document.getElementById("track").innerText = `${params.get("tn") || "Unknown"} / ${params.get("tc") || "Unknown"}`;
+    document.getElementById("disc").innerText = `${params.get("dn").replace(/^0+/, '') || "Unknown"} / ${params.get("dc").replace(/^0+/, '') || "Unknown"}`;
+    document.getElementById("track").innerText = `${params.get("tn").replace(/^0+/, '') || "Unknown"} / ${params.get("tc").replace(/^0+/, '') || "Unknown"}`;
     document.getElementById("genre").innerText = params.get("ge") || "Unknown";
     document.getElementById("year").innerText = params.get("y") || "Unknown";
     document.getElementById("language").innerText = params.get("lang") || "Unknown";
