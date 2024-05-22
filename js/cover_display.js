@@ -1,9 +1,9 @@
 var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette,
-titleBgColorIndex = 1,
-titleTextColorIndex = 0,
-titleTextShadowColorIndex = 0,
-infoBgColorIndex = 0,
-infoBg2ColorIndex = 1
+    titleBgColorIndex = 1,
+    titleTextColorIndex = 0,
+    titleTextShadowColorIndex = 0,
+    infoBgColorIndex = 0,
+    infoBg2ColorIndex = 1
 
 const params = new URLSearchParams(window.location.search);
 
@@ -27,29 +27,47 @@ try {
 
         document.getElementById('image-viewer-container').appendChild(img);
 
-        const infoDivContainer = document.createElement('div')
-        infoDivContainer.id = 'info-div-container'
-        infoDivContainer.className = 'info-floating-container'
-        document.getElementById('image-viewer-container').appendChild(infoDivContainer)
+        // const infoDivContainer = document.createElement('div')
+        // infoDivContainer.id = 'info-div-container'
+        // infoDivContainer.classList = 'animate__animated animate__zoomIn delay-10'
+        // document.getElementById('image-viewer-container').appendChild(infoDivContainer)
 
-        infoDiv = document.createElement('div')
-        infoDiv.id = 'info-div'
-        infoDiv.style.width = this.width + 'px'
+        const floatingInfoDiv = document.createElement('div')
+        floatingInfoDiv.id = 'floatingInfo'
+        floatingInfoDiv.classList = 'info-floating-container animate__animated animate__fadeInUp'
+        floatingInfoDiv.innerText = "Render at 0 × 0 | Original Size 0 × 0"
+        document.getElementById('image-info-container').appendChild(floatingInfoDiv)
+
+        // infoDiv = document.createElement('div')
+        // infoDiv.id = 'info-div'
+        // infoDiv.style.width = coverWidth + 'px'
+        // infoDiv.style.textAlign = 'center'
         // infoDiv.style.textShadow = `1px 1px 5px rgb(${dominantPalette[titleTextShadowColorIndex][0]}, ${dominantPalette[titleTextShadowColorIndex][1]}, ${dominantPalette[titleTextShadowColorIndex][2]})`
-        document.getElementById('info-div-container').appendChild(infoDiv)
-        document.getElementById('info-div').innerText = coverWidth + ' × ' + coverHeight
+        // document.getElementById('info-div-container').appendChild(infoDiv)
+        const coverElement = document.getElementById('cover')
+        // document.getElementById('info-div').innerText = coverWidth + ' × ' + coverHeight
+        document.getElementById('floatingInfo').innerText = `Render at ${coverElement.offsetWidth} × ${coverElement.offsetHeight} | Original Size ${coverWidth} × ${coverHeight}`
         setCoverToBG(imageUrl)
-        adjustInfoStyle()
         if (title != null) {
+            // document.getElementById("ui-state-container").innerHTML = `
+            // <div id="ui-state" class="animate__animated animate__bounceIn">
+            //     <i class="fa-solid fa-eye-slash fa-lg"></i>
+            //     <div style="height: 20px;"></div>
+            //     <div id="ui-state-text">Click or Touch for hide Information</div>
+            // </div>`
+            // setTimeout(() => {
+            //     document.getElementById("ui-state").classList.remove("animate__bounceIn")
+            //     document.getElementById("ui-state").classList.add("animate__bounceOut")
+            // }, 1500);
             document.title = `Cover | ${title}`
             const titleDiv = document.createElement('div')
             titleDiv.id = 'title-div'
             titleDiv.innerText = title + ' | ' + album
+            titleDiv.classList = 'title-solid animate__animated animate__fadeInDown'
             // titleDiv.style.color = `rgb(${dominantPalette[titleTextColorIndex][0]}, ${dominantPalette[titleTextColorIndex][1]}, ${dominantPalette[titleTextColorIndex][2]})`
             // titleDiv.style.backgroundImage = `linear-gradient(to right, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
             // titleDiv.style.textShadow = `1px 1px 5px rgb(${dominantPalette[titleTextShadowColorIndex][0]}, ${dominantPalette[titleTextShadowColorIndex][1]}, ${dominantPalette[titleTextShadowColorIndex][2]})`
             document.getElementById('image-title-container').appendChild(titleDiv)
-            adjustTitleStyle()
         }
     }
 
@@ -101,57 +119,19 @@ try {
     document.title = `Cover | Something went wrong`
 }
 
-window.addEventListener('resize', function () {
-    adjustTitleStyle()
-    adjustInfoStyle()
-});
-
 function adjustTitleStyle() {
     var titleDiv = document.getElementById('title-div');
     var imageTitleContainer = document.getElementById('image-title-container');
     var titleDivHight = titleDiv.offsetHeight;
 
     if (titleDivHight > 28) {
-        titleDiv.className = 'title-radial'
+        titleDiv.classList = 'title-radial animate__animated animate__fadeInDown'
         // titleDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
         imageTitleContainer.style.paddingTop = '0vh'
     } else {
-        titleDiv.className = 'title-linear'
+        titleDiv.classList = 'title-linear animate__animated animate__fadeInLeft'
         // titleDiv.style.backgroundImage = `linear-gradient(to right, rgba(${dominantPalette[titleBgColorIndex][0]}, ${dominantPalette[titleBgColorIndex][1]}, ${dominantPalette[titleBgColorIndex][2]}, 0.75), rgba(0, 0, 0, 0))`
         imageTitleContainer.style.paddingTop = '2vh'
-    }
-}
-
-function adjustInfoStyle() {
-    const infoDivElement = document.getElementById('info-div')
-    const imageViewerContainer = document.getElementById('image-viewer-container')
-    const imageInfoContainer = document.getElementById('image-info-container')
-    const imageTopSpace = document.getElementById('img-top-space')
-    const coverElement = document.getElementById('cover')
-    if (coverHeight + 24 > window.innerHeight || coverWidth > window.innerWidth) {
-        infoDiv.innerText = `Render at ${coverElement.offsetWidth} × ${coverElement.offsetHeight} | Original Size ${coverWidth} × ${coverHeight}`
-        // infoDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[infoBgColorIndex][0]}, ${dominantPalette[infoBgColorIndex][1]}, ${dominantPalette[infoBgColorIndex][2]}, 0.5), rgba(${dominantPalette[infoBg2ColorIndex][0]}, ${dominantPalette[infoBg2ColorIndex][1]}, ${dominantPalette[infoBg2ColorIndex][2]}, 0.5))`
-        if (imageViewerContainer.querySelector('#info-div') !== null) {
-            infoDivElement.remove()
-            imageTopSpace.style.height = '0px'
-            infoDiv.style.width = '100%'
-            document.getElementById('image-info-container').appendChild(infoDiv)
-            infoDivElement.className = 'info-bottom'
-        }
-    } else {
-        infoDiv.innerText = `${coverWidth} × ${coverHeight}`
-        infoDiv.style.width = `${coverElement.offsetWidth}px`
-        // infoDiv.style.backgroundImage = `radial-gradient(circle, rgba(${dominantPalette[infoBgColorIndex][0]}, ${dominantPalette[infoBgColorIndex][1]}, ${dominantPalette[infoBgColorIndex][2]}, 0.5), rgba(${dominantPalette[infoBg2ColorIndex][0]}, ${dominantPalette[infoBg2ColorIndex][1]}, ${dominantPalette[infoBg2ColorIndex][2]}, 0.5))`
-        imageTopSpace.style.height = '24px'
-        if (imageInfoContainer.querySelector('#info-div') !== null) {
-            infoDivElement.remove()
-            document.getElementById('info-div-container').appendChild(infoDiv)
-            infoDivElement.className = 'info-floating'
-        } else {
-            if (imageInfoContainer.querySelector('#info-div') == null) {
-            }
-            infoDivElement.className = 'info-floating'
-        }
     }
 }
 
@@ -159,6 +139,46 @@ async function getDominentColor(image) {
     const colorThief = await new ColorThief();
     dominantColor = await colorThief.getColor(image);
     dominantPalette = await colorThief.getPalette(image);
-    console.log('dominantColor',dominantColor)
-    console.log('dominantPalette',dominantPalette)
+    console.log('dominantColor', dominantColor)
+    console.log('dominantPalette', dominantPalette)
+}
+
+function toggleUI() {
+    const toggleBtn = document.getElementById("togleUI");
+    const state = toggleBtn.getAttribute("data-show");
+    const title = document.getElementById("title-div");
+    const info = document.getElementById("floatingInfo");
+    const stateContainer = document.getElementById("ui-state");
+    const stateText = document.getElementById("ui-state-text");
+    if (state == "true") {
+        // stateText.innerText = 'Hide information'
+        // stateContainer.classList.remove("animate__bounceOut")
+        // stateContainer.classList.add("animate__bounceIn")
+        // setTimeout(() => {
+        //     stateContainer.classList.remove("animate__bounceIn")
+        //     stateContainer.classList.add("animate__bounceOut")
+        // }, 1500);
+        title.classList.remove("delay-10")
+        title.classList.remove("animate__fadeInDown")
+        title.classList.add("animate__fadeOutUp")
+        info.classList.remove("delay-10")
+        info.classList.remove("animate__fadeInUp")
+        info.classList.add("animate__fadeOutDown")
+        toggleBtn.dataset.show = "false";
+        // toggleBtn.innerHTML = `<i class="fa-solid fa-eye fa-lg"></i>`
+    } else {
+        // stateText.innerText = 'Display information'
+        // stateContainer.classList.remove("animate__bounceOut")
+        // stateContainer.classList.add("animate__bounceIn")
+        // setTimeout(() => {
+        //     stateContainer.classList.remove("animate__bounceIn")
+        //     stateContainer.classList.add("animate__bounceOut")
+        // }, 1500);
+        title.classList.remove("animate__fadeOutUp")
+        title.classList.add("animate__fadeInDown")
+        info.classList.remove("animate__fadeOutDown")
+        info.classList.add("animate__fadeInUp")
+        toggleBtn.dataset.show = "true";
+        // toggleBtn.innerHTML = `<i class="fa-solid fa-eye-slash fa-lg"></i>`
+    }
 }
