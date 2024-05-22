@@ -44,11 +44,6 @@
     transition: all ease-in-out 0.3s;
 }
 
-.amimated__gradient {
-    -webkit-transition: background 1s ease-in-out;
-    transition: background 1s ease-in-out;
-}
-
 body {
     position: fixed;
     margin: 0px;
@@ -76,8 +71,8 @@ html {
 }
 
 .bg-blur {
-    backdrop-filter: blur(calc(3vw + 10px));
-    -webkit-backdrop-filter: blur(calc(3vw + 10px));
+    backdrop-filter: blur(calc(1.5vw + 10px + 1.5vh));
+    -webkit-backdrop-filter: blur(calc(1.5vw + 10px + 1.5vh));
 }
 
 .info-container {
