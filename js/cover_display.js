@@ -185,8 +185,10 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
+        toggleFilterBtn.classList.remove("unprevent-poiter")
         toggleFilterBtn.classList.remove("animate__zoomIn")
         toggleFilterBtn.classList.add("animate__zoomOut")
+        toggleColorBtn.classList.remove("unprevent-poiter")
         toggleColorBtn.classList.remove("animate__zoomIn")
         toggleColorBtn.classList.add("animate__zoomOut")
         title.classList.remove("delay-10")
@@ -207,8 +209,10 @@ function toggleUI() {
         // }, 1500);
         toggleFilterBtn.classList.remove("animate__zoomOut")
         toggleFilterBtn.classList.add("animate__zoomIn")
+        toggleFilterBtn.classList.add("unprevent-poiter")
         toggleColorBtn.classList.remove("animate__zoomOut")
         toggleColorBtn.classList.add("animate__zoomIn")
+        toggleColorBtn.classList.add("unprevent-poiter")
         title.classList.remove("animate__fadeOutUp")
         title.classList.add("animate__fadeInDown")
         info.classList.remove("animate__fadeOutDown")
@@ -266,9 +270,9 @@ function toggleColor() {
 function adjustInfo() {
     const coverElement = document.getElementById('cover')
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-        document.getElementById('floatingInfo').innerText = `Render at ${coverElement.offsetWidth} × ${coverElement.offsetHeight} | Original Size ${coverWidth} × ${coverHeight}`
+        document.getElementById('floatingInfo').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else {
-        document.getElementById('floatingInfo').innerText = `Render at Original Size ${coverWidth} × ${coverHeight}`
+        document.getElementById('floatingInfo').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     }
 }
 
