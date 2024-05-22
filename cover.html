@@ -31,11 +31,18 @@
   <div id="ui-state-container"></div>
   <div id="image-title-container" class="title-container"></div>
   <div id="image-info-container" class="info-container"></div>
-  <button type="button" class="unprevent-poiter" id="togleUI" onclick="toggleUI()" title="Display / Hide information"
+  <div id="filter" class="filter"></div>
+  <button type="button" class="unprevent-poiter" id="toggleUI" onclick="toggleUI()" title="Display / Hide information"
     data-show="true"></button>
-    <button type="button" class="unprevent-poiter animate__animated animate__zoomIn" id="togleColor" onclick="toggleColor()" title="Change color of information">
-      <i class="fa-solid fa-palette fa-lg"></i>
-    </button>
+  <button type="button" class="unprevent-poiter animate__animated animate__zoomIn" id="toggleColor"
+    onclick="toggleColor()" title="Change color of information">
+    <i class="fa-solid fa-palette fa-lg"></i>
+  </button>
+  <button type="button" class="unprevent-poiter animate__animated animate__zoomIn delay-2" id="toggleFilter"
+    onclick="toggleFilter()" title="Change brightness of backgroud">
+    <i class="fa-solid fa-lightbulb fa-lg"></i>
+  </button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js"
     integrity="sha512-r2yd2GP87iHAsf2K+ARvu01VtR7Bs04la0geDLbFlB/38AruUbA5qfmtXwXx6FZBQGJRogiPtEqtfk/fnQfaYA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>

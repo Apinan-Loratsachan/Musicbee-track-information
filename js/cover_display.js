@@ -30,14 +30,24 @@ try {
             uiColor = "color";
         }
 
+        filter = localStorage.getItem("filterSetting");
+        if (filter == null) {
+            localStorage.setItem("filterSetting", "false");
+            filter = "false";
+        } else if (filter == "true") {
+            toggleFilter()
+        }
+
         document.getElementById('image-viewer-container').appendChild(img);
-        const togleColorBtn = document.getElementById("togleColor");
+        const toggleColorBtn = document.getElementById("toggleColor");
+        const toggleFilterBtn = document.getElementById("toggleFilter");
 
         const floatingInfoDiv = document.createElement('div')
         floatingInfoDiv.id = 'floatingInfo'
         floatingInfoDiv.classList = 'info-floating-container animate__animated animate__fadeInUp amimated__gradient'
         if (uiColor != "color") {
-            togleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+            toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+            toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
                 rgba(0, 0, 0, 0),
                 rgba(0, 0, 0, 0),
@@ -46,7 +56,8 @@ try {
                 rgba(0, 0, 0, 0)
             )`
         } else {
-            togleColorBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
+            toggleColorBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
+            toggleFilterBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
             floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
                 rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
                 rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
@@ -158,13 +169,14 @@ function dominantColorLog() {
 }
 
 function toggleUI() {
-    const toggleBtn = document.getElementById("togleUI");
+    const toggleBtn = document.getElementById("toggleUI");
     const state = toggleBtn.getAttribute("data-show");
     const title = document.getElementById("title-div");
     const info = document.getElementById("floatingInfo");
     const stateContainer = document.getElementById("ui-state");
     const stateText = document.getElementById("ui-state-text");
-    const togleColorBtn = document.getElementById("togleColor");
+    const toggleColorBtn = document.getElementById("toggleColor");
+    const toggleFilterBtn = document.getElementById("toggleFilter");
     if (state == "true") {
         // stateText.innerText = 'Hide information'
         // stateContainer.classList.remove("animate__bounceOut")
@@ -173,8 +185,10 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
-        togleColorBtn.classList.remove("animate__zoomIn")
-        togleColorBtn.classList.add("animate__zoomOut")
+        toggleFilterBtn.classList.remove("animate__zoomIn")
+        toggleFilterBtn.classList.add("animate__zoomOut")
+        toggleColorBtn.classList.remove("animate__zoomIn")
+        toggleColorBtn.classList.add("animate__zoomOut")
         title.classList.remove("delay-10")
         title.classList.remove("animate__fadeInDown")
         title.classList.add("animate__fadeOutUp")
@@ -191,8 +205,10 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
-        togleColorBtn.classList.remove("animate__zoomOut")
-        togleColorBtn.classList.add("animate__zoomIn")
+        toggleFilterBtn.classList.remove("animate__zoomOut")
+        toggleFilterBtn.classList.add("animate__zoomIn")
+        toggleColorBtn.classList.remove("animate__zoomOut")
+        toggleColorBtn.classList.add("animate__zoomIn")
         title.classList.remove("animate__fadeOutUp")
         title.classList.add("animate__fadeInDown")
         info.classList.remove("animate__fadeOutDown")
@@ -203,13 +219,15 @@ function toggleUI() {
 }
 
 function toggleColor() {
+    const toggleFilterBtn = document.getElementById("toggleFilter");
     const colorSetting = localStorage.getItem("colorSetting");
-    const togleColorBtn = document.getElementById("togleColor");
+    const toggleColorBtn = document.getElementById("toggleColor");
     const floatingInfoDiv = document.getElementById("floatingInfo");
     const titleDiv = document.getElementById("title-div");
     if (colorSetting == "color") {
         localStorage.setItem("colorSetting", "monotone");
-        togleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+        toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+        toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
             rgba(0, 0, 0, 0),
             rgba(0, 0, 0, 0),
@@ -226,7 +244,8 @@ function toggleColor() {
         )`
     } else {
         localStorage.setItem("colorSetting", "color");
-        togleColorBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
+        toggleColorBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
+        toggleFilterBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
         floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
             rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
             rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
@@ -256,3 +275,25 @@ function adjustInfo() {
 window.addEventListener('resize', function (event) {
     adjustInfo()
 }, true);
+
+function toggleFilter() {
+    const toggleFilterBtn = document.getElementById("toggleFilter");
+    const filter = document.getElementById("filter");
+    const state = toggleFilterBtn.getAttribute("data-show");
+    if (state == "true") {
+        toggleFilterBtn.innerHTML = `<i class="fa-solid fa-lightbulb fa-lg"></i>`
+        filter.style.backgroundColor = `rgba(0, 0, 0, 0)`
+        localStorage.setItem("filterSetting", "false");
+        toggleFilterBtn.dataset.show = "false";
+    } else {
+        toggleFilterBtn.innerHTML = `<i class="fa-regular fa-lightbulb fa-lg"></i>`
+        filter.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+        localStorage.setItem("filterSetting", "true");
+        toggleFilterBtn.dataset.show = "true";
+    }
+}
+
+function clearLocalStorage() {
+    localStorage.clear()
+    return "Clear localStorage success"
+}
