@@ -29,10 +29,13 @@
     </div>
   </div>
   <div id="ui-state-container"></div>
-  <div id="image-title-container"></div>
-  <div id="image-info-container"></div>
+  <div id="image-title-container" class="title-container"></div>
+  <div id="image-info-container" class="info-container"></div>
   <button type="button" class="unprevent-poiter" id="togleUI" onclick="toggleUI()" title="Display / Hide information"
     data-show="true"></button>
+    <button type="button" class="unprevent-poiter animate__animated animate__zoomIn" id="togleColor" onclick="toggleColor()" title="Change color of information">
+      <i class="fa-solid fa-palette fa-lg"></i>
+    </button>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js"
     integrity="sha512-r2yd2GP87iHAsf2K+ARvu01VtR7Bs04la0geDLbFlB/38AruUbA5qfmtXwXx6FZBQGJRogiPtEqtfk/fnQfaYA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
