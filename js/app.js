@@ -704,7 +704,7 @@ async function spotifySearchImageByID(spotify_album_cover_id) {
                 $(".now-precess").html("Getting album cover");
             });
             const albumImages = searchData.images;
-            showCoverImage(albumImages[0].url);
+            showCoverImageByID(albumImages[0].url);
             setCoverToBG(albumImages[0].url);
             console.log('%c[COVER | SPOTIFY] %cGet album cover success', 'font-weight: bold', 'color: green');
         } else {
@@ -832,6 +832,27 @@ function changeHeader() {
 
 
 function showCoverImage(image) {
+    const linkElement = document.createElement("a");
+    linkElement.id = 'albumImageLink';
+    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    linkElement.setAttribute('target', '_blank')
+    const coverElement = document.createElement("img");
+    coverElement.src = image;
+    coverElement.alt = "Album Cover";
+    coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
+    coverElement.id = 'albumImage';
+    coverElement.style.opacity = 0;
+
+    coverElement.onload = function () {
+        document.getElementById('loading-cover').remove();
+        document.getElementById('searching-text').remove();
+        document.getElementById("imageSection").className = 'imageCenter';
+        document.getElementById("imageSection").appendChild(linkElement);
+        document.getElementById("albumImageLink").appendChild(coverElement);
+    };
+}
+
+function showCoverImageByID(image) {
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
     linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
@@ -1159,7 +1180,7 @@ async function getSpotifyAlbumData() {
                 $(".now-precess").html("Getting album cover");
             });
             const albumImages = searchData.images;
-            showCoverImage(albumImages[0].url);
+            showCoverImageByID(albumImages[0].url);
             setCoverToBG(albumImages[0].url);
             console.log('%c[COVER] %cGet album cover in Spotify success', 'font-weight: bold', 'color: green');
         }
