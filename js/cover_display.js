@@ -109,6 +109,9 @@ try {
             }
             document.getElementById('image-title-container').appendChild(titleDiv)
         }
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     }
 
     img.onerror = function () {
@@ -401,7 +404,3 @@ function adjustCoverToggleBtn() {
         $('#toggleCover').tooltip('update')
     }
 }
-
-$(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
