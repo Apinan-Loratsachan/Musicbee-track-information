@@ -56,8 +56,8 @@ try {
                 rgba(0, 0, 0, 0)
             )`
         } else {
-            toggleColorBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
-            toggleFilterBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
+            toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
+            toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
             floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
                 rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
                 rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
@@ -186,11 +186,11 @@ function toggleUI() {
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
         toggleFilterBtn.classList.remove("unprevent-poiter")
-        toggleFilterBtn.classList.remove("animate__zoomIn")
-        toggleFilterBtn.classList.add("animate__zoomOut")
+        toggleFilterBtn.classList.remove("animate__fadeInRight")
+        toggleFilterBtn.classList.add("animate__fadeOutRight")
         toggleColorBtn.classList.remove("unprevent-poiter")
-        toggleColorBtn.classList.remove("animate__zoomIn")
-        toggleColorBtn.classList.add("animate__zoomOut")
+        toggleColorBtn.classList.remove("animate__fadeInRight")
+        toggleColorBtn.classList.add("animate__fadeOutRight")
         title.classList.remove("delay-10")
         title.classList.remove("animate__fadeInDown")
         title.classList.add("animate__fadeOutUp")
@@ -207,11 +207,11 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
-        toggleFilterBtn.classList.remove("animate__zoomOut")
-        toggleFilterBtn.classList.add("animate__zoomIn")
+        toggleFilterBtn.classList.remove("animate__fadeOutRight")
+        toggleFilterBtn.classList.add("animate__fadeInRight")
         toggleFilterBtn.classList.add("unprevent-poiter")
-        toggleColorBtn.classList.remove("animate__zoomOut")
-        toggleColorBtn.classList.add("animate__zoomIn")
+        toggleColorBtn.classList.remove("animate__fadeOutRight")
+        toggleColorBtn.classList.add("animate__fadeInRight")
         toggleColorBtn.classList.add("unprevent-poiter")
         title.classList.remove("animate__fadeOutUp")
         title.classList.add("animate__fadeInDown")
@@ -248,8 +248,8 @@ function toggleColor() {
         )`
     } else {
         localStorage.setItem("colorSetting", "color");
-        toggleColorBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
-        toggleFilterBtn.style.backgroundColor = `rgba(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}, 0.75)`
+        toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
+        toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
         floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
             rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
             rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
