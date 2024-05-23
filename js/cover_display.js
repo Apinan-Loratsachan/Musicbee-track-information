@@ -2,6 +2,7 @@ var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette,
     dominentBG1 = 3,
     dominentBG2 = 2,
     dominentBG3 = 4,
+    dominentBG4 = 5,
     dominentText = 0
 
 const params = new URLSearchParams(window.location.search);
@@ -16,7 +17,7 @@ try {
     img.id = 'cover'
     img.alt = `album cover of ${title}`
     img.crossOrigin = 'anonymous'
-    img.classList = 'cover'
+    img.classList = 'cover-default'
 
     img.onload = async function () {
         document.getElementById('loader').remove()
@@ -41,6 +42,7 @@ try {
         document.getElementById('image-viewer-container').appendChild(img);
         const toggleColorBtn = document.getElementById("toggleColor");
         const toggleFilterBtn = document.getElementById("toggleFilter");
+        const toggleCoverBtn = document.getElementById("toggleCover");
 
         const floatingInfoDiv = document.createElement('div')
         floatingInfoDiv.id = 'floatingInfo'
@@ -58,6 +60,7 @@ try {
         } else {
             toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
             toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
+            toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
             floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
                 rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
                 rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
@@ -177,6 +180,7 @@ function toggleUI() {
     const stateText = document.getElementById("ui-state-text");
     const toggleColorBtn = document.getElementById("toggleColor");
     const toggleFilterBtn = document.getElementById("toggleFilter");
+    const toggleCoverBtn = document.getElementById("toggleCover");
     if (state == "true") {
         // stateText.innerText = 'Hide information'
         // stateContainer.classList.remove("animate__bounceOut")
@@ -185,6 +189,9 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
+        toggleCoverBtn.classList.remove("unprevent-poiter")
+        toggleCoverBtn.classList.remove("animate__fadeInRight")
+        toggleCoverBtn.classList.add("animate__fadeOutRight")
         toggleFilterBtn.classList.remove("unprevent-poiter")
         toggleFilterBtn.classList.remove("animate__fadeInRight")
         toggleFilterBtn.classList.add("animate__fadeOutRight")
@@ -207,6 +214,9 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
+        toggleCoverBtn.classList.remove("animate__fadeOutRight")
+        toggleCoverBtn.classList.add("animate__fadeInRight")
+        toggleCoverBtn.classList.add("unprevent-poiter")
         toggleFilterBtn.classList.remove("animate__fadeOutRight")
         toggleFilterBtn.classList.add("animate__fadeInRight")
         toggleFilterBtn.classList.add("unprevent-poiter")
@@ -271,6 +281,8 @@ function adjustInfo() {
     const coverElement = document.getElementById('cover')
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
         document.getElementById('floatingInfo').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+    } else if (coverWidth < coverElement.offsetWidth || coverHeight < coverElement.offsetHeight) {
+        document.getElementById('floatingInfo').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else {
         document.getElementById('floatingInfo').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     }
@@ -300,4 +312,21 @@ function toggleFilter() {
 function clearLocalStorage() {
     localStorage.clear()
     return "Clear localStorage success"
+}
+
+function toggleCover() {
+    const toggleCoverBtn = document.getElementById("toggleCover");
+    const coverElement = document.getElementById("cover");
+    const state = toggleCoverBtn.getAttribute("data-fill");
+    if (state == "true") {
+        toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
+        coverElement.className = 'cover-default'
+        adjustInfo()
+        toggleCoverBtn.dataset.fill = "false";
+    } else {
+        toggleCoverBtn.innerHTML = `<i class="fa-solid fa-arrow-rotate-left fa-lg"></i>`
+        coverElement.className = 'cover-contain'
+        adjustInfo()
+        toggleCoverBtn.dataset.fill = "true";
+    }
 }
