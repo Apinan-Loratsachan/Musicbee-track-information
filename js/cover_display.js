@@ -352,7 +352,7 @@ function toggleCover() {
             toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
             toggleCoverBtn.setAttribute("data-bs-original-title", "Fit cover image to screen")
             coverElement.className = 'cover-default'
-            $('#element').tooltip('update')
+            $('#toggleCover').tooltip('update')
             adjustInfo()
             toggleCoverBtn.dataset.fill = "false";
         } else {
@@ -394,11 +394,11 @@ function adjustCoverToggleBtn() {
         }
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-xmark fa-lg"></i>`
         toggleCoverBtn.setAttribute("data-bs-original-title", "Zoom not avalible your screen small than cover")
-        $('#element').tooltip('update')
+        $('#toggleCover').tooltip('update')
     } else if (fillState != "true") {
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
         toggleCoverBtn.setAttribute("data-bs-original-title", "Fit cover image to screen")
-        $('#element').tooltip('update')
+        $('#toggleCover').tooltip('update')
     }
 }
 
