@@ -50,6 +50,7 @@ try {
         if (uiColor != "color") {
             toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+            toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
                 rgba(0, 0, 0, 0),
                 rgba(0, 0, 0, 0),
@@ -71,6 +72,7 @@ try {
         }
         document.getElementById('image-info-container').appendChild(floatingInfoDiv)
         adjustInfo()
+        adjustCoverToggleBtn()
         setCoverToBG(imageUrl)
         if (title != null) {
             // document.getElementById("ui-state-container").innerHTML = `
@@ -234,6 +236,7 @@ function toggleUI() {
 
 function toggleColor() {
     const toggleFilterBtn = document.getElementById("toggleFilter");
+    const toggleCoverBtn = document.getElementById("toggleCover");
     const colorSetting = localStorage.getItem("colorSetting");
     const toggleColorBtn = document.getElementById("toggleColor");
     const floatingInfoDiv = document.getElementById("floatingInfo");
@@ -242,6 +245,7 @@ function toggleColor() {
         localStorage.setItem("colorSetting", "monotone");
         toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+        toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
             rgba(0, 0, 0, 0),
             rgba(0, 0, 0, 0),
@@ -260,6 +264,7 @@ function toggleColor() {
         localStorage.setItem("colorSetting", "color");
         toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
         toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
+        toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
         floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
             rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
             rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
@@ -282,7 +287,7 @@ function adjustInfo() {
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
         document.getElementById('floatingInfo').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else if (coverWidth < coverElement.offsetWidth || coverHeight < coverElement.offsetHeight) {
-        document.getElementById('floatingInfo').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        document.getElementById('floatingInfo').innerHTML = `<Strong>(ZOOM)</Strong> Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else {
         document.getElementById('floatingInfo').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     }
@@ -290,6 +295,7 @@ function adjustInfo() {
 
 window.addEventListener('resize', function (event) {
     adjustInfo()
+    adjustCoverToggleBtn()
 }, true);
 
 function toggleFilter() {
@@ -318,15 +324,67 @@ function toggleCover() {
     const toggleCoverBtn = document.getElementById("toggleCover");
     const coverElement = document.getElementById("cover");
     const state = toggleCoverBtn.getAttribute("data-fill");
-    if (state == "true") {
-        toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
-        coverElement.className = 'cover-default'
-        adjustInfo()
-        toggleCoverBtn.dataset.fill = "false";
+    const colorSetting = localStorage.getItem("colorSetting");
+    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+        if (colorSetting == "color") {
+            alertColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75);`
+        } else {
+            alertColor = `rgba(0, 0, 0, 0.75);`
+        }
+        document.getElementById("ui-state-container").innerHTML = `
+            <div id="ui-state" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
+                <i class="fa-solid fa-xmark fa-2xl"></i>
+                <div style="height: 20px;"></div>
+                <div id="ui-state-text">Disable zoom<br>your screen is small than cover</div>
+            </div>`
+        setTimeout(() => {
+            document.getElementById("ui-state").classList.remove("animate__bounceIn")
+            document.getElementById("ui-state").classList.add("animate__bounceOut")
+        }, 2000);
     } else {
-        toggleCoverBtn.innerHTML = `<i class="fa-solid fa-arrow-rotate-left fa-lg"></i>`
-        coverElement.className = 'cover-contain'
-        adjustInfo()
-        toggleCoverBtn.dataset.fill = "true";
+        if (state == "true") {
+            toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
+            coverElement.className = 'cover-default'
+            adjustInfo()
+            toggleCoverBtn.dataset.fill = "false";
+        } else {
+            toggleCoverBtn.innerHTML = `<i class="fa-solid fa-arrow-rotate-left fa-lg"></i>`
+            coverElement.className = 'cover-contain'
+            adjustInfo()
+            toggleCoverBtn.dataset.fill = "true";
+        }
+    }
+}
+
+function adjustCoverToggleBtn() {
+    const coverElement = document.getElementById("cover");
+    const toggleCoverBtn = document.getElementById("toggleCover");
+    const fillState = toggleCoverBtn.getAttribute("data-fill");
+    const colorSetting = localStorage.getItem("colorSetting");
+    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+        if (fillState == "true") {
+            if (colorSetting == "color") {
+                alertColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75);`
+            } else {
+                alertColor = `rgba(0, 0, 0, 0.75);`
+            }
+            toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
+            coverElement.className = 'cover-default'
+            adjustInfo()
+            toggleCoverBtn.dataset.fill = "false";
+            document.getElementById("ui-state-container").innerHTML = `
+            <div id="ui-state" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
+                <i class="fa-solid fa-rotate-left fa-2xl"></i>
+                <div style="height: 20px;"></div>
+                <div id="ui-state-text">Disable zoom<br>expand your screen for enable zoom again</div>
+            </div>`
+            setTimeout(() => {
+                document.getElementById("ui-state").classList.remove("animate__bounceIn")
+                document.getElementById("ui-state").classList.add("animate__bounceOut")
+            }, 2000);
+        }
+        toggleCoverBtn.innerHTML = `<i class="fa-solid fa-xmark fa-lg"></i>`
+    } else if (fillState != "true") {
+        toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
     }
 }

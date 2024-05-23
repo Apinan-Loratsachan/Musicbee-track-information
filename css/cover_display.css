@@ -46,7 +46,7 @@
     position: fixed;
     bottom: 150px;
     right: 40px;
-    z-index: 100;
+    z-index: 150;
     font-size: 22px;
     border: none;
     outline: none;
@@ -259,6 +259,7 @@ html {
     height: 100%;
     width: 100%;
     justify-content: center;
+    z-index: 300;
 }
 
 #ui-state {
@@ -268,6 +269,7 @@ html {
     color: white;
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: 20px;
+    z-index: 300;
 }
 
 .loader {
