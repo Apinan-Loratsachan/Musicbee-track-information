@@ -109,9 +109,6 @@ try {
             }
             document.getElementById('image-title-container').appendChild(titleDiv)
         }
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
     }
 
     img.onerror = function () {
@@ -194,9 +191,6 @@ function toggleUI() {
         //     stateContainer.classList.remove("animate__bounceIn")
         //     stateContainer.classList.add("animate__bounceOut")
         // }, 1500);
-        $('#toggleColor').tooltip('hide')
-        $('#toggleCover').tooltip('hide')
-        $('#toggleFilter').tooltip('hide')
         toggleCoverBtn.classList.remove("unprevent-poiter")
         toggleCoverBtn.classList.remove("animate__fadeInRight")
         toggleCoverBtn.classList.add("animate__fadeOutRight")
@@ -241,7 +235,6 @@ function toggleUI() {
 }
 
 function toggleColor() {
-    $('#toggleColor').tooltip('hide')
     const toggleFilterBtn = document.getElementById("toggleFilter");
     const toggleCoverBtn = document.getElementById("toggleCover");
     const colorSetting = localStorage.getItem("colorSetting");
@@ -306,7 +299,6 @@ window.addEventListener('resize', function (event) {
 }, true);
 
 function toggleFilter() {
-    $('#toggleFilter').tooltip('hide')
     const toggleFilterBtn = document.getElementById("toggleFilter");
     const filter = document.getElementById("filter");
     const state = toggleFilterBtn.getAttribute("data-show");
@@ -329,7 +321,6 @@ function clearLocalStorage() {
 }
 
 function toggleCover() {
-    $('#toggleCover').tooltip('hide')
     const toggleCoverBtn = document.getElementById("toggleCover");
     const coverElement = document.getElementById("cover");
     const state = toggleCoverBtn.getAttribute("data-fill");
@@ -353,9 +344,7 @@ function toggleCover() {
     } else {
         if (state == "true") {
             toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
-            toggleCoverBtn.setAttribute("data-bs-original-title", "Fit cover image to screen")
             coverElement.className = 'cover-default'
-            $('#toggleCover').tooltip('update')
             adjustInfo()
             toggleCoverBtn.dataset.fill = "false";
         } else {
@@ -396,11 +385,7 @@ function adjustCoverToggleBtn() {
             }, 2000);
         }
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-xmark fa-lg"></i>`
-        toggleCoverBtn.setAttribute("data-bs-original-title", "Zoom not avalible your screen small than cover")
-        $('#toggleCover').tooltip('update')
     } else if (fillState != "true") {
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
-        toggleCoverBtn.setAttribute("data-bs-original-title", "Fit cover image to screen")
-        $('#toggleCover').tooltip('update')
     }
 }
