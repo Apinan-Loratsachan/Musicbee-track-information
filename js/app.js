@@ -1016,7 +1016,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
             .filter(artist => artist.trim() !== "")
             .map(artist => artist.trim());
         const compareArtist = g_artist_arrey.join(", ");
-        if (g_title != titleSrc || compareArtist != spotifyArtistsArrey.replaceAll("μ", "µ")) {
+        if (g_title != titleSrc || compareArtist.toUpperCase() != spotifyArtistsArrey.replaceAll("μ", "µ").toUpperCase()) {
             spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
             spotifypreviewText.innerText = `( ${spotifyPreviewDisplayText} )`
             spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
