@@ -327,7 +327,7 @@ function toggleCover() {
     const colorSetting = localStorage.getItem("colorSetting");
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
         if (colorSetting == "color") {
-            alertColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75);`
+            alertColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 0.75);`
         } else {
             alertColor = `rgba(0, 0, 0, 0.75);`
         }
@@ -365,7 +365,7 @@ function adjustCoverToggleBtn() {
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
         if (fillState == "true") {
             if (colorSetting == "color") {
-                alertColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75);`
+                alertColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 0.75);`
             } else {
                 alertColor = `rgba(0, 0, 0, 0.75);`
             }

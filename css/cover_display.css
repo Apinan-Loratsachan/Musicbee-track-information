@@ -27,14 +27,16 @@
     bottom: 60px;
     right: 40px;
     z-index: 100;
-    font-size: 18px;
+    font-size: 22px;
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 15px;
+    /* padding: 15px; */
     border-radius: 4px;
     width: 60px;
+    height: 60px;
     color: white;
+    background-color: rgba(0, 0, 0, 0.75);
     &:hover {
         scale: 1.2;
     }
@@ -56,10 +58,11 @@
     width: 60px;
     height: 60px;
     color: white;
+    background-color: rgba(0, 0, 0, 0.75);
     &:hover {
         scale: 1.2;
     }
-    transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.6s;
 }
 
 #toggleCover {
@@ -68,7 +71,7 @@
     bottom: 240px;
     right: 40px;
     z-index: 100;
-    font-size: 18px;
+    font-size: 22px;
     border: none;
     outline: none;
     cursor: pointer;
@@ -77,10 +80,11 @@
     width: 60px;
     height: 60px;
     color: white;
+    background-color: rgba(0, 0, 0, 0.75);
     &:hover {
         scale: 1.2;
     }
-    transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.9s;
 }
 
 body {
