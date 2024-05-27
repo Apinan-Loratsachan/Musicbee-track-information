@@ -301,12 +301,14 @@ function data() {
             filter: localStorage.getItem("filterSetting"),
             info: localStorage.getItem("infoSetting")
         },
-        tipCount: parseInt(localStorage.getItem("displaytip")),
+        tipCountdown: parseInt(localStorage.getItem("displaytip")),
         cover: {
             image: {
-                imageURL: imageUrl,
-                height: coverHeight,
-                width: coverWidth
+                url: imageUrl,
+                size: {
+                    height: coverHeight,
+                    width: coverWidth
+                }
             },
             meta: {
                 title: title,
@@ -318,6 +320,10 @@ function data() {
             Overall: dominantColor,
             Palette: dominantPalette,
             PaletteIndexInUse: [dominentBG1, dominentBG2, dominentBG3, dominentBG4, dominentBG5]
+        },
+        device: {
+            userAgent: navigator.userAgent,
+            type: isMobile() ? 'Mobile' : isMobileTablet() ? 'Tablet' : 'Desktop'
         }
     };
     return dataDict
@@ -429,10 +435,24 @@ function adjustInfo() {
         scale = (window.innerHeight - coverHeight) * 100 / coverHeight
     }
 
-    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-        infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+    if (isMobile()) {
+        if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+            infoNow.innerHTML = `<i class="fa-solid fa-mobile-screen fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+        } else {
+            infoNow.innerHTML = `<i class="fa-solid fa-mobile-screen fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+        }
+    } else if (isMobileTablet()) {
+        if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+            infoNow.innerHTML = `<i class="fa-solid fa-tablet-screen-button fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+        } else {
+            infoNow.innerHTML = `<i class="fa-solid fa-tablet-screen-button fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+        }
     } else {
-        infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+        if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+            infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+        } else {
+            infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+        }
     }
 
     if (fillState == "true") {
