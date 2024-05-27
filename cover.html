@@ -16,7 +16,7 @@
 </head>
 
 <body class="prevent-all bg-blur">
-  <div id="image-viewer-container">
+  <div id="image-viewer-container" class="image-container">
     <div id="loader" class="heartbeat delay-10">
       <div class="loader animate__animated animate__infinite">
         <span class="stroke"></span>
@@ -29,25 +29,26 @@
       </div>
     </div>
   </div>
-  <div id="ui-state-container"></div>
+  <div id="zoom-image-container" class="image-container"></div>
+  <div id="notification-container"></div>
   <div id="image-title-container" class="title-container"></div>
   <div id="image-info-container" class="info-container"></div>
   <div id="filter" class="filter"></div>
   <div id="button-container">
-    <button type="button" class="unprevent-poiter bg-blur" id="toggleUI" onclick="toggleUI()" data-show="true">toggleUI</button>
-  <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight" id="toggleColor"
-    onclick="toggleColor()" data-toggle="tooltip" data-placement="left" title="Change color of information">
-    <i class="fa-solid fa-palette fa-lg"></i>
-  </button>
-  <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight delay-2" id="toggleFilter"
-    onclick="toggleFilter()" data-toggle="tooltip" data-placement="left" title="Change brightness of backgroud">
-    <i class="fa-solid fa-lightbulb fa-lg"></i>
-  </button>
-  <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight delay-3" id="toggleCover"
-    onclick="toggleCover()" data-toggle="tooltip" data-placement="left" title="Fit cover image to screen"
-    data-fill="false">
-    <i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>
-  </button>
+    <button type="button" class="unprevent-poiter bg-blur" id="toggleUI" onclick="toggleUI()">toggleUI</button>
+    <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight" id="toggleColor"
+      onclick="toggleColor()" data-toggle="tooltip" data-placement="left" title="Change color of information">
+      <i class="fa-solid fa-palette fa-lg"></i>
+    </button>
+    <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight delay-2" id="toggleFilter"
+      onclick="toggleFilter()" data-toggle="tooltip" data-placement="left" title="Change brightness of backgroud">
+      <i class="fa-solid fa-lightbulb fa-lg"></i>
+    </button>
+    <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight delay-3" id="toggleCover"
+      onclick="toggleCover()" data-toggle="tooltip" data-placement="left" title="Fit cover image to screen"
+      data-fill="false">
+      <i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>
+    </button>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js"

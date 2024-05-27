@@ -1,4 +1,4 @@
-var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette,
+var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette, uiState = true,
     dominentBG1 = 3,
     dominentBG2 = 2,
     dominentBG3 = 4,
@@ -39,6 +39,16 @@ try {
         }
 
         document.getElementById('image-viewer-container').appendChild(img);
+
+        const zoomImg = document.createElement('img');
+        zoomImg.src = imageUrl;
+        zoomImg.id = 'cover-zoom'
+        zoomImg.alt = `zoom album cover of ${title}`
+        zoomImg.crossOrigin = 'anonymous'
+        zoomImg.classList = 'cover-contain animate__animated'
+        zoomImg.style.opacity = 0
+        document.getElementById('zoom-image-container').appendChild(zoomImg);
+
         const toggleColorBtn = document.getElementById("toggleColor");
         const toggleFilterBtn = document.getElementById("toggleFilter");
         const toggleCoverBtn = document.getElementById("toggleCover");
@@ -194,7 +204,7 @@ function dominantColorLog() {
 
 function toggleUI() {
     const toggleBtn = document.getElementById("toggleUI");
-    const state = toggleBtn.getAttribute("data-show");
+    // const state = toggleBtn.getAttribute("data-state");
     const title = document.getElementById("title-animate-container");
     const info = document.getElementById("info-animate-container");
     const toggleColorBtn = document.getElementById("toggleColor");
@@ -202,7 +212,7 @@ function toggleUI() {
     const toggleCoverBtn = document.getElementById("toggleCover");
     const infoDiv = document.getElementById("info-div");
     const titleDiv = document.getElementById("title-div");
-    if (state == "true") {
+    if (uiState == true) {
         titleDiv.classList.remove("animate__fadeInDown")
         titleDiv.classList.add("animate__fadeOutUp")
         infoDiv.classList.remove("animate__fadeInUp")
@@ -222,7 +232,8 @@ function toggleUI() {
         info.classList.remove("delay-10")
         info.classList.remove("animate__fadeInUp")
         info.classList.add("animate__fadeOutDown")
-        toggleBtn.dataset.show = "false";
+        uiState = false
+        // toggleBtn.dataset.state = "hide";
     } else {
         titleDiv.classList.remove("animate__fadeOutUp")
         titleDiv.classList.add("animate__fadeInDown")
@@ -241,7 +252,8 @@ function toggleUI() {
         title.classList.add("animate__fadeInDown")
         info.classList.remove("animate__fadeOutDown")
         info.classList.add("animate__fadeInUp")
-        toggleBtn.dataset.show = "true";
+        uiState = true
+        // toggleBtn.dataset.state = "show";
     }
 }
 
@@ -277,12 +289,16 @@ function toggleColor() {
 
 function adjustInfo() {
     const coverElement = document.getElementById('cover')
-    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-        document.getElementById('info-div').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
-    } else if (coverWidth < coverElement.offsetWidth || coverHeight < coverElement.offsetHeight) {
+    const toggleCoverBtn = document.getElementById("toggleCover");
+    const state = toggleCoverBtn.getAttribute("data-fill");
+    if (state == "true") {
         document.getElementById('info-div').innerHTML = `<Strong>(ZOOM)</Strong> Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else {
-        document.getElementById('info-div').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+            document.getElementById('info-div').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        } else {
+            document.getElementById('info-div').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        }
     }
 }
 
@@ -316,6 +332,7 @@ function clearLocalStorage() {
 function toggleCover() {
     const toggleCoverBtn = document.getElementById("toggleCover");
     const coverElement = document.getElementById("cover");
+    const coverZoomElement = document.getElementById("cover-zoom");
     const state = toggleCoverBtn.getAttribute("data-fill");
     const colorSetting = localStorage.getItem("colorSetting");
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
@@ -324,34 +341,42 @@ function toggleCover() {
         } else {
             alertColor = `rgba(0, 0, 0, 0.75);`
         }
-        document.getElementById("ui-state-container").innerHTML = `
-            <div id="ui-state" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
+        document.getElementById("notification-container").innerHTML = `
+            <div id="notification" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
                 <div style="height: 20px;"></div>
-                <div id="ui-state-text">Disable zoom<br>your screen is small than cover</div>
+                <div id="notification-text">Disable zoom<br>your screen is small than cover</div>
             </div>`
         setTimeout(() => {
-            document.getElementById("ui-state").classList.remove("animate__bounceIn")
-            document.getElementById("ui-state").classList.add("animate__bounceOut")
+            document.getElementById("notification").classList.remove("animate__bounceIn")
+            document.getElementById("notification").classList.add("animate__bounceOut")
         }, 2000);
     } else {
         if (state == "true") {
             toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
-            coverElement.className = 'cover-default'
-            adjustInfo()
+            coverElement.classList.remove("animate__fadeOutUp")
+            coverElement.classList.add("animate__fadeInDown")
+            coverZoomElement.classList.remove("animate__fadeInUp")
+            coverZoomElement.classList.add("animate__fadeOutDown")
             toggleCoverBtn.dataset.fill = "false";
+            adjustInfo()
         } else {
             toggleCoverBtn.innerHTML = `<i class="fa-solid fa-arrow-rotate-left fa-lg"></i>`
             toggleCoverBtn.setAttribute("data-bs-original-title", "Reset cover to default size")
-            coverElement.className = 'cover-contain'
-            adjustInfo()
+            coverElement.classList.remove("animate__fadeInUp")
+            coverElement.classList.remove("animate__fadeInDown")
+            coverElement.classList.add("animate__fadeOutUp")
+            coverZoomElement.classList.remove("animate__fadeOutDown")
+            coverZoomElement.classList.add("animate__fadeInUp")
             toggleCoverBtn.dataset.fill = "true";
+            adjustInfo()
         }
     }
 }
 
 function adjustCoverToggleBtn() {
     const coverElement = document.getElementById("cover");
+    const coverZoomElement = document.getElementById("cover-zoom");
     const toggleCoverBtn = document.getElementById("toggleCover");
     const fillState = toggleCoverBtn.getAttribute("data-fill");
     const colorSetting = localStorage.getItem("colorSetting");
@@ -363,18 +388,19 @@ function adjustCoverToggleBtn() {
                 alertColor = `rgba(0, 0, 0, 0.75);`
             }
             toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
-            coverElement.className = 'cover-default'
-            adjustInfo()
             toggleCoverBtn.dataset.fill = "false";
-            document.getElementById("ui-state-container").innerHTML = `
-            <div id="ui-state" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
+            coverElement.classList.remove("animate__fadeOutUp")
+            coverZoomElement.classList.remove("animate__fadeInUp")
+            adjustInfo()
+            document.getElementById("notification-container").innerHTML = `
+            <div id="notification" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
                 <i class="fa-solid fa-rotate-left fa-2xl"></i>
                 <div style="height: 20px;"></div>
-                <div id="ui-state-text">Disable zoom<br>expand your screen for enable zoom again</div>
+                <div id="notification-text">Disable zoom<br>expand your screen for enable zoom again</div>
             </div>`
             setTimeout(() => {
-                document.getElementById("ui-state").classList.remove("animate__bounceIn")
-                document.getElementById("ui-state").classList.add("animate__bounceOut")
+                document.getElementById("notification").classList.remove("animate__bounceIn")
+                document.getElementById("notification").classList.add("animate__bounceOut")
             }, 2000);
         }
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-xmark fa-lg"></i>`
