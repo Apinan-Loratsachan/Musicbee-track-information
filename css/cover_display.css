@@ -6,6 +6,16 @@
     z-index: 100;
 }
 
+.side-cover-button {
+    position: fixed;
+    right: 0px;
+    bottom: 30px;
+}
+
+.infoText {
+    width: 100%;
+}
+
 #button-container {
     position: fixed;
     top: 0px;
@@ -29,8 +39,9 @@
 }
 
 #toggleColor {
+    margin: 30px;
     display: block;
-    position: fixed;
+    /* position: fixed; */
     bottom: 60px;
     right: 40px;
     z-index: 100;
@@ -53,8 +64,9 @@
 }
 
 #toggleFilter {
+    margin: 30px;
     display: block;
-    position: fixed;
+    /* position: fixed; */
     bottom: 150px;
     right: 40px;
     z-index: 150;
@@ -78,8 +90,9 @@
 }
 
 #toggleCover {
+    margin: 30px;
     display: block;
-    position: fixed;
+    /* position: fixed; */
     bottom: 240px;
     right: 40px;
     z-index: 100;
@@ -126,7 +139,7 @@ html {
     background-color: rgba(0, 0, 0, 0);
     height: 100%;
     width: 100%;
-    z-index: -50;
+    z-index: -500;
     transition: all ease-in-out 0.5s;
 }
 
@@ -148,18 +161,12 @@ html {
 .info-container {
     position: fixed;
     width: 100%;
+    color: white;
     align-items: center;
     text-align: center;
+    min-height: 40px;
     bottom: 0;
-    height: 24px;
 }
-
-#info-div {
-    /* background-color: rgba(0, 0, 0, 0.75); */
-    color: white;
-    z-index: -99;
-}
-
 .text-shadow {
     text-shadow: 0px 0px 10px #000;
 }
@@ -177,6 +184,11 @@ html {
 
 #title-div {
     width: 100%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+#info-div {
     padding-left: 3%;
     padding-right: 3%;
 }

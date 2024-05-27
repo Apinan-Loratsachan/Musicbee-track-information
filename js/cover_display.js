@@ -94,8 +94,24 @@ try {
 
         const infoDiv = document.createElement('div')
         infoDiv.id = 'info-div'
-        infoDiv.classList = 'text-shadow animate__animated animate__fadeInUp'
+        infoDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column text-shadow animate__animated animate__fadeInUp'
         document.getElementById('info-animate-container').appendChild(infoDiv)
+
+        const infoState = document.createElement('div')
+        infoState.id = 'info-state'
+        infoState.classList = "infoText text-start p-2 flex-fill"
+        document.getElementById('info-div').appendChild(infoState)
+
+        const infoNow = document.createElement('div')
+        infoNow.id = 'info-now'
+        infoNow.classList = "infoText p-2 flex-fill"
+        document.getElementById('info-div').appendChild(infoNow)
+
+        const infoOriginal = document.createElement('div')
+        infoOriginal.id = 'info-original'
+        infoOriginal.classList = "infoText text-end p-2 flex-fill"
+        document.getElementById('info-div').appendChild(infoOriginal)
+
         adjustInfo()
         adjustCoverToggleBtn()
         setCoverToBG(imageUrl)
@@ -137,7 +153,7 @@ try {
             const titleDiv = document.createElement('div')
             titleDiv.id = 'title-div'
             titleDiv.innerText = title + ' | ' + album
-            titleDiv.classList = 'text-shadow animate__animated animate__fadeInDown'
+            titleDiv.classList = 'p-2 text-shadow animate__animated animate__fadeInDown'
             document.getElementById('title-animate-container').appendChild(titleDiv)
         }
     }
@@ -204,7 +220,6 @@ function dominantColorLog() {
 
 function toggleUI() {
     const toggleBtn = document.getElementById("toggleUI");
-    // const state = toggleBtn.getAttribute("data-state");
     const title = document.getElementById("title-animate-container");
     const info = document.getElementById("info-animate-container");
     const toggleColorBtn = document.getElementById("toggleColor");
@@ -233,7 +248,6 @@ function toggleUI() {
         info.classList.remove("animate__fadeInUp")
         info.classList.add("animate__fadeOutDown")
         uiState = false
-        // toggleBtn.dataset.state = "hide";
     } else {
         titleDiv.classList.remove("animate__fadeOutUp")
         titleDiv.classList.add("animate__fadeInDown")
@@ -253,7 +267,6 @@ function toggleUI() {
         info.classList.remove("animate__fadeOutDown")
         info.classList.add("animate__fadeInUp")
         uiState = true
-        // toggleBtn.dataset.state = "show";
     }
 }
 
@@ -289,16 +302,30 @@ function toggleColor() {
 
 function adjustInfo() {
     const coverElement = document.getElementById('cover')
-    const toggleCoverBtn = document.getElementById("toggleCover");
-    const state = toggleCoverBtn.getAttribute("data-fill");
-    if (state == "true") {
-        document.getElementById('info-div').innerHTML = `<Strong>(ZOOM)</Strong> Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+    const toggleCoverBtn = document.getElementById("toggleCover")
+    const infoOriginal = document.getElementById('info-original')
+    const infoState = document.getElementById('info-state')
+    const infoNow = document.getElementById('info-now')
+    const fillState = toggleCoverBtn.getAttribute("data-fill")
+
+    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+        infoNow.innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
     } else {
-        if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-            document.getElementById('info-div').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
-        } else {
-            document.getElementById('info-div').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
-        }
+        infoNow.innerHTML = `Render at <Strong>Original Size</Strong>`
+    }
+    if (fillState == "true") {
+        infoState.innerHTML = "Render mode <Strong>Fit</Strong>"
+    } else {
+        infoState.innerHTML = "Render mode <Strong>Default</Strong>"
+    }
+    infoOriginal.innerHTML = `Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+
+    if(window.innerWidth < 770) {
+        infoOriginal.classList.remove("text-end")
+        infoState.classList.remove("text-start")
+    } else {
+        infoOriginal.classList.add("text-end")
+        infoState.classList.add("text-start")
     }
 }
 
@@ -345,7 +372,7 @@ function toggleCover() {
             <div id="notification" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
                 <div style="height: 20px;"></div>
-                <div id="notification-text">Disable zoom<br>your screen is small than cover</div>
+                <div id="notification-text">Disable fit cover<br>your screen is small than cover</div>
             </div>`
         setTimeout(() => {
             document.getElementById("notification").classList.remove("animate__bounceIn")
@@ -396,7 +423,7 @@ function adjustCoverToggleBtn() {
             <div id="notification" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
                 <i class="fa-solid fa-rotate-left fa-2xl"></i>
                 <div style="height: 20px;"></div>
-                <div id="notification-text">Disable zoom<br>expand your screen for enable zoom again</div>
+                <div id="notification-text">Disable fit cover<br>expand your screen for enable zoom again</div>
             </div>`
             setTimeout(() => {
                 document.getElementById("notification").classList.remove("animate__bounceIn")

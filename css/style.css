@@ -228,16 +228,6 @@ td {
     animation: animate 0.55s linear infinite;
 }
 
-@keyframes animate {
-    50% {
-        height: 20%;
-    }
-
-    100% {
-        height: 100%;
-    }
-}
-
 .stroke:nth-child(1) {
     animation-delay: 0s;
 }
