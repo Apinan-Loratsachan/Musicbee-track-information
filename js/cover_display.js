@@ -2,8 +2,7 @@ var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette,
     dominentBG1 = 3,
     dominentBG2 = 2,
     dominentBG3 = 4,
-    dominentBG4 = 5,
-    dominentText = 0
+    dominentBG4 = 5
 
 const params = new URLSearchParams(window.location.search);
 
@@ -17,7 +16,7 @@ try {
     img.id = 'cover'
     img.alt = `album cover of ${title}`
     img.crossOrigin = 'anonymous'
-    img.classList = 'cover-default'
+    img.classList = 'cover-default animate__animated animate__fadeInUp'
 
     img.onload = async function () {
         document.getElementById('loader').remove()
@@ -44,70 +43,92 @@ try {
         const toggleFilterBtn = document.getElementById("toggleFilter");
         const toggleCoverBtn = document.getElementById("toggleCover");
 
-        const floatingInfoDiv = document.createElement('div')
-        floatingInfoDiv.id = 'floatingInfo'
-        floatingInfoDiv.classList = 'info-floating-container animate__animated animate__fadeInUp amimated__gradient'
+        const infoAnimateDiv = document.createElement('div')
+        infoAnimateDiv.id = 'info-animate-container'
+        infoAnimateDiv.classList = 'animate-container animate__animated animate__fadeInUp'
+        document.getElementById('image-info-container').appendChild(infoAnimateDiv)
+
+        const infoColorDiv = document.createElement('div')
+        infoColorDiv.id = 'info-color-div'
+        infoColorDiv.classList = 'color-container'
+        infoColorDiv.style.backgroundImage = `linear-gradient(to right,
+                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)
+            )`
         if (uiColor != "color") {
+            infoColorDiv.style.opacity = 0
             toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
-            floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
-                rgba(0, 0, 0, 0),
-                rgba(0, 0, 0, 0),
-                rgba(0, 0, 0, 0),
-                rgba(0, 0, 0, 0),
-                rgba(0, 0, 0, 0)
-            )`
         } else {
+            infoColorDiv.style.opacity = 1
             toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
             toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
             toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
-            floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
-                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-                rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75),
-                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75)
-            )`
         }
-        document.getElementById('image-info-container').appendChild(floatingInfoDiv)
+        document.getElementById('info-animate-container').appendChild(infoColorDiv)
+
+        const infoMonotoneDiv = document.createElement('div')
+        infoMonotoneDiv.id = 'info-monotone-div'
+        infoMonotoneDiv.classList = 'color-container'
+        infoMonotoneDiv.style.backgroundColor = 'rgb(0, 0, 0)'
+        if (uiColor != "color") {
+            infoMonotoneDiv.style.opacity = 0.5
+        } else {
+            infoMonotoneDiv.style.opacity = 0
+        }
+        document.getElementById('info-animate-container').appendChild(infoMonotoneDiv)
+
+        const infoDiv = document.createElement('div')
+        infoDiv.id = 'info-div'
+        infoDiv.classList = 'text-shadow animate__animated animate__fadeInUp'
+        document.getElementById('info-animate-container').appendChild(infoDiv)
         adjustInfo()
         adjustCoverToggleBtn()
         setCoverToBG(imageUrl)
         if (title != null) {
-            // document.getElementById("ui-state-container").innerHTML = `
-            // <div id="ui-state" class="animate__animated animate__bounceIn">
-            //     <i class="fa-solid fa-eye-slash fa-lg"></i>
-            //     <div style="height: 20px;"></div>
-            //     <div id="ui-state-text">Click or Touch for hide Information</div>
-            // </div>`
-            // setTimeout(() => {
-            //     document.getElementById("ui-state").classList.remove("animate__bounceIn")
-            //     document.getElementById("ui-state").classList.add("animate__bounceOut")
-            // }, 1500);
             document.title = `Cover | ${title}`
+
+            const titleAnimateDiv = document.createElement('div')
+            titleAnimateDiv.id = 'title-animate-container'
+            titleAnimateDiv.classList = 'animate-container animate__animated animate__fadeInDown'
+            document.getElementById('image-title-container').appendChild(titleAnimateDiv)
+
+            const titleColorDiv = document.createElement('div')
+            titleColorDiv.id = 'title-color-div'
+            titleColorDiv.classList = 'color-container'
+            titleColorDiv.style.backgroundImage = `linear-gradient(to right,
+                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)
+            )`
+            if (uiColor != "color") {
+                titleColorDiv.style.opacity = 0
+            } else {
+                titleColorDiv.style.opacity = 1
+            }
+            document.getElementById('title-animate-container').appendChild(titleColorDiv)
+
+            const titleMonotoneDiv = document.createElement('div')
+            titleMonotoneDiv.id = 'title-monotone-div'
+            titleMonotoneDiv.classList = 'color-container'
+            titleMonotoneDiv.style.backgroundColor = 'rgb(0, 0, 0)'
+            if (uiColor != "color") {
+                titleMonotoneDiv.style.opacity = 0.5
+            } else {
+                titleMonotoneDiv.style.opacity = 0
+            }
+            document.getElementById('title-animate-container').appendChild(titleMonotoneDiv)
             const titleDiv = document.createElement('div')
             titleDiv.id = 'title-div'
             titleDiv.innerText = title + ' | ' + album
-            titleDiv.classList = 'title-solid animate__animated animate__fadeInDown amimated__gradient'
-            if (uiColor != "color") {
-                titleDiv.style.backgroundImage = `linear-gradient(to right,
-                    rgba(0, 0, 0, 0),
-                    rgba(0, 0, 0, 0),
-                    rgba(0, 0, 0, 0),
-                    rgba(0, 0, 0, 0),
-                    rgba(0, 0, 0, 0)
-                )`
-            } else {
-                titleDiv.style.backgroundImage = `linear-gradient(to right,
-                    rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
-                    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-                    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75),
-                    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-                    rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75)
-                )`
-            }
-            document.getElementById('image-title-container').appendChild(titleDiv)
+            titleDiv.classList = 'text-shadow animate__animated animate__fadeInDown'
+            document.getElementById('title-animate-container').appendChild(titleDiv)
         }
     }
 
@@ -139,9 +160,6 @@ try {
         document.head.appendChild(link);
     }
     link.href = imageUrl;
-    const imgTopSpace = document.createElement('div')
-    imgTopSpace.id = 'img-top-space'
-    document.getElementById('image-viewer-container').appendChild(imgTopSpace)
 
     function setCoverToBG(url) {
 
@@ -167,8 +185,9 @@ async function getDominentColor(image) {
 
 function dominantColorLog() {
     const dominantColorDict = {
-        Overall: [dominantColor],
-        Palette: [dominantPalette],
+        Overall: dominantColor,
+        Palette: dominantPalette,
+        PaletteIndexInUse: [dominentBG1, dominentBG2, dominentBG3, dominentBG4]
     };
     return dominantColorDict
 }
@@ -176,21 +195,18 @@ function dominantColorLog() {
 function toggleUI() {
     const toggleBtn = document.getElementById("toggleUI");
     const state = toggleBtn.getAttribute("data-show");
-    const title = document.getElementById("title-div");
-    const info = document.getElementById("floatingInfo");
-    const stateContainer = document.getElementById("ui-state");
-    const stateText = document.getElementById("ui-state-text");
+    const title = document.getElementById("title-animate-container");
+    const info = document.getElementById("info-animate-container");
     const toggleColorBtn = document.getElementById("toggleColor");
     const toggleFilterBtn = document.getElementById("toggleFilter");
     const toggleCoverBtn = document.getElementById("toggleCover");
+    const infoDiv = document.getElementById("info-div");
+    const titleDiv = document.getElementById("title-div");
     if (state == "true") {
-        // stateText.innerText = 'Hide information'
-        // stateContainer.classList.remove("animate__bounceOut")
-        // stateContainer.classList.add("animate__bounceIn")
-        // setTimeout(() => {
-        //     stateContainer.classList.remove("animate__bounceIn")
-        //     stateContainer.classList.add("animate__bounceOut")
-        // }, 1500);
+        titleDiv.classList.remove("animate__fadeInDown")
+        titleDiv.classList.add("animate__fadeOutUp")
+        infoDiv.classList.remove("animate__fadeInUp")
+        infoDiv.classList.add("animate__fadeOutDown")
         toggleCoverBtn.classList.remove("unprevent-poiter")
         toggleCoverBtn.classList.remove("animate__fadeInRight")
         toggleCoverBtn.classList.add("animate__fadeOutRight")
@@ -207,15 +223,11 @@ function toggleUI() {
         info.classList.remove("animate__fadeInUp")
         info.classList.add("animate__fadeOutDown")
         toggleBtn.dataset.show = "false";
-        // toggleBtn.innerHTML = `<i class="fa-solid fa-eye fa-lg"></i>`
     } else {
-        // stateText.innerText = 'Display information'
-        // stateContainer.classList.remove("animate__bounceOut")
-        // stateContainer.classList.add("animate__bounceIn")
-        // setTimeout(() => {
-        //     stateContainer.classList.remove("animate__bounceIn")
-        //     stateContainer.classList.add("animate__bounceOut")
-        // }, 1500);
+        titleDiv.classList.remove("animate__fadeOutUp")
+        titleDiv.classList.add("animate__fadeInDown")
+        infoDiv.classList.remove("animate__fadeOutDown")
+        infoDiv.classList.add("animate__fadeInUp")
         toggleCoverBtn.classList.remove("animate__fadeOutRight")
         toggleCoverBtn.classList.add("animate__fadeInRight")
         toggleCoverBtn.classList.add("unprevent-poiter")
@@ -230,7 +242,6 @@ function toggleUI() {
         info.classList.remove("animate__fadeOutDown")
         info.classList.add("animate__fadeInUp")
         toggleBtn.dataset.show = "true";
-        // toggleBtn.innerHTML = `<i class="fa-solid fa-eye-slash fa-lg"></i>`
     }
 }
 
@@ -239,57 +250,39 @@ function toggleColor() {
     const toggleCoverBtn = document.getElementById("toggleCover");
     const colorSetting = localStorage.getItem("colorSetting");
     const toggleColorBtn = document.getElementById("toggleColor");
-    const floatingInfoDiv = document.getElementById("floatingInfo");
-    const titleDiv = document.getElementById("title-div");
+    const infoColorDiv = document.getElementById("info-color-div");
+    const infoMonotonerDiv = document.getElementById("info-monotone-div");
+    const titleColorDiv = document.getElementById("title-color-div");
+    const titleMonotonerDiv = document.getElementById("title-monotone-div");
     if (colorSetting == "color") {
         localStorage.setItem("colorSetting", "monotone");
         toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
-        floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0)
-        )`
-        titleDiv.style.backgroundImage = `linear-gradient(to right,
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0)
-        )`
+        infoColorDiv.style.opacity = 0
+        infoMonotonerDiv.style.opacity = 0.5
+        titleColorDiv.style.opacity = 0
+        titleMonotonerDiv.style.opacity = 0.5
     } else {
         localStorage.setItem("colorSetting", "color");
         toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
         toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
         toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
-        floatingInfoDiv.style.backgroundImage = `linear-gradient(to right,
-            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75)
-        )`
-        titleDiv.style.backgroundImage = `linear-gradient(to right,
-            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.75),
-            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.75)
-        )`
+        infoColorDiv.style.opacity = 1
+        infoMonotonerDiv.style.opacity = 0
+        titleColorDiv.style.opacity = 1
+        titleMonotonerDiv.style.opacity = 0
     }
 }
 
 function adjustInfo() {
     const coverElement = document.getElementById('cover')
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-        document.getElementById('floatingInfo').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        document.getElementById('info-div').innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong> | Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else if (coverWidth < coverElement.offsetWidth || coverHeight < coverElement.offsetHeight) {
-        document.getElementById('floatingInfo').innerHTML = `<Strong>(ZOOM)</Strong> Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        document.getElementById('info-div').innerHTML = `<Strong>(ZOOM)</Strong> Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     } else {
-        document.getElementById('floatingInfo').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        document.getElementById('info-div').innerHTML = `Render at Original Size <Strong>${coverWidth} × ${coverHeight}</Strong>`
     }
 }
 
