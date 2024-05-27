@@ -357,23 +357,33 @@ function toggleColor() {
 
 function adjustInfo() {
     const coverElement = document.getElementById('cover')
+    const coverZoomElement = document.getElementById('cover-zoom')
     const toggleCoverBtn = document.getElementById("toggleCover")
     const infoOriginal = document.getElementById('info-original')
     const infoState = document.getElementById('info-state')
     const infoNow = document.getElementById('info-now')
     const fillState = toggleCoverBtn.getAttribute("data-fill")
 
+    if (window.innerHeight > window.innerWidth) {
+        scale = (window.innerWidth - coverWidth) * 100 / coverWidth
+    } else {
+        scale = (window.innerHeight - coverHeight) * 100 / coverHeight
+    }
+
     if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-        infoNow.innerHTML = `Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+        infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
     } else {
-        infoNow.innerHTML = `Render at <Strong>Original Size</Strong>`
+        infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
     }
+    
     if (fillState == "true") {
-        infoState.innerHTML = "Render mode <Strong>Fit</Strong>"
+        infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(scale + 100).toFixed(2)}%)</Strong>`
+    } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+        infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
     } else {
-        infoState.innerHTML = "Render mode <Strong>Default</Strong>"
+        infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
     }
-    infoOriginal.innerHTML = `Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+    infoOriginal.innerHTML = `<i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
 
     if (window.innerWidth < 770) {
         infoOriginal.classList.remove("text-end")
