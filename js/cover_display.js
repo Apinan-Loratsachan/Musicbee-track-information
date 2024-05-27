@@ -30,6 +30,9 @@ try {
         const toggleFilterBtn = document.getElementById("toggleFilter");
         const toggleCoverBtn = document.getElementById("toggleCover");
         const toggleInfoBtn = document.getElementById("toggleInfo");
+        const tip = document.getElementById("tip");
+        const tipText = document.getElementById("tip-text");
+        const tipEnd = document.getElementById("tip-fade");
 
         uiColor = localStorage.getItem("colorSetting");
         if (uiColor == null) {
@@ -52,6 +55,7 @@ try {
         } else if (info == "center") {
             toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
         }
+
 
         document.getElementById('image-viewer-container').appendChild(img);
 
@@ -85,13 +89,50 @@ try {
             toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleInfoBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+            tipText.style.backgroundImage = `linear-gradient(to right,
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+            )`
+            tipEnd.style.backgroundImage = `linear-gradient(to right,
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0)
+            )`
         } else {
             infoColorDiv.style.opacity = 1
             toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
             toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
             toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
             toggleInfoBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)`
+
+            tipText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+            tipEnd.style.backgroundImage = `linear-gradient(to right,
+                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0)
+            )`
         }
+
+        displaytip = parseInt(localStorage.getItem("displaytip"));
+        if (displaytip == null || displaytip == "NaN") {
+            console.log("f1")
+            localStorage.setItem("displaytip", 10);
+            tip.classList.add("animate__fadeInLeft")
+            setTimeout(() => {
+                tip.classList.remove("animate__fadeInLeft")
+                tip.classList.add("animate__slower")
+                tip.classList.add("animate__fadeOutLeft")
+            }, 4000);
+        } else if (displaytip == 0) {
+            localStorage.setItem("displaytip", 10)
+            tip.classList.add("animate__fadeInLeft")
+            setTimeout(() => {
+                tip.classList.remove("animate__fadeInLeft")
+                tip.classList.add("animate__slower")
+                tip.classList.add("animate__fadeOutLeft")
+            }, 4000);
+        } else {
+            localStorage.setItem("displaytip", displaytip - 1);
+        }
+
         document.getElementById('info-animate-container').appendChild(infoColorDiv)
 
         const infoMonotoneDiv = document.createElement('div')
@@ -254,13 +295,33 @@ async function getDominentColor(image) {
     dominantPalette = await colorThief.getPalette(image);
 }
 
-function dominantColorLog() {
-    const dominantColorDict = {
-        Overall: dominantColor,
-        Palette: dominantPalette,
-        PaletteIndexInUse: [dominentBG1, dominentBG2, dominentBG3, dominentBG4]
+function data() {
+    const dataDict = {
+        settings: {
+            color: localStorage.getItem("colorSetting"),
+            filter: localStorage.getItem("filterSetting"),
+            info: localStorage.getItem("infoSetting")
+        },
+        tipCount: parseInt(localStorage.getItem("displaytip")),
+        cover: {
+            image: {
+                imageURL: imageUrl,
+                height: coverHeight,
+                width: coverWidth
+            },
+            meta: {
+                title: title,
+                artist: artist,
+                album: album,
+            }
+        },
+        dominantColor: {
+            Overall: dominantColor,
+            Palette: dominantPalette,
+            PaletteIndexInUse: [dominentBG1, dominentBG2, dominentBG3, dominentBG4, dominentBG5]
+        }
     };
-    return dominantColorDict
+    return dataDict
 }
 
 function toggleUI() {
@@ -374,7 +435,7 @@ function adjustInfo() {
     } else {
         infoNow.innerHTML = `<i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
     }
-    
+
     if (fillState == "true") {
         infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(scale + 100).toFixed(2)}%)</Strong>`
     } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
