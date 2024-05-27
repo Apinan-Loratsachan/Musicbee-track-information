@@ -357,7 +357,6 @@ function toggleColor() {
 
 function adjustInfo() {
     const coverElement = document.getElementById('cover')
-    const coverZoomElement = document.getElementById('cover-zoom')
     const toggleCoverBtn = document.getElementById("toggleCover")
     const infoOriginal = document.getElementById('info-original')
     const infoState = document.getElementById('info-state')
@@ -385,7 +384,7 @@ function adjustInfo() {
     }
     infoOriginal.innerHTML = `<i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
 
-    if (window.innerWidth < 770) {
+    if (window.innerWidth < 865) {
         infoOriginal.classList.remove("text-end")
         infoState.classList.remove("text-start")
     } else {
