@@ -112,8 +112,7 @@ try {
         }
 
         displaytip = parseInt(localStorage.getItem("displaytip"));
-        if (displaytip == null || displaytip == "NaN") {
-            console.log("f1")
+        if (displaytip == null || isNaN(displaytip)) {
             localStorage.setItem("displaytip", 10);
             tip.classList.add("animate__fadeInLeft")
             setTimeout(() => {
