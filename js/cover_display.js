@@ -114,6 +114,7 @@ try {
 
         adjustInfo()
         adjustCoverToggleBtn()
+        adjustCoverBtnPosition()
         setCoverToBG(imageUrl)
         if (title != null) {
             document.title = `Cover | ${title}`
@@ -332,7 +333,14 @@ function adjustInfo() {
 window.addEventListener('resize', function (event) {
     adjustInfo()
     adjustCoverToggleBtn()
+    adjustCoverBtnPosition()
 }, true);
+
+function adjustCoverBtnPosition() {
+    const coverBtn = document.getElementById('cover-button-group-container')
+    const info = document.getElementById('image-info-container')
+    coverBtn.style.paddingBottom = info.offsetHeight + 'px'
+}
 
 function toggleFilter() {
     const toggleFilterBtn = document.getElementById("toggleFilter");
