@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('artist-zone').innerText = 'Unknown'
     } else {
         document.getElementById("artist").innerText = params.get("ar") || "Unknown";
-        let artistTemp = document.getElementById("artist").innerText = params.get("ar") || "Unknown"
 
         artistString = (params.get("ar") || "");
         const artistArray = artistString.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |vo\.|Vo\.|VO\.|vo:|Vo:|VO:|vo |Vo |VO |&|\(\s*|\s*\)|\[|\]|,)/g)
@@ -159,8 +158,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
         document.getElementById("albumArtist").href = `https://www.google.com/search?q=${s_albumArtist}`;
     }
-    document.getElementById("disc").innerText = `${params.get("dn").replace(/^0+/, '') || "Unknown"} / ${params.get("dc").replace(/^0+/, '') || "Unknown"}`;
-    document.getElementById("track").innerText = `${params.get("tn").replace(/^0+/, '') || "Unknown"} / ${params.get("tc").replace(/^0+/, '') || "Unknown"}`;
+    try {
+        document.getElementById("disc").innerText = `${params.get("dn").replace(/^0+/, '') || "Unknown"} / ${params.get("dc").replace(/^0+/, '') || "Unknown"}`;
+        document.getElementById("track").innerText = `${params.get("tn").replace(/^0+/, '') || "Unknown"} / ${params.get("tc").replace(/^0+/, '') || "Unknown"}`;
+    } catch (e) {
+        document.getElementById("disc").innerText = "Unknown";
+        document.getElementById("track").innerText = "Unknown";
+    }
     document.getElementById("genre").innerText = params.get("ge") || "Unknown";
     document.getElementById("year").innerText = params.get("y") || "Unknown";
     document.getElementById("language").innerText = params.get("lang") || "Unknown";
@@ -257,7 +261,7 @@ function searchForAlbumCover() {
         const messageElement = document.createElement('b');
         messageElement.innerText = 'Unknow album name.';
         messageElement.id = "noImageText"
-        messageElement.classList = 'animate__animated animate__headShake'
+        messageElement.classList = 'prevent-all animate__animated animate__headShake delay-2'
         document.getElementById('imageSection').appendChild(messageElement);
     }
 }
@@ -532,7 +536,6 @@ function displayVGMdbAlbumCover(albumId) {
                 });
                 const coverUrl = covers[0].full;
                 showCoverImage(coverUrl)
-                setCoverToBG(coverUrl)
                 console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
             } else if (picture != '') {
                 $(document).ready(function () {
@@ -541,7 +544,6 @@ function displayVGMdbAlbumCover(albumId) {
                 console.log('%c[COVER | VGMDB] %cNot found cover in "covers" tag looking for "picture" tag', 'font-weight: bold', '')
                 const coverUrl = picture;
                 showCoverImage(coverUrl)
-                setCoverToBG(coverUrl)
                 console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
             } else {
                 console.log('%c[COVER | VGMDB] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
@@ -573,7 +575,6 @@ function displayVGMdbAlbumCoverByTag(albumId) {
                 });
                 const coverUrl = covers[0].full;
                 showCoverImage(coverUrl)
-                setCoverToBG(coverUrl)
                 console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
             } else if (picture != '') {
                 $(document).ready(function () {
@@ -582,7 +583,6 @@ function displayVGMdbAlbumCoverByTag(albumId) {
                 console.log('%c[COVER | VGMDB] %cNot found cover in "covers" tag looking for "picture" tag', 'font-weight: bold', '')
                 const coverUrl = picture;
                 showCoverImage(coverUrl)
-                setCoverToBG(coverUrl)
                 console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
             } else {
                 console.log('%c[COVER | VGMDB] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
@@ -643,7 +643,6 @@ async function spotifySearchImage(album, album_artist) {
             });
             const albumImages = searchData.albums.items[0].images;
             showCoverImage(albumImages[0].url)
-            setCoverToBG(albumImages[0].url)
             console.log('%c[COVER | SPOTIFY] %cGet album cover success', 'font-weight: bold', 'color: green')
         } else {
             // If no album found, display a message
@@ -705,7 +704,6 @@ async function spotifySearchImageByID(spotify_album_cover_id) {
             });
             const albumImages = searchData.images;
             showCoverImageByID(albumImages[0].url);
-            setCoverToBG(albumImages[0].url);
             console.log('%c[COVER | SPOTIFY] %cGet album cover success', 'font-weight: bold', 'color: green');
         } else {
             // If no album found, display a message
@@ -849,6 +847,7 @@ function showCoverImage(image) {
         document.getElementById("imageSection").className = 'imageCenter';
         document.getElementById("imageSection").appendChild(linkElement);
         document.getElementById("albumImageLink").appendChild(coverElement);
+        setCoverToBG(image)
     };
 }
 
@@ -875,6 +874,7 @@ function showCoverImageByID(image) {
         coverSearchText.classList.remove("animate__fadeIn")
         coverSearchText.classList.remove("delay-5")
         coverSearchText.classList.add("animate__fadeOutUp")
+        setCoverToBG(image)
         setTimeout(function () {
             coverSearchText.innerText = "Search other cover"
             coverSearchText.classList.remove("animate__fadeOutUp")
@@ -914,6 +914,7 @@ function showCoverImageBycti(image) {
         coverSearchText.classList.remove("animate__fadeIn")
         coverSearchText.classList.remove("delay-5")
         coverSearchText.classList.add("animate__fadeOutUp")
+        setCoverToBG(image)
         setTimeout(function () {
             coverSearchText.innerText = "Search other cover"
             coverSearchText.classList.remove("animate__fadeOutUp")
@@ -951,7 +952,6 @@ function customAlbumCover(image) {
     data_inuse = null
     data_inuse_provider = 'Tag'
     showCoverImageBycti(image)
-    setCoverToBG(image)
 }
 
 function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc, spotifyURL, albumSrc) {
@@ -1181,7 +1181,6 @@ async function getSpotifyAlbumData() {
             });
             const albumImages = searchData.images;
             showCoverImageByID(albumImages[0].url);
-            setCoverToBG(albumImages[0].url);
             console.log('%c[COVER] %cGet album cover in Spotify success', 'font-weight: bold', 'color: green');
         }
         if (g_discCount != 1) {
