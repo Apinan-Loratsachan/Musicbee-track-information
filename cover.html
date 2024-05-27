@@ -38,17 +38,22 @@
     <button type="button" class="unprevent-poiter bg-blur" id="toggleUI" onclick="toggleUI()">toggleUI</button>
     <div id="cover-button-container" class="side-cover-button">
       <div id="cover-button-group-container">
-        <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight delay-3" id="toggleCover"
-          onclick="toggleCover()" data-toggle="tooltip" data-placement="left" title="Fit cover image to screen"
+        <button type="button" class="unprevent-poiter cover-button animate__animated animate__fadeInRight delay-4" id="toggleInfo"
+          onclick="toggleInfo()" title="Change title and album alignment"
+          data-fill="false">
+          <i class="fa-solid fa-align-justify fa-lg"></i>
+        </button>
+        <button type="button" class="unprevent-poiter cover-button animate__animated animate__fadeInRight delay-3" id="toggleCover"
+          onclick="toggleCover()" title="Fit cover image to screen"
           data-fill="false">
           <i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>
         </button>
-        <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight delay-2" id="toggleFilter"
-          onclick="toggleFilter()" data-toggle="tooltip" data-placement="left" title="Change brightness of backgroud">
+        <button type="button" class="unprevent-poiter cover-button animate__animated animate__fadeInRight delay-2" id="toggleFilter"
+          onclick="toggleFilter()" title="Change brightness of backgroud">
           <i class="fa-solid fa-lightbulb fa-lg"></i>
         </button>
-        <button type="button" class="unprevent-poiter animate__animated animate__fadeInRight" id="toggleColor"
-          onclick="toggleColor()" data-toggle="tooltip" data-placement="left" title="Change color of information">
+        <button type="button" class="unprevent-poiter cover-button animate__animated animate__fadeInRight" id="toggleColor"
+          onclick="toggleColor()" title="Change color of information">
           <i class="fa-solid fa-palette fa-lg"></i>
         </button>
       </div>

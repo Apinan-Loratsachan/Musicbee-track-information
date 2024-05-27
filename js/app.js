@@ -832,7 +832,7 @@ function changeHeader() {
 function showCoverImage(image) {
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
     const coverElement = document.createElement("img");
     coverElement.src = image;
@@ -854,7 +854,7 @@ function showCoverImage(image) {
 function showCoverImageByID(image) {
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
     const coverElement = document.createElement("img");
     coverElement.src = image;
@@ -898,7 +898,7 @@ function showCoverImageBycti(image) {
     coverElement.onload = function () {
         const linkElement = document.createElement("a");
         linkElement.id = 'albumImageLink';
-        linkElement.href = `cover?title=${encodeURIComponent(g_title + ' - ' + g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
         linkElement.setAttribute('target', '_blank')
         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
         $(document).ready(function () {

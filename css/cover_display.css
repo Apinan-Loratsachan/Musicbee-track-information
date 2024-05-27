@@ -12,6 +12,10 @@
     bottom: 0px;
 }
 
+.header-text-space {
+    width: 20px;
+}
+
 .infoText {
     width: 100%;
 }
@@ -38,7 +42,7 @@
     opacity: 0;
 }
 
-#toggleColor {
+.cover-button {
     margin: 30px;
     display: block;
     /* position: fixed; */
@@ -64,53 +68,16 @@
 }
 
 #toggleFilter {
-    margin: 30px;
-    display: block;
-    /* position: fixed; */
-    bottom: 150px;
-    right: 40px;
-    z-index: 150;
-    font-size: 22px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    /* padding: 15px; */
-    border-radius: 4px;
-    width: 60px;
-    height: 60px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.75);
-
-    &:hover {
-        scale: 1.2;
-    }
-
     transition: all ease-in-out 0.3s,
-    background-color ease-in-out 0.6s;
+    background-color ease-in-out 0.5s;
 }
 
 #toggleCover {
-    margin: 30px;
-    display: block;
-    /* position: fixed; */
-    bottom: 240px;
-    right: 40px;
-    z-index: 100;
-    font-size: 22px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    /* padding: 15px; */
-    border-radius: 4px;
-    width: 60px;
-    height: 60px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.75);
+    transition: all ease-in-out 0.3s,
+    background-color ease-in-out 0.7s;
+}
 
-    &:hover {
-        scale: 1.2;
-    }
-
+#toggleInfo {
     transition: all ease-in-out 0.3s,
     background-color ease-in-out 0.9s;
 }
@@ -167,6 +134,7 @@ html {
     min-height: 40px;
     bottom: 0;
 }
+
 .text-shadow {
     text-shadow: 0px 0px 10px #000;
 }
@@ -182,10 +150,20 @@ html {
     top: 0;
 }
 
-#title-div {
+#header-between-container {
     width: 100%;
     padding-left: 3%;
     padding-right: 3%;
+}
+
+#header-center-container {
+    position: absolute;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    z-index: -5;
+    transition: all ease-in-out 0.75s;
 }
 
 #info-div {
@@ -194,6 +172,7 @@ html {
 }
 
 .animate-container {
+    position: relative;
     width: 100%;
 }
 

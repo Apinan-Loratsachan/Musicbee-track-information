@@ -2,12 +2,14 @@ var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette, uiState = 
     dominentBG1 = 3,
     dominentBG2 = 2,
     dominentBG3 = 4,
-    dominentBG4 = 5
+    dominentBG4 = 5,
+    dominentBG5 = 6
 
 const params = new URLSearchParams(window.location.search);
 
 const imageUrl = `https://${params.get('cover')}`;
 const title = `${params.get('title')}`;
+const artist = `${params.get('artist') || 'Unknow artist'}`;
 const album = `${params.get('album')}`;
 
 try {
@@ -24,6 +26,11 @@ try {
         coverWidth = this.naturalWidth
         coverHeight = this.naturalHeight
 
+        const toggleColorBtn = document.getElementById("toggleColor");
+        const toggleFilterBtn = document.getElementById("toggleFilter");
+        const toggleCoverBtn = document.getElementById("toggleCover");
+        const toggleInfoBtn = document.getElementById("toggleInfo");
+
         uiColor = localStorage.getItem("colorSetting");
         if (uiColor == null) {
             localStorage.setItem("colorSetting", "color");
@@ -38,6 +45,14 @@ try {
             toggleFilter()
         }
 
+        info = localStorage.getItem("infoSetting");
+        if (info == null) {
+            localStorage.setItem("infoSetting", "between");
+            info = "between";
+        } else if (info == "center") {
+            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
+        }
+
         document.getElementById('image-viewer-container').appendChild(img);
 
         const zoomImg = document.createElement('img');
@@ -48,10 +63,6 @@ try {
         zoomImg.classList = 'cover-contain animate__animated'
         zoomImg.style.opacity = 0
         document.getElementById('zoom-image-container').appendChild(zoomImg);
-
-        const toggleColorBtn = document.getElementById("toggleColor");
-        const toggleFilterBtn = document.getElementById("toggleFilter");
-        const toggleCoverBtn = document.getElementById("toggleCover");
 
         const infoAnimateDiv = document.createElement('div')
         infoAnimateDiv.id = 'info-animate-container'
@@ -73,11 +84,13 @@ try {
             toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
             toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+            toggleInfoBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         } else {
             infoColorDiv.style.opacity = 1
             toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
             toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
             toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
+            toggleInfoBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)`
         }
         document.getElementById('info-animate-container').appendChild(infoColorDiv)
 
@@ -151,11 +164,42 @@ try {
                 titleMonotoneDiv.style.opacity = 0
             }
             document.getElementById('title-animate-container').appendChild(titleMonotoneDiv)
+
             const titleDiv = document.createElement('div')
-            titleDiv.id = 'title-div'
-            titleDiv.innerText = title + ' | ' + album
-            titleDiv.classList = 'p-2 text-shadow animate__animated animate__fadeInDown'
+            titleDiv.id = 'header-between-container'
+            titleDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column text-shadow animate__animated animate__fadeInDown'
             document.getElementById('title-animate-container').appendChild(titleDiv)
+
+            const titleContainer = document.createElement('div')
+            titleContainer.id = 'title-container'
+            titleContainer.innerHTML = `<i class="fa-solid fa-music fa-lg"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-microphone fa-lg"></i>&nbsp;&nbsp;&nbsp;${artist}`
+            titleContainer.classList = 'p-2 text-shadow animate__animated animate__fadeInDown'
+            document.getElementById('header-between-container').appendChild(titleContainer)
+
+            const albumContainer = document.createElement('div')
+            albumContainer.id = 'album-container'
+            albumContainer.innerHTML = `<i class="fa-solid fa-compact-disc"></i>&nbsp;&nbsp;&nbsp;${album}`
+            albumContainer.classList = 'p-2 text-shadow animate__animated animate__fadeInDown'
+            document.getElementById('header-between-container').appendChild(albumContainer)
+
+            const header = document.getElementById("header-between-container")
+            if (info == "center") {
+                toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
+                header.className = "text-shadow animate__animated animate__fadeInDown"
+                header.innerHTML = `<div id="title-container" class="p-2 text-shadow animate__animated animate__fadeInDown"><i
+                class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
+                class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}&nbsp;&nbsp;&nbsp;
+                <i class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
+            } else {
+                toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-justify fa-lg"></i>`
+                header.className = "d-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column text-shadow animate__animated animate__fadeInDown"
+                header.innerHTML = `<div id="title-container" class="p-2 text-shadow animate__animated animate__fadeInDown"><i
+                class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
+                class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}</div>
+        
+                <div id="album-container" class="p-2 text-shadow animate__animated animate__fadeInDown"><i
+                class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
+            }
         }
     }
 
@@ -223,16 +267,20 @@ function toggleUI() {
     const toggleBtn = document.getElementById("toggleUI");
     const title = document.getElementById("title-animate-container");
     const info = document.getElementById("info-animate-container");
+    const toggleInfoBtn = document.getElementById("toggleInfo");
     const toggleColorBtn = document.getElementById("toggleColor");
     const toggleFilterBtn = document.getElementById("toggleFilter");
     const toggleCoverBtn = document.getElementById("toggleCover");
     const infoDiv = document.getElementById("info-div");
-    const titleDiv = document.getElementById("title-div");
+    const titleDiv = document.getElementById("header-between-container");
     if (uiState == true) {
         titleDiv.classList.remove("animate__fadeInDown")
         titleDiv.classList.add("animate__fadeOutUp")
         infoDiv.classList.remove("animate__fadeInUp")
         infoDiv.classList.add("animate__fadeOutDown")
+        toggleInfoBtn.classList.remove("unprevent-poiter")
+        toggleInfoBtn.classList.remove("animate__fadeInRight")
+        toggleInfoBtn.classList.add("animate__fadeOutRight")
         toggleCoverBtn.classList.remove("unprevent-poiter")
         toggleCoverBtn.classList.remove("animate__fadeInRight")
         toggleCoverBtn.classList.add("animate__fadeOutRight")
@@ -254,6 +302,9 @@ function toggleUI() {
         titleDiv.classList.add("animate__fadeInDown")
         infoDiv.classList.remove("animate__fadeOutDown")
         infoDiv.classList.add("animate__fadeInUp")
+        toggleInfoBtn.classList.remove("animate__fadeOutRight")
+        toggleInfoBtn.classList.add("animate__fadeInRight")
+        toggleInfoBtn.classList.add("unprevent-poiter")
         toggleCoverBtn.classList.remove("animate__fadeOutRight")
         toggleCoverBtn.classList.add("animate__fadeInRight")
         toggleCoverBtn.classList.add("unprevent-poiter")
@@ -274,6 +325,7 @@ function toggleUI() {
 function toggleColor() {
     const toggleFilterBtn = document.getElementById("toggleFilter");
     const toggleCoverBtn = document.getElementById("toggleCover");
+    const toggleInfoBtn = document.getElementById("toggleInfo");
     const colorSetting = localStorage.getItem("colorSetting");
     const toggleColorBtn = document.getElementById("toggleColor");
     const infoColorDiv = document.getElementById("info-color-div");
@@ -285,6 +337,7 @@ function toggleColor() {
         toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+        toggleInfoBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         infoColorDiv.style.opacity = 0
         infoMonotonerDiv.style.opacity = 0.5
         titleColorDiv.style.opacity = 0
@@ -294,6 +347,7 @@ function toggleColor() {
         toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
         toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
         toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
+        toggleInfoBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)`
         infoColorDiv.style.opacity = 1
         infoMonotonerDiv.style.opacity = 0
         titleColorDiv.style.opacity = 1
@@ -321,7 +375,7 @@ function adjustInfo() {
     }
     infoOriginal.innerHTML = `Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
 
-    if(window.innerWidth < 770) {
+    if (window.innerWidth < 770) {
         infoOriginal.classList.remove("text-end")
         infoState.classList.remove("text-start")
     } else {
@@ -441,5 +495,30 @@ function adjustCoverToggleBtn() {
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-xmark fa-lg"></i>`
     } else if (fillState != "true") {
         toggleCoverBtn.innerHTML = `<i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>`
+    }
+}
+
+function toggleInfo() {
+    const toggleInfoBtn = document.getElementById("toggleInfo")
+    const header = document.getElementById("header-between-container")
+    const setting = localStorage.getItem("infoSetting")
+    if (setting == "between") {
+        toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
+        header.className = "text-shadow animate__animated animate__fadeInDown"
+        header.innerHTML = `<div id="title-container" class="p-2 text-shadow animate__animated animate__fadeInDown"><i
+        class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
+        class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}&nbsp;&nbsp;&nbsp;
+        <i class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
+        localStorage.setItem("infoSetting", 'center')
+    } else {
+        toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-justify fa-lg"></i>`
+        header.className = "d-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column text-shadow animate__animated animate__fadeInDown"
+        header.innerHTML = `<div id="title-container" class="p-2 text-shadow animate__animated animate__fadeInDown"><i
+        class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
+        class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}</div>
+
+        <div id="album-container" class="p-2 text-shadow animate__animated animate__fadeInDown"><i
+        class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
+        localStorage.setItem("infoSetting", 'between')
     }
 }
