@@ -520,7 +520,7 @@ function toggleCover() {
             alertColor = `rgba(0, 0, 0, 0.75);`
         }
         document.getElementById("notification-container").innerHTML = `
-            <div id="notification" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
+            <div id="notification" class="text-shadow animate__animated animate__bounceIn" style="background-color: ${alertColor}">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
                 <div style="height: 20px;"></div>
                 <div id="notification-text">Disable fit cover<br>your screen is small than cover</div>
@@ -571,7 +571,7 @@ function adjustCoverToggleBtn() {
             coverZoomElement.classList.remove("animate__fadeInUp")
             adjustInfo()
             document.getElementById("notification-container").innerHTML = `
-            <div id="notification" class="animate__animated animate__bounceIn" style="background-color: ${alertColor}">
+            <div id="notification" class="text-shadow animate__animated animate__bounceIn" style="background-color: ${alertColor}">
                 <i class="fa-solid fa-rotate-left fa-2xl"></i>
                 <div style="height: 20px;"></div>
                 <div id="notification-text">Disable fit cover<br>expand your screen for enable zoom again</div>
