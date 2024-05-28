@@ -23,7 +23,7 @@
     z-index: 500;
 }
 
-#tip-fade{
+#tip-fade {
     display: block;
     min-height: 100%;
     min-width: 20px;
@@ -44,6 +44,11 @@
 
 .infoText {
     width: 100%;
+    transition: color ease-in-out 1s;
+}
+
+.headerText {
+    transition: color ease-in-out 1s;
 }
 
 #button-container {
@@ -162,7 +167,8 @@ html {
 }
 
 .text-shadow {
-    text-shadow: 0px 0px 10px #000;
+    text-shadow: 0px 0px 10px black;
+    /* mix-blend-mode: difference; */
 }
 
 .title-container {
@@ -176,7 +182,7 @@ html {
     top: 0;
 }
 
-#header-between-container {
+#header-container {
     width: 100%;
     padding-left: 3%;
     padding-right: 3%;
