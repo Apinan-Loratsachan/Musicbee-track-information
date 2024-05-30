@@ -374,6 +374,10 @@ function data() {
     return dataDict
 }
 
+function openImage() {
+    window.open(imageUrl, '_self');
+}
+
 function toggleUI() {
     // const toggleBtn = document.getElementById("toggleUI");
     const title = document.getElementById("title-animate-container");
