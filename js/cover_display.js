@@ -520,11 +520,11 @@ function updateAlert(init) {
         if (init) {
             var updateRenderAlert = window.setInterval(function () {
                 if (fillState == "true") {
-                    renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
+                    renderText.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
                 } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-                    renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
+                    renderText.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
                 } else {
-                    renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
+                    renderText.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
                 }
 
                 if (isMobile()) {
@@ -555,11 +555,11 @@ function updateAlert(init) {
             }, 1500);
         } else {
             if (fillState == "true") {
-                renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
+                renderText.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
             } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-                renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
+                renderText.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
             } else {
-                renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
+                renderText.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
             }
 
             if (isMobile()) {
@@ -683,11 +683,11 @@ function adjustInfo() {
     }
 
     if (fillState == "true") {
-        infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
+        infoState.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
     } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-        infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
+        infoState.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
     } else {
-        infoState.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
+        infoState.innerHTML = `<i class="fa-solid fa-sliders fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
     }
     infoOriginal.innerHTML = `<i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
 
