@@ -6,24 +6,31 @@
     z-index: 100;
 }
 
-#tip {
+#cover-button-group-container {
+    transition: all ease-in-out 0.5s;
+}
+
+.alert {
     position: fixed;
     width: 100%;
     top: 20%;
+    left: -1%;
     color: white;
     opacity: 0;
+    padding: 0px;
+    margin: 0px;
 }
 
-#tip-text {
+.alert-text {
     width: fit-content;
     display: block;
     padding-top: 8px;
     padding-bottom: 8px;
-    padding-left: 3%;
+    padding-left: 4%;
     z-index: 500;
 }
 
-#tip-fade {
+.alert-fade {
     display: block;
     min-height: 100%;
     min-width: 20px;
@@ -51,7 +58,7 @@
     transition: color ease-in-out 1s;
 }
 
-#button-container {
+#action-container {
     position: fixed;
     top: 0px;
     width: 100%;
@@ -149,6 +156,7 @@ html {
     justify-content: center;
     height: 100%;
     width: 100%;
+    transition: all 1s;
 }
 
 .bg-blur {
@@ -166,9 +174,12 @@ html {
     bottom: 0;
 }
 
-.text-shadow {
-    text-shadow: 0px 0px 10px black;
-    /* mix-blend-mode: difference; */
+.white-text-shadow {
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);
+}
+
+.black-text-shadow {
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
 .title-container {
@@ -224,11 +235,14 @@ html {
     height: 100%;
 }
 
+.cover {
+    transition: all 1s;
+}
+
 .cover-default {
     max-height: 100%;
     max-width: 100%;
     aspect-ratio: auto;
-    /* transition: opacity ease-in-out 0.5s; */
 }
 
 .cover-contain {
@@ -236,11 +250,6 @@ html {
     width: 100%;
     object-fit: contain;
     aspect-ratio: auto;
-    /* transition: opacity ease-in-out 0.5s; */
-}
-
-#cover {
-    transition: all ease-in-out 0.3s;
 }
 
 .responsive {

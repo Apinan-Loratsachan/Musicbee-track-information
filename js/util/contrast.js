@@ -19,6 +19,5 @@ function contrast(rgb1, rgb2) {
   var lum2 = luminance(...rgb2);
   var brightest = Math.max(lum1, lum2);
   var darkest = Math.min(lum1, lum2);
-  console.log((brightest + 0.05) / (darkest + 0.05))
   return (brightest + 0.05) / (darkest + 0.05);
 }

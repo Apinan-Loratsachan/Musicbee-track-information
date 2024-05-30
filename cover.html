@@ -34,15 +34,19 @@
   <div id="image-title-container" class="title-container"></div>
   <div id="image-info-container" class="info-container"></div>
   <div id="filter" class="filter"></div>
-  <div id="button-container">
-    <div id="tip" class="d-flex delay-5 animate__animated">
-      <div id="tip-text" class="text-shadow">
+  <div id="action-container">
+    <div id="tip" class="alert d-flex delay-5 animate__animated">
+      <div id="tip-text" class="alert-text text-shadow">
         <div class="animate__animated animate__tada delay-18">
           <strong><u>Click</u></strong> on screen for <strong><u>show</u></strong> or
           <strong><u>hide</u></strong> UI
         </div>
       </div>
-      <div id="tip-fade"></div>
+      <div id="tip-fade" class="alert-fade"></div>
+    </div>
+    <div id="render" class="alert d-flex animate__animated">
+      <div id="render-text" class="alert-text text-shadow"></div>
+      <div id="render-fade" class="alert-fade"></div>
     </div>
     <button type="button" class="unprevent-poiter bg-blur" id="toggleUI" onclick="toggleUI()">toggleUI</button>
     <div id="cover-button-container" class="side-cover-button">
