@@ -179,12 +179,6 @@ try {
         infoOriginal.classList = "infoText text-end p-2 flex-fill"
         document.getElementById('info-div').appendChild(infoOriginal)
 
-        if (useWhite) {
-            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
-        } else {
-            document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
-        }
-
         setCoverToBG(imageUrl)
         document.title = `Cover | ${title}`
 
@@ -239,10 +233,12 @@ try {
         albumContainer.classList = 'headerText p-2 animate__animated animate__fadeInDown'
         document.getElementById('header-container').appendChild(albumContainer)
 
-        if (useWhite) {
-            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
-        } else {
+        if (!useWhite && uiColor == 'color') {
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+            document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
+        } else {
+            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
+            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
         }
 
         const header = document.getElementById("header-container")
@@ -613,6 +609,7 @@ function toggleColor() {
     const infoMonotonerDiv = document.getElementById("info-monotone-div");
     const titleColorDiv = document.getElementById("title-color-div");
     const titleMonotonerDiv = document.getElementById("title-monotone-div");
+    const filterState = document.getElementById("toggleFilter").getAttribute("data-show");
     if (colorSetting == "color") {
         localStorage.setItem("colorSetting", "monotone");
         toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
@@ -635,12 +632,12 @@ function toggleColor() {
         infoMonotonerDiv.style.opacity = 0
         titleColorDiv.style.opacity = 1
         titleMonotonerDiv.style.opacity = 0
-        if (useWhite) {
-            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
-            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
-        } else {
+        if (!useWhite && (filterState == 'false' || filterState == null)) {
             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+        } else {
+            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
+            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
         }
     }
 }
@@ -774,19 +771,23 @@ function toggleFilter() {
     const toggleFilterBtn = document.getElementById("toggleFilter");
     const filter = document.getElementById("filter");
     const state = toggleFilterBtn.getAttribute("data-show");
+    const colorSetting = localStorage.getItem('colorSetting')
     if (state == "true") {
         toggleFilterBtn.innerHTML = `<i class="fa-solid fa-lightbulb fa-lg"></i>`
         filter.style.backgroundColor = `rgba(0, 0, 0, 0)`
-        if (useWhite) {
-            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
-            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
-        } else {
+        if (!useWhite && colorSetting != 'monotone') {
+            console.log(1)
             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+        } else {
+            console.log(2)
+            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
+            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
         }
         localStorage.setItem("filterSetting", "false");
         toggleFilterBtn.dataset.show = "false";
     } else {
+        console.log(3)
         toggleFilterBtn.innerHTML = `<i class="fa-regular fa-lightbulb fa-lg"></i>`
         filter.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
