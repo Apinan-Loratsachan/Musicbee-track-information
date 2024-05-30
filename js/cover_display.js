@@ -776,18 +776,15 @@ function toggleFilter() {
         toggleFilterBtn.innerHTML = `<i class="fa-solid fa-lightbulb fa-lg"></i>`
         filter.style.backgroundColor = `rgba(0, 0, 0, 0)`
         if (!useWhite && colorSetting != 'monotone') {
-            console.log(1)
             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
         } else {
-            console.log(2)
             document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
             document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
         }
         localStorage.setItem("filterSetting", "false");
         toggleFilterBtn.dataset.show = "false";
     } else {
-        console.log(3)
         toggleFilterBtn.innerHTML = `<i class="fa-regular fa-lightbulb fa-lg"></i>`
         filter.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
         document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
