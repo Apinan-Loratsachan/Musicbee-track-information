@@ -12,9 +12,8 @@
 
 .alert {
     position: fixed;
-    width: 100%;
     top: 20%;
-    left: -1%;
+    left: -10px;
     color: white;
     opacity: 0;
     padding: 0px;
@@ -22,16 +21,15 @@
 }
 
 .alert-text {
-    width: fit-content;
-    display: block;
+    width: 350px;
     padding-top: 8px;
     padding-bottom: 8px;
-    padding-left: 4%;
+    padding-left: 40px;
     z-index: 500;
 }
 
 .alert-fade {
-    display: block;
+    /* display: block; */
     min-height: 100%;
     min-width: 20px;
     max-width: 100px;

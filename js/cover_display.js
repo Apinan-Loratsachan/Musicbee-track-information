@@ -472,81 +472,48 @@ function toggleUI() {
 function updateAlert(init) {
     const coverElement = document.getElementById('cover')
     const zoomCoverElement = document.getElementById('cover-zoom')
-    const toggleCoverBtn = document.getElementById("toggleCover");
+    const toggleCoverBtn = document.getElementById("toggleCover")
     const fillState = toggleCoverBtn.getAttribute("data-fill")
-    if (!uiState) {
-        if (localStorage.getItem("colorSetting") != "color") {
-            renderText.style.backgroundColor = `rgba(0, 0, 0, 0)`
-            renderText.style.backgroundImage = `linear-gradient(to right,
+    const toggleFilterBtn = document.getElementById("toggleFilter")
+    const filterState = toggleFilterBtn.getAttribute("data-show")
+
+    if (localStorage.getItem("colorSetting") != "color") {
+        renderText.style.backgroundColor = `rgba(0, 0, 0, 0)`
+        renderText.style.backgroundImage = `linear-gradient(to right,
                 rgba(0, 0, 0, 0.5),
                 rgba(0, 0, 0, 0.5)
             )`
-            renderEnd.style.backgroundImage = `linear-gradient(to right,
+        renderEnd.style.backgroundImage = `linear-gradient(to right,
                 rgba(0, 0, 0, 0.5),
                 rgba(0, 0, 0, 0)
             )`
+    } else {
+        renderText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+        if (useWhite || filterState == 'true') {
+            renderText.style.color = "rgba(255, 255, 255, 1)"
         } else {
-            renderText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
-            if (useWhite || filter == 'true') {
-                renderText.style.color = "rgba(255, 255, 255, 1)"
-            } else {
-                renderText.style.color = "rgba(20, 20, 20, 1)"
-            }
-            renderText.style.backgroundImage = `linear-gradient(to right,
+            renderText.style.color = "rgba(20, 20, 20, 1)"
+        }
+        renderText.style.backgroundImage = `linear-gradient(to right,
                 rgba(0, 0, 0, 0),
                 rgba(0, 0, 0, 0)
             )`
-            renderEnd.style.backgroundImage = `linear-gradient(to right,
+        renderEnd.style.backgroundImage = `linear-gradient(to right,
                 rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
                 rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0)
             )`
-        }
+    }
 
-        if (window.innerHeight > window.innerWidth) {
-            scale = (coverElement.offsetWidth - coverWidth) * 100 / coverWidth
-            zoomScale = (zoomCoverElement.offsetWidth - coverWidth) * 100 / coverWidth
-        } else {
-            scale = (coverElement.offsetHeight - coverHeight) * 100 / coverHeight
-            zoomScale = (zoomCoverElement.offsetHeight - coverHeight) * 100 / coverHeight
-        }
+    if (window.innerHeight > window.innerWidth) {
+        scale = (coverElement.offsetWidth - coverWidth) * 100 / coverWidth
+        zoomScale = (zoomCoverElement.offsetWidth - coverWidth) * 100 / coverWidth
+    } else {
+        scale = (coverElement.offsetHeight - coverHeight) * 100 / coverHeight
+        zoomScale = (zoomCoverElement.offsetHeight - coverHeight) * 100 / coverHeight
+    }
 
-        if (init) {
-            var updateRenderAlert = window.setInterval(function () {
-                if (fillState == "true") {
-                    renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
-                } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-                    renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
-                } else {
-                    renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
-                }
-
-                if (isMobile()) {
-                    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-                        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-mobile-screen fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
-                    } else {
-                        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-mobile-screen fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
-                    }
-                } else if (isMobileTablet()) {
-                    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-                        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-tablet-screen-button fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
-                    } else {
-                        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-tablet-screen-button fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
-                    }
-                } else {
-                    if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
-                        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
-                    } else {
-                        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
-                    }
-                }
-
-                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
-            }, 1);
-
-            setTimeout(() => {
-                clearInterval(updateRenderAlert)
-            }, 1500);
-        } else {
+    if (init) {
+        var updateRenderAlert = window.setInterval(function () {
             if (fillState == "true") {
                 renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
             } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
@@ -576,21 +543,54 @@ function updateAlert(init) {
             }
 
             renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+        }, 1);
+
+        setTimeout(() => {
+            clearInterval(updateRenderAlert)
+        }, 1500);
+    } else {
+        if (fillState == "true") {
+            renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Scale (${(zoomScale + 100).toFixed(2)}%)</Strong>`
+        } else if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+            renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal (${(scale + 100).toFixed(2)}%)</Strong>`
+        } else {
+            renderText.innerHTML = `<i class="fa-solid fa-magnifying-glass fa-lg"></i>&nbsp;&nbsp;&nbsp;Render mode <Strong>Normal</Strong>`
         }
 
+        if (isMobile()) {
+            if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-mobile-screen fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+            } else {
+                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-mobile-screen fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+            }
+        } else if (isMobileTablet()) {
+            if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-tablet-screen-button fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+            } else {
+                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-tablet-screen-button fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+            }
+        } else {
+            if (coverWidth > coverElement.offsetWidth || coverHeight > coverElement.offsetHeight) {
+                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>${coverElement.offsetWidth} × ${coverElement.offsetHeight}</Strong>`
+            } else {
+                renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-display fa-lg"></i>&nbsp;&nbsp;&nbsp;Render at <Strong>Original Size</Strong>`
+            }
+        }
+
+        renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
+    }
+    if (!uiState) {
+
         render.classList.remove("animate__fadeOutLeft")
-        render.classList.remove("animate__slower")
         render.classList.add("animate__fadeInLeft")
 
         window.clearTimeout(displayAlert);
         displayAlert = window.setTimeout(() => {
             render.classList.remove("animate__fadeInLeft")
-            render.classList.add("animate__slower")
             render.classList.add("animate__fadeOutLeft")
         }, 2500);
     } else {
         render.classList.remove("animate__fadeInLeft")
-        render.classList.add("animate__slower")
         render.classList.add("animate__fadeOutLeft")
     }
 }
