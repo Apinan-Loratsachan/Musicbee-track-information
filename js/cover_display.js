@@ -5,7 +5,7 @@ var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette, useWhite =
     dominentBG4 = 5,
     dominentBG5 = 6,
     whiteContrastTrusthold = 5, whiteContrast, rawWhiteContrast,
-    displayAlert
+    displayAlert, isNotFirst = false
 
 const params = new URLSearchParams(window.location.search);
 
@@ -481,7 +481,7 @@ function updateAlert(init) {
     const toggleFilterBtn = document.getElementById("toggleFilter")
     const filterState = toggleFilterBtn.getAttribute("data-show")
 
-    if ((fillState == 'false' && coverElement.offsetHeight < coverHeight) || fillState == 'true') {
+    if ((fillState == 'false' && coverElement.offsetHeight <= coverHeight) || fillState == 'true') {
         if (localStorage.getItem("colorSetting") != "color") {
             renderText.style.backgroundColor = `rgba(0, 0, 0, 0)`
             renderText.style.backgroundImage = `linear-gradient(to right,
@@ -585,16 +585,18 @@ function updateAlert(init) {
             renderText.innerHTML += `<div style="height: 10px"></div><i class="fa-solid fa-image fa-lg"></i>&nbsp;&nbsp;&nbsp;Original size <Strong>${coverWidth} × ${coverHeight}</Strong>`
         }
         if (!uiState) {
+            if ((fillState == 'false' && coverElement.offsetHeight < coverHeight) || fillState == 'true') {
+                isNotFirst = true
+                render.classList.remove("animate__fadeOutLeft")
+                render.classList.add("animate__fadeInLeft")
 
-            render.classList.remove("animate__fadeOutLeft")
-            render.classList.add("animate__fadeInLeft")
-
-            window.clearTimeout(displayAlert);
-            displayAlert = window.setTimeout(() => {
-                render.classList.remove("animate__fadeInLeft")
-                render.classList.add("animate__fadeOutLeft")
-            }, 2500);
-        } else {
+                window.clearTimeout(displayAlert);
+                displayAlert = window.setTimeout(() => {
+                    render.classList.remove("animate__fadeInLeft")
+                    render.classList.add("animate__fadeOutLeft")
+                }, 2500);
+            }
+        } else if (isNotFirst) {
             render.classList.remove("animate__fadeInLeft")
             render.classList.add("animate__fadeOutLeft")
         }
