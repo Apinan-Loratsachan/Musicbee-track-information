@@ -272,6 +272,8 @@ function searchForAlbumCover() {
             $(".now-precess").html("Reading tag");
         });
         spotifySearchImageByID(spotify_album_cover_id)
+    } else if (g_album != '') {
+        spotifySearchImage(g_album, g_artist)
     } else {
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
@@ -478,7 +480,7 @@ async function spotifySearchImage(album, album_artist) {
     console.log("%c[COVER] %cSearching with Spotify", 'font-weight: bold', 'color: DodgerBlue')
     try {
         $(document).ready(function () {
-            $(".now-precess").html("Searching album cover in streaming platform");
+            $(".now-precess").html("Searching album cover");
         });
         const clientId = apikey[0];
         const clientSecret = apikey[1];
@@ -740,16 +742,18 @@ function showCoverImage(image) {
         xmlHTTP.send();
     };
 
-    const linkElement = new Image();
+    const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
     linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
-    const coverElement = document.createElement("img");
+    const coverElement = new Image();
     coverElement.src = image;
     coverElement.alt = "Album Cover";
     coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
+
+    coverElement.load(image)
 }
 
 function showCoverImageByID(image) {
