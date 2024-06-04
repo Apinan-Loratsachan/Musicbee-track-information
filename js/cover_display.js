@@ -278,13 +278,13 @@ try {
                             <div id="album-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
                             class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
                         }
-                        adjustCover()
                         adjustCoverToggleBtn()
                         adjustCoverBtnPosition()
                         adjustGradient()
                         adjustShadow()
                         var intervalId = window.setInterval(function () {
                             adjustInfo()
+                            adjustCover()
                         }, 1);
                         setTimeout(() => {
                             clearInterval(intervalId)
@@ -953,10 +953,17 @@ function toggleInfo() {
     const toggleInfoBtn = document.getElementById("toggleInfo")
     const header = document.getElementById("header-container")
     const setting = localStorage.getItem("infoSetting")
+    const color = localStorage.getItem("colorSetting");
+    let textShadow
+    if (color == 'color') {
+        useWhite ? textShadow = 'white-text-shadow' : textShadow = 'black-text-shadow'
+    } else {
+        textShadow = 'white-text-shadow'
+    }
     if (setting == "between") {
         toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
         header.className = "animate__animated animate__fadeInDown"
-        header.innerHTML = `<div id="title-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
+        header.innerHTML = `<div id="title-container" class="${textShadow} headerText p-2 animate__animated animate__fadeInDown"><i
         class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
         class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}&nbsp;&nbsp;&nbsp;
         <i class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
@@ -964,12 +971,14 @@ function toggleInfo() {
     } else {
         toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-justify fa-lg"></i>`
         header.className = "d-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInDown"
-        header.innerHTML = `<div id="title-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
+        header.innerHTML = `<div id="title-container" class="${textShadow} headerText p-2 animate__animated animate__fadeInDown"><i
         class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
         class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}</div>
 
-        <div id="album-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
+        <div id="album-container" class="${textShadow} headerText p-2 animate__animated animate__fadeInDown"><i
         class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
         localStorage.setItem("infoSetting", 'between')
     }
+    adjustInfo()
+    adjustCover()
 }
