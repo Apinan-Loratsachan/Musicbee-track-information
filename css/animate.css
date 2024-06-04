@@ -129,7 +129,7 @@
     animation-delay: calc(var(--animate-delay) + 1.70s) !important;
 }
 
-.spotify-animate {
+.active-btn-animate {
     animation-name: btn-heartbeat;
     animation-duration: 2s;
     animation-iteration-count: infinite;

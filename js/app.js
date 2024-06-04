@@ -5,20 +5,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
 
-    g_title = params.get("tr") || "";
-    g_artist = params.get("ar") || "";
-    g_album = params.get("al") || "";
-    g_albumArtist = params.get("alar") || "";
-    g_trackNumber = params.get("tn") || "";
-    g_discNumber = params.get("dn") || "";
-    g_discCount = params.get("dc") || "";
-    alt_title = params.get("atr") || "";
-    spotify_album_id = params.get("aref") || "";
-    spotify_album_cover_id = params.get("ref1") || '';
-    vgm_album_id = params.get("ref2") || '';
-    custom_image = params.get("cti") || '';
+    g_title = params.get("tr");
+    g_artist = params.get("ar");
+    g_album = params.get("al");
+    g_albumArtist = params.get("alar");
+    g_trackNumber = params.get("tn");
+    g_discNumber = params.get("dn");
+    g_discCount = params.get("dc");
+    alt_title = params.get("atr");
+    custom_image = params.get("cti");
+    spotify_album_id = params.get("aref");
+    spotify_album_cover_id = params.get("cref");
+    audio = params.get("tref");
+    youtube_video_id = params.get("v");
     title_artist = params.get("ar") || "Unknow artist";
-    audio = params.get("au") || "";
     s_title = encodeURIComponent(g_title);
     s_artist = encodeURIComponent(g_artist);
     s_album = encodeURIComponent(g_album);
@@ -197,7 +197,26 @@ document.addEventListener("DOMContentLoaded", function () {
     validateData(g_title, g_album)
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
-    // spotifySearchImage(Title, Artist, Album, AlbumArtist);
+    if(youtube_video_id != '') {
+        console.log('%c[DATA] %cHas Youtube video ID tag : ' + youtube_video_id + "\n(https://www.youtube.com/watch?v=" + youtube_video_id + ")", 'font-weight: bold', '')
+        const youtubeBtn = document.getElementById('btnYoutubeSearch')
+        youtubeBtn.innerHTML = ''
+        youtubeBtn.classList.add('youtube-active')
+        youtubeBtn.removeAttribute("onclick");
+
+        youtubeBtn.addEventListener("click", function () {
+            window.open(`https://www.youtube.com/watch?v=${youtube_video_id}`, "_blank")
+        })
+
+        const div = document.createElement('div')
+        div.id = 'youtubeBtnDiv'
+        div.className = 'active-btn-animate'
+        div.innerHTML = `
+        <i class="fa-brands fa-youtube fa-bounce fa-xl" style="color: #ff0000;" aria-hidden="true"></i>
+        Open in Youtube`
+        youtubeBtn.appendChild(div)
+    }
+
     if (spotify_album_id != '') {
         document.getElementById('openAlbumBtn').innerText = ''
 
@@ -211,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const div = document.createElement('div')
         div.id = 'spotifyAlbumBtnDiv'
-        // div.classList = 'spotify-animate delay-16'
+        // div.classList = 'active-btn-animate delay-16'
         document.getElementById("spotifyOpenAlbumBtn").appendChild(div)
 
         const spotifyIcon = document.createElement('i')
@@ -225,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const spotifyText = document.createElement('span')
         spotifyText.innerText = 'Open album in Spotify'
-        spotifyText.classList = 'spotify-animate'
+        spotifyText.classList = 'active-btn-animate'
         document.getElementById("spotifyAlbumBtnDiv").appendChild(spotifyText)
         getSpotifyAlbumData()
     }
@@ -253,8 +272,6 @@ function searchForAlbumCover() {
             $(".now-precess").html("Reading tag");
         });
         spotifySearchImageByID(spotify_album_cover_id)
-    } else if (g_album != '' || vgm_album_id != '') {
-        searchVGMdbAlbumID(g_album, g_albumArtist)
     } else {
         document.getElementById('loading-cover').remove();
         document.getElementById('searching-text').remove();
@@ -457,147 +474,6 @@ function validatePowerSearch(data) {
     }
 }
 
-// ฟังก์ชันค้นหา AlbumID จาก vgmdb API
-function searchVGMdbAlbumID(albumName, artistName) {
-    if (vgm_album_id != '' && flag) {
-        console.log('%c[COVER] %cHas VGMDB album ID tag : ' + vgm_album_id + "\n(https://vgmdb.net/album/" + vgm_album_id + ")", 'font-weight: bold', '')
-        $(document).ready(function () {
-            $(".now-precess").html("Reading tag");
-        });
-        displayVGMdbAlbumCoverByTag(vgm_album_id)
-    } else {
-        console.log('%c[COVER] %cSearching with VGMdb', 'font-weight: bold', 'color: DodgerBlue')
-        const apiUrl = `https://vgmdb.info/search?q=${encodeURIComponent(g_title)}%20by%20${encodeURIComponent(g_artist)}&format=json`;
-        $(document).ready(function () {
-            $(".now-precess").html("Searching album cover by track");
-        });
-        console.log('%c[COVER | VGMDB] %cSearch by track', 'font-weight: bold', '')
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const albums = data.results.albums;
-
-                if (albums.length > 0) {
-                    const albumId = albums[0].link.split("/").pop();
-                    displayVGMdbAlbumCover(albumId);
-                    console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold', '')
-                } else {
-                    console.log('%c[COVER | VGMDB] %cNot found change to search by album', 'font-weight: bold', '')
-                    const apiUrl2 = `https://vgmdb.info/search?q=${encodeURIComponent(albumName)}%20by%20${encodeURIComponent(artistName)}&format=json`;
-                    $(document).ready(function () {
-                        $(".now-precess").html("Searching album cover by album");
-                    });
-                    fetch(apiUrl2)
-                        .then(response => response.json())
-                        .then(data => {
-                            const albums = data.results.albums;
-
-                            if (albums.length > 0) {
-                                const albumId = albums[0].link.split("/").pop();
-                                displayVGMdbAlbumCover(albumId);
-                                console.log('%c[COVER | VGMDB] %cFound VGMdb album ID : ' + albumId + "\n(https://vgmdb.net/album/" + albumId + ")", 'font-weight: bold', '')
-
-                            } else {
-                                console.log("%c[COVER | VGMDB] %cAlbum not found on VGMdb begin search in Spotify", 'font-weight: bold', 'color: orange');
-                                spotifySearchImage(g_album, g_albumArtist);
-                            }
-                        })
-                        .catch(error => {
-                            console.error("%c[COVER | VGMDB] Error fetching album cover data\n%c" + error, 'font-weight: bold', '');
-                            // coverLoadFail()
-                            spotifySearchImage(g_album, g_albumArtist);
-                        });
-                }
-            })
-            .catch(error => {
-                console.error("%c[COVER | VGMDB] Error fetching album cover data\n%c" + error, 'font-weight: bold', '');
-                console.log("%c[COVER] %cFailed to search with VGMdb begin search with Spotify", 'font-weight: bold', 'color: red');
-                spotifySearchImage(g_album, g_albumArtist);
-            });
-    }
-}
-
-// ฟังก์ชันแสดงรูปปกของอัลบั้ม
-function displayVGMdbAlbumCover(albumId) {
-    const apiUrl = `https://vgmdb.info/album/${encodeURIComponent(albumId)}?format=json`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            data_vgmdb = data
-            data_inuse = data
-            data_inuse_provider = 'VGMdb'
-            const covers = data.covers;
-            const picture = data.picture_full;
-            console.log('%c[COVER | VGMDB] %cGetting album cover', 'font-weight: bold', '')
-            if (covers.length > 0) {
-                $(document).ready(function () {
-                    $(".now-precess").html("Getting album cover");
-                });
-                const coverUrl = covers[0].full;
-                showCoverImage(coverUrl)
-                console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
-            } else if (picture != '') {
-                $(document).ready(function () {
-                    $(".now-precess").html("Getting album cover");
-                });
-                console.log('%c[COVER | VGMDB] %cNot found cover in "covers" tag looking for "picture" tag', 'font-weight: bold', '')
-                const coverUrl = picture;
-                showCoverImage(coverUrl)
-                console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
-            } else {
-                console.log('%c[COVER | VGMDB] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
-                console.log('%c[COVER] %cNot Begin search in Spotify', 'font-weight: bold', '')
-                spotifySearchImage(g_album, g_albumArtist);
-            }
-        })
-        .catch(error => {
-            console.error("%c[COVER | VGMDB] %cError fetching album cover data\n", 'font-weight: bold', error);
-            coverLoadFail()
-        });
-}
-
-function displayVGMdbAlbumCoverByTag(albumId) {
-    const apiUrl = `https://vgmdb.info/album/${encodeURIComponent(albumId)}?format=json`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            data_vgmdb = data
-            data_inuse = data
-            data_inuse_provider = 'VGMdb'
-            const covers = data.covers;
-            const picture = data.picture_full;
-            console.log('%c[COVER | VGMDB] %cGetting album cover', 'font-weight: bold', '')
-            if (covers.length > 0) {
-                $(document).ready(function () {
-                    $(".now-precess").html("Getting album cover");
-                });
-                const coverUrl = covers[0].full;
-                showCoverImage(coverUrl)
-                console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
-            } else if (picture != '') {
-                $(document).ready(function () {
-                    $(".now-precess").html("Getting album cover");
-                });
-                console.log('%c[COVER | VGMDB] %cNot found cover in "covers" tag looking for "picture" tag', 'font-weight: bold', '')
-                const coverUrl = picture;
-                showCoverImage(coverUrl)
-                console.log('%c[COVER | VGMDB] %cGet album cover success', 'font-weight: bold', 'color: green')
-            } else {
-                console.log('%c[COVER | VGMDB] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
-                console.log("%c[COVER] %cBegin search in Spotify", 'font-weight: bold', '');
-                spotifySearchImage(g_album, g_albumArtist);
-            }
-        })
-        .catch(error => {
-            console.log('%c[COVER] %cNot found album cover on this vgmdb album ID', 'font-weight: bold', 'color: red')
-            console.log('%c[COVER] %cBegin searching', 'font-weight: bold', 'color: red')
-            searchVGMdbAlbumID(g_album, g_albumArtist)
-            flag = false
-        });
-}
-
 async function spotifySearchImage(album, album_artist) {
     console.log("%c[COVER] %cSearching with Spotify", 'font-weight: bold', 'color: DodgerBlue')
     try {
@@ -708,12 +584,10 @@ async function spotifySearchImageByID(spotify_album_cover_id) {
         } else {
             // If no album found, display a message
             console.log("%c[COVER | SPOTIFY] %cCan't get image in spotify", 'font-weight: bold', 'color: red')
-            searchVGMdbAlbumID(g_album, g_albumArtist)
         }
 
     } catch {
         console.log("%c[COVER] %cCan't get image in spotify", 'font-weight: bold', 'color: red')
-        searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 }
 
@@ -763,7 +637,6 @@ async function getSpotifyTrackPreview(spotify_track_id) {
     } catch (e) {
         console.log(`%c[AUDIO] %cFailed to get audio preview in spotify`, 'font-weight: bold', 'color: red')
         console.error(e)
-        searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 
 }
@@ -966,7 +839,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 
         const div = document.createElement('div')
         div.id = 'spotifyBtnDiv'
-        div.classList = 'spotify-animate'
+        div.classList = 'active-btn-animate'
         document.getElementById("btnSpotifySearch").appendChild(div)
 
         const spotifyIcon = document.createElement('i')
@@ -976,7 +849,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 
         const spotifyText = document.createElement('span')
         spotifyText.innerText = ' Open in Spotify'
-        spotifyText.classList = 'spotify-animate'
+        spotifyText.classList = 'active-btn-animate'
         document.getElementById("spotifyBtnDiv").appendChild(spotifyText)
     }
 
@@ -1038,7 +911,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 
     if (alt_title == '' && titleSrc != g_title) {
 
-        console.log(`%c[DATA] %cFound alternate title in Spotify`, 'font-weight: bold', 'color: Blue')
+        console.log(`%c[DATA] %cFound alternate title in Spotify`, 'font-weight: bold', '')
 
         const thElement = document.createElement('th')
         thElement.setAttribute('scope', 'row')
@@ -1077,7 +950,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 
     } else if (alt_title != '' && titleSrc != g_title && alt_title.includes(titleSrc) == false) {
 
-        console.log(`%c[DATA] %cFound alternate title in Spotify`, 'font-weight: bold', 'color: Blue')
+        console.log(`%c[DATA] %cFound alternate title in Spotify`, 'font-weight: bold', '')
 
         const spanElement = document.createElement('span');
         spanElement.innerText = ' / '
@@ -1094,7 +967,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
     }
 
     if (albumSrc != null && albumSrc != g_album) {
-        console.log(`%c[DATA] %cFound alternate album name in Spotify`, 'font-weight: bold', 'color: Blue')
+        console.log(`%c[DATA] %cFound alternate album name in Spotify`, 'font-weight: bold', '')
 
         const thElement = document.createElement('th')
         thElement.setAttribute('scope', 'row')
@@ -1134,7 +1007,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
 }
 
 async function getSpotifyAlbumData() {
-    console.log("%c[DATA] %cHas Spotify album tag", 'font-weight: bold', 'color: Blue')
+    console.log("%c[DATA] %cHas Spotify album tag", 'font-weight: bold', '')
     console.log("%c[DATA | SPOTIFY] %cGetting album data in Spotify by album ID", 'font-weight: bold', '')
     try {
         $(document).ready(function () {
@@ -1214,6 +1087,5 @@ async function getSpotifyAlbumData() {
     } catch (e) {
         console.error(e)
         console.log("%c[DATA] %cCan't get album data in spotify", 'font-weight: bold', 'color: red')
-        searchVGMdbAlbumID(g_album, g_albumArtist)
     }
 }

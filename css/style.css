@@ -287,10 +287,18 @@ td {
     position: relative;
     background-color: rgb(33, 37, 41);
     color: #fff;
+    &:hover {
+        color: rgb(29, 208, 93);
+    }
 }
 
-.spotify-active:hover {
-    color: rgb(29, 208, 93);
+.youtube-active {
+    position: relative;
+    background-color: rgb(33, 37, 41);
+    color: #fff;
+    &:hover {
+        color: rgb(255, 0, 0);
+    }
 }
 
 .info-section {
