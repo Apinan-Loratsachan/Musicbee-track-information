@@ -979,6 +979,11 @@ function toggleInfo() {
         class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
         localStorage.setItem("infoSetting", 'between')
     }
-    adjustInfo()
-    adjustCover()
+    var intervalId = window.setInterval(function () {
+        adjustInfo()
+        adjustCover()
+    }, 1);
+    setTimeout(() => {
+        clearInterval(intervalId)
+    }, 1500);
 }
