@@ -652,15 +652,14 @@ function setCoverToBG(url) {
     // สร้างอิลิเมนต์ภาพ
     const img = new Image();
 
-    // เพิ่มการตรวจสอบว่ารูปภาพโหลดเสร็จแล้วหรือยัง
     img.onload = function () {
-        // รูปโหลดเสร็จแล้ว
-        document.body.style.backgroundImage = `url('${url}')`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.className = 'bg-blur';
+        document.getElementById('blur').style.opacity = 1
+        setTimeout(() => {
+            document.body.style.backgroundImage = `url('${url}')`;
+            document.body.style.backgroundSize = 'cover';
+        }, 250);
     };
 
-    // เซต source ของอิลิเมนต์ภาพเป็น URL ที่ได้รับ
     img.src = url;
 }
 
