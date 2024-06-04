@@ -35,6 +35,9 @@ try {
             });
             if (thisImg.completedPercentage == 100) {
                 img.onload = function () {
+                    $(document).ready(function () {
+                        $(".now-precess").html("Displaying album cover");
+                    });
                     document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
                     setTimeout(async () => {
                         await getDominentColor(img)
