@@ -48,9 +48,16 @@ try {
                         const toggleFilterBtn = document.getElementById("toggleFilter");
                         const toggleCoverBtn = document.getElementById("toggleCover");
                         const toggleInfoBtn = document.getElementById("toggleInfo");
+                        const toggleUiBtn = document.getElementById("toggleUI");
                         const tip = document.getElementById("tip");
                         const tipText = document.getElementById("tip-text");
                         const tipEnd = document.getElementById("tip-fade");
+
+                        toggleColorBtn.classList.add('unprevent-poiter')
+                        toggleFilterBtn.classList.add('unprevent-poiter')
+                        toggleCoverBtn.classList.add('unprevent-poiter')
+                        toggleInfoBtn.classList.add('unprevent-poiter')
+                        toggleUiBtn.classList.add('unprevent-poiter')
 
                         rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG1])
                         whiteContrast = rawWhiteContrast + whiteContrastTrusthold
