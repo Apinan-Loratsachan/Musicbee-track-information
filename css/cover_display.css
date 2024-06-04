@@ -119,6 +119,7 @@
 }
 
 body {
+    transition: background-image 0.5s ease-out;
     position: fixed;
     margin: 0px;
     padding: 0px;

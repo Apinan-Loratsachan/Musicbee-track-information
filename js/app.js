@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     validateData(g_title, g_album)
     validatePowerSearch(g_title + g_artist + g_album + g_albumArtist)
 
-    if(youtube_video_id != '') {
+    if (youtube_video_id != '') {
         console.log('%c[DATA] %cHas Youtube video ID tag : ' + youtube_video_id + "\n(https://www.youtube.com/watch?v=" + youtube_video_id + ")", 'font-weight: bold', '')
         const youtubeBtn = document.getElementById('btnYoutubeSearch')
         youtubeBtn.innerHTML = ''
@@ -703,7 +703,45 @@ function changeHeader() {
 
 
 function showCoverImage(image) {
-    const linkElement = document.createElement("a");
+    Image.prototype.load = function (url) {
+        var thisImg = this;
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.open('GET', url, true);
+        xmlHTTP.responseType = 'arraybuffer';
+        xmlHTTP.onload = function (e) {
+            var blob = new Blob([this.response]);
+            thisImg.src = window.URL.createObjectURL(blob);
+        };
+        xmlHTTP.onprogress = function (e) {
+            thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
+            $(document).ready(function () {
+                $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
+            });
+            if (thisImg.completedPercentage == 100) {
+                coverElement.onload = function () {
+                    $(document).ready(function () {
+                        $(".now-precess").html("Displaying album cover");
+                    });
+                    document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
+                    setTimeout(() => {
+                        document.getElementById('loading-cover').remove();
+                        document.getElementById('searching-text').remove();
+                        document.getElementById('loading-animate-out').remove();
+                        document.getElementById("imageSection").className = 'imageCenter';
+                        document.getElementById("imageSection").appendChild(linkElement);
+                        document.getElementById("albumImageLink").appendChild(coverElement);
+                        setCoverToBG(image)
+                    }, 750);
+                }
+            }
+        };
+        xmlHTTP.onloadstart = function () {
+            thisImg.completedPercentage = 0;
+        };
+        xmlHTTP.send();
+    };
+
+    const linkElement = new Image();
     linkElement.id = 'albumImageLink';
     linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
@@ -713,88 +751,139 @@ function showCoverImage(image) {
     coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
-
-    coverElement.onload = function () {
-        document.getElementById('loading-cover').remove();
-        document.getElementById('searching-text').remove();
-        document.getElementById("imageSection").className = 'imageCenter';
-        document.getElementById("imageSection").appendChild(linkElement);
-        document.getElementById("albumImageLink").appendChild(coverElement);
-        setCoverToBG(image)
-    };
 }
 
 function showCoverImageByID(image) {
+    Image.prototype.load = function (url) {
+        var thisImg = this;
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.open('GET', url, true);
+        xmlHTTP.responseType = 'arraybuffer';
+        xmlHTTP.onload = function (e) {
+            var blob = new Blob([this.response]);
+            thisImg.src = window.URL.createObjectURL(blob);
+        };
+        xmlHTTP.onprogress = function (e) {
+            thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
+            $(document).ready(function () {
+                $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
+            });
+            if (thisImg.completedPercentage == 100) {
+                coverElement.onload = function () {
+                    $(document).ready(function () {
+                        $(".now-precess").html("Displaying album cover");
+                    });
+                    document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
+                    setTimeout(() => {
+                        document.getElementById('loading-cover').remove();
+                        document.getElementById('searching-text').remove();
+                        document.getElementById('loading-animate-out').remove();
+                        document.getElementById("imageSection").className = 'imageCenter';
+                        document.getElementById("imageSection").appendChild(linkElement);
+                        document.getElementById("albumImageLink").appendChild(coverElement);
+
+                        const coverSearchText = document.getElementById("coverSearchText")
+                        coverSearchText.classList.remove("animate__fadeIn")
+                        coverSearchText.classList.remove("delay-5")
+                        coverSearchText.classList.add("animate__fadeOutUp")
+                        setCoverToBG(image)
+                        setTimeout(function () {
+                            coverSearchText.innerText = "Search other cover"
+                            coverSearchText.classList.remove("animate__fadeOutUp")
+                            coverSearchText.classList.add("animate__fadeInUp")
+                        }, 500);
+                    }, 750);
+                }
+            }
+        };
+        xmlHTTP.onloadstart = function () {
+            thisImg.completedPercentage = 0;
+        };
+        xmlHTTP.send();
+    };
+
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
     linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
     linkElement.setAttribute('target', '_blank')
-    const coverElement = document.createElement("img");
+
+    const coverElement = new Image();
     coverElement.src = image;
     coverElement.alt = "Album Cover";
     coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
-    coverElement.onload = function () {
-        document.getElementById('loading-cover').remove();
-        document.getElementById('searching-text').remove();
-        document.getElementById("imageSection").className = 'imageCenter';
-        document.getElementById("imageSection").appendChild(linkElement);
-        document.getElementById("albumImageLink").appendChild(coverElement);
-
-        const coverSearchText = document.getElementById("coverSearchText")
-        coverSearchText.classList.remove("animate__fadeIn")
-        coverSearchText.classList.remove("delay-5")
-        coverSearchText.classList.add("animate__fadeOutUp")
-        setCoverToBG(image)
-        setTimeout(function () {
-            coverSearchText.innerText = "Search other cover"
-            coverSearchText.classList.remove("animate__fadeOutUp")
-            coverSearchText.classList.add("animate__fadeInUp")
-        }, 500);
-    };
+    coverElement.load(image);
 }
 
 function showCoverImageBycti(image) {
-    console.log('%c[COVER] %cHas custom album cover tag\n(' + custom_image + ')', 'font-weight: bold', '')
-    $(document).ready(function () {
-        $(".now-precess").html("Getting album cover");
-    });
-    const coverElement = document.createElement("img");
+    Image.prototype.load = function (url) {
+        var thisImg = this;
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.open('GET', url, true);
+        xmlHTTP.responseType = 'arraybuffer';
+        xmlHTTP.onload = function (e) {
+            var blob = new Blob([this.response]);
+            thisImg.src = window.URL.createObjectURL(blob);
+        };
+        xmlHTTP.onprogress = function (e) {
+            thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
+            $(document).ready(function () {
+                $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
+            });
+            if (thisImg.completedPercentage == 100) {
+                coverElement.onload = function () {
+                    $(document).ready(function () {
+                        $(".now-precess").html("Displaying album cover");
+                    });
+                    document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
+                    setTimeout(() => {
+                        const linkElement = document.createElement("a");
+                        linkElement.id = 'albumImageLink';
+                        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        linkElement.setAttribute('target', '_blank')
+                        console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
+
+                        document.getElementById('loading-cover').remove();
+                        document.getElementById('searching-text').remove();
+                        document.getElementById('loading-animate-out').remove();
+                        document.getElementById("imageSection").className = "imageCenter";
+                        document.getElementById("imageSection").appendChild(linkElement);
+                        document.getElementById("albumImageLink").appendChild(coverElement);
+
+                        const coverSearchText = document.getElementById("coverSearchText")
+                        coverSearchText.classList.remove("animate__fadeIn")
+                        coverSearchText.classList.remove("delay-5")
+                        coverSearchText.classList.add("animate__fadeOutUp")
+                        setCoverToBG(image)
+                        setTimeout(function () {
+                            coverSearchText.innerText = "Search other cover"
+                            coverSearchText.classList.remove("animate__fadeOutUp")
+                            coverSearchText.classList.add("animate__fadeInUp")
+                        }, 500);
+                        console.log("%c[COVER | CUSTOM] %cGet album cover success", 'font-weight: bold', 'color: green')
+                    }, 750);
+                }
+            }
+        };
+        xmlHTTP.onloadstart = function () {
+            thisImg.completedPercentage = 0;
+        };
+        xmlHTTP.send();
+    };
+
+    Image.prototype.completedPercentage = 0;
+
+    const coverElement = new Image();
     coverElement.src = image;
     coverElement.alt = "Album Cover";
     coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
-    coverElement.onload = function () {
-        const linkElement = document.createElement("a");
-        linkElement.id = 'albumImageLink';
-        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
-        linkElement.setAttribute('target', '_blank')
-        console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
-        $(document).ready(function () {
-            $(".now-precess").html("displaying album cover");
-        });
-        document.getElementById('loading-cover').remove();
-        document.getElementById('searching-text').remove();
-        document.getElementById("imageSection").className = "imageCenter";
-        document.getElementById("imageSection").appendChild(linkElement);
-        document.getElementById("albumImageLink").appendChild(coverElement);
+    coverElement.load(image);
 
-        const coverSearchText = document.getElementById("coverSearchText")
-        coverSearchText.classList.remove("animate__fadeIn")
-        coverSearchText.classList.remove("delay-5")
-        coverSearchText.classList.add("animate__fadeOutUp")
-        setCoverToBG(image)
-        setTimeout(function () {
-            coverSearchText.innerText = "Search other cover"
-            coverSearchText.classList.remove("animate__fadeOutUp")
-            coverSearchText.classList.add("animate__fadeInUp")
-        }, 500);
-        console.log("%c[COVER | CUSTOM] %cGet album cover success", 'font-weight: bold', 'color: green')
-    };
     coverElement.onerror = function () {
         if (spotifyCustomImageFlag == false) {
             console.log(`%c[COVER | CUSTOM] %cCan't get image for this URL.\n(${custom_image})`, 'font-weight: bold', 'color: red')

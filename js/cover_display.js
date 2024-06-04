@@ -19,6 +19,282 @@ const renderText = document.getElementById("render-text");
 const renderEnd = document.getElementById("render-fade");
 
 try {
+    Image.prototype.load = function (url) {
+        var thisImg = this;
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.open('GET', url, true);
+        xmlHTTP.responseType = 'arraybuffer';
+        xmlHTTP.onload = function (e) {
+            var blob = new Blob([this.response]);
+            thisImg.src = window.URL.createObjectURL(blob);
+        };
+        xmlHTTP.onprogress = function (e) {
+            thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
+            $(document).ready(function () {
+                $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
+            });
+            if (thisImg.completedPercentage == 100) {
+                img.onload = function () {
+                    document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
+                    setTimeout(async () => {
+                        await getDominentColor(img)
+                        coverWidth = this.naturalWidth
+                        coverHeight = this.naturalHeight
+
+                        const toggleColorBtn = document.getElementById("toggleColor");
+                        const toggleFilterBtn = document.getElementById("toggleFilter");
+                        const toggleCoverBtn = document.getElementById("toggleCover");
+                        const toggleInfoBtn = document.getElementById("toggleInfo");
+                        const tip = document.getElementById("tip");
+                        const tipText = document.getElementById("tip-text");
+                        const tipEnd = document.getElementById("tip-fade");
+
+                        rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG1])
+                        whiteContrast = rawWhiteContrast + whiteContrastTrusthold
+                        blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG1])
+                        if (whiteContrast >= blackContrast) {
+                            useWhite = true
+                        } else {
+                            useWhite = false
+                        }
+
+                        uiColor = localStorage.getItem("colorSetting");
+                        if (uiColor == null) {
+                            localStorage.setItem("colorSetting", "color");
+                            uiColor = "color";
+                        }
+
+                        info = localStorage.getItem("infoSetting");
+                        if (info == null) {
+                            localStorage.setItem("infoSetting", "between");
+                            info = "between";
+                        } else if (info == "center") {
+                            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
+                        }
+
+                        filter = localStorage.getItem("filterSetting");
+
+                        document.getElementById('image-viewer-container').innerHTML = ''
+                        document.getElementById('image-viewer-container').appendChild(img);
+
+                        const zoomImg = document.createElement('img');
+                        zoomImg.src = imageUrl;
+                        zoomImg.id = 'cover-zoom'
+                        zoomImg.alt = `zoom album cover of ${title}`
+                        zoomImg.crossOrigin = 'anonymous'
+                        zoomImg.classList = 'cover cover-contain animate__animated'
+                        zoomImg.style.opacity = 0
+                        document.getElementById('zoom-image-container').appendChild(zoomImg);
+
+                        const infoAnimateDiv = document.createElement('div')
+                        infoAnimateDiv.id = 'info-animate-container'
+                        infoAnimateDiv.classList = 'animate-container animate__animated animate__fadeInUp'
+                        document.getElementById('image-info-container').appendChild(infoAnimateDiv)
+
+                        const infoColorDiv = document.createElement('div')
+                        infoColorDiv.id = 'info-color-div'
+                        infoColorDiv.classList = 'color-container'
+                        infoColorDiv.style.backgroundImage = `linear-gradient(to right,
+                            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)
+                        )`
+                        if (uiColor != "color") {
+                            infoColorDiv.style.opacity = 0
+                            toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+                            toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+                            toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+                            toggleInfoBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
+                            tipText.style.backgroundImage = `linear-gradient(to right,
+                            rgba(0, 0, 0, 0.5),
+                            rgba(0, 0, 0, 0.5)
+                        )`
+                            tipEnd.style.backgroundImage = `linear-gradient(to right,
+                            rgba(0, 0, 0, 0.5),
+                            rgba(0, 0, 0, 0)
+                        )`
+                        } else {
+                            infoColorDiv.style.opacity = 1
+                            toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
+                            toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
+                            toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
+                            toggleInfoBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)`
+
+                            tipText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+                            if (useWhite || filter == 'true') {
+                                tipText.style.color = "rgba(255, 255, 255, 1)"
+                            } else {
+                                tipText.style.color = "rgba(20, 20, 20, 1)"
+                            }
+                            tipEnd.style.backgroundImage = `linear-gradient(to right,
+                            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0)
+                        )`
+                        }
+
+                        displaytip = parseInt(localStorage.getItem("displaytip"));
+                        if (displaytip == null || isNaN(displaytip)) {
+                            localStorage.setItem("displaytip", 10);
+                            tip.classList.add("animate__fadeInLeft")
+                            setTimeout(() => {
+                                tip.classList.remove("animate__fadeInLeft")
+                                tip.classList.add("animate__slower")
+                                tip.classList.add("animate__fadeOutLeft")
+                            }, 4000);
+                        } else if (displaytip == 0) {
+                            localStorage.setItem("displaytip", 10)
+                            tip.classList.add("animate__fadeInLeft")
+                            setTimeout(() => {
+                                tip.classList.remove("animate__fadeInLeft")
+                                tip.classList.add("animate__slower")
+                                tip.classList.add("animate__fadeOutLeft")
+                            }, 4000);
+                        } else {
+                            localStorage.setItem("displaytip", displaytip - 1);
+                        }
+
+                        document.getElementById('info-animate-container').appendChild(infoColorDiv)
+
+                        const infoMonotoneDiv = document.createElement('div')
+                        infoMonotoneDiv.id = 'info-monotone-div'
+                        infoMonotoneDiv.classList = 'color-container'
+                        infoMonotoneDiv.style.backgroundColor = 'rgb(0, 0, 0)'
+                        if (uiColor != "color") {
+                            infoMonotoneDiv.style.opacity = 0.5
+                        } else {
+                            infoMonotoneDiv.style.opacity = 0
+                        }
+                        document.getElementById('info-animate-container').appendChild(infoMonotoneDiv)
+
+                        const infoDiv = document.createElement('div')
+                        infoDiv.id = 'info-div'
+                        infoDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInUp'
+                        document.getElementById('info-animate-container').appendChild(infoDiv)
+
+                        const infoState = document.createElement('div')
+                        infoState.id = 'info-state'
+                        infoState.classList = "infoText text-start p-2 flex-fill"
+                        document.getElementById('info-div').appendChild(infoState)
+
+                        const infoNow = document.createElement('div')
+                        infoNow.id = 'info-now'
+                        infoNow.classList = "infoText p-2 flex-fill"
+                        document.getElementById('info-div').appendChild(infoNow)
+
+                        const infoOriginal = document.createElement('div')
+                        infoOriginal.id = 'info-original'
+                        infoOriginal.classList = "infoText text-end p-2 flex-fill"
+                        document.getElementById('info-div').appendChild(infoOriginal)
+
+                        setCoverToBG(imageUrl)
+                        document.title = `Cover | ${title}`
+
+                        const titleAnimateDiv = document.createElement('div')
+                        titleAnimateDiv.id = 'title-animate-container'
+                        titleAnimateDiv.classList = 'infoText animate-container animate__animated animate__fadeInDown'
+                        document.getElementById('image-title-container').appendChild(titleAnimateDiv)
+
+                        const titleColorDiv = document.createElement('div')
+                        titleColorDiv.id = 'title-color-div'
+                        titleColorDiv.classList = 'color-container'
+                        titleColorDiv.style.backgroundImage = `linear-gradient(to right,
+                            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+                            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)
+                        )`
+
+                        if (uiColor != "color") {
+                            titleColorDiv.style.opacity = 0
+                        } else {
+                            titleColorDiv.style.opacity = 1
+                        }
+                        document.getElementById('title-animate-container').appendChild(titleColorDiv)
+
+                        const titleMonotoneDiv = document.createElement('div')
+                        titleMonotoneDiv.id = 'title-monotone-div'
+                        titleMonotoneDiv.classList = 'color-container'
+                        titleMonotoneDiv.style.backgroundColor = 'rgb(0, 0, 0)'
+                        if (uiColor != "color") {
+                            titleMonotoneDiv.style.opacity = 0.5
+                        } else {
+                            titleMonotoneDiv.style.opacity = 0
+                        }
+                        document.getElementById('title-animate-container').appendChild(titleMonotoneDiv)
+
+                        const titleDiv = document.createElement('div')
+                        titleDiv.id = 'header-container'
+                        titleDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInDown'
+                        document.getElementById('title-animate-container').appendChild(titleDiv)
+
+                        const titleContainer = document.createElement('div')
+                        titleContainer.id = 'title-container'
+                        titleContainer.innerHTML = `<i class="fa-solid fa-music fa-lg"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-microphone fa-lg"></i>&nbsp;&nbsp;&nbsp;${artist}`
+                        titleContainer.classList = 'headerText p-2 animate__animated animate__fadeInDown'
+                        document.getElementById('header-container').appendChild(titleContainer)
+
+                        const albumContainer = document.createElement('div')
+                        albumContainer.id = 'album-container'
+                        albumContainer.innerHTML = `<i class="fa-solid fa-compact-disc"></i>&nbsp;&nbsp;&nbsp;${album}`
+                        albumContainer.classList = 'headerText p-2 animate__animated animate__fadeInDown'
+                        document.getElementById('header-container').appendChild(albumContainer)
+
+                        if (!useWhite && uiColor == 'color') {
+                            document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+                            document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
+                        } else {
+                            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
+                            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
+                        }
+
+                        const header = document.getElementById("header-container")
+                        if (info == "center") {
+                            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
+                            header.className = "animate__animated animate__fadeInDown"
+                            header.innerHTML = `<div id="title-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
+                            class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
+                            class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}&nbsp;&nbsp;&nbsp;
+                            <i class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
+                        } else {
+                            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-justify fa-lg"></i>`
+                            header.className = "d-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInDown"
+                            header.innerHTML = `<div id="title-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
+                            class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
+                            class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}</div>
+                    
+                            <div id="album-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
+                            class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
+                        }
+                        adjustCover()
+                        adjustCoverToggleBtn()
+                        adjustCoverBtnPosition()
+                        adjustGradient()
+                        adjustShadow()
+                        var intervalId = window.setInterval(function () {
+                            adjustInfo()
+                        }, 1);
+                        setTimeout(() => {
+                            clearInterval(intervalId)
+                        }, 1500);
+                        if (filter == null) {
+                            localStorage.setItem("filterSetting", "false");
+                            filter = "false";
+                        } else if (filter == "true") {
+                            toggleFilter()
+                        }
+                    }, 1000);
+                }
+            }
+        };
+        xmlHTTP.onloadstart = function () {
+            thisImg.completedPercentage = 0;
+        };
+        xmlHTTP.send();
+    };
+
     const img = document.createElement('img');
     img.src = imageUrl;
     img.id = 'cover'
@@ -26,257 +302,7 @@ try {
     img.crossOrigin = 'anonymous'
     img.classList = 'cover cover-default animate__animated animate__fadeInUp'
 
-    img.onload = async function () {
-        document.getElementById('loader').remove()
-        await getDominentColor(img)
-        coverWidth = this.naturalWidth
-        coverHeight = this.naturalHeight
-
-        const toggleColorBtn = document.getElementById("toggleColor");
-        const toggleFilterBtn = document.getElementById("toggleFilter");
-        const toggleCoverBtn = document.getElementById("toggleCover");
-        const toggleInfoBtn = document.getElementById("toggleInfo");
-        const tip = document.getElementById("tip");
-        const tipText = document.getElementById("tip-text");
-        const tipEnd = document.getElementById("tip-fade");
-
-        rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG1])
-        whiteContrast = rawWhiteContrast + whiteContrastTrusthold
-        blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG1])
-        if (whiteContrast >= blackContrast) {
-            useWhite = true
-        } else {
-            useWhite = false
-        }
-
-        uiColor = localStorage.getItem("colorSetting");
-        if (uiColor == null) {
-            localStorage.setItem("colorSetting", "color");
-            uiColor = "color";
-        }
-
-        info = localStorage.getItem("infoSetting");
-        if (info == null) {
-            localStorage.setItem("infoSetting", "between");
-            info = "between";
-        } else if (info == "center") {
-            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
-        }
-
-        filter = localStorage.getItem("filterSetting");
-
-
-        document.getElementById('image-viewer-container').appendChild(img);
-
-        const zoomImg = document.createElement('img');
-        zoomImg.src = imageUrl;
-        zoomImg.id = 'cover-zoom'
-        zoomImg.alt = `zoom album cover of ${title}`
-        zoomImg.crossOrigin = 'anonymous'
-        zoomImg.classList = 'cover cover-contain animate__animated'
-        zoomImg.style.opacity = 0
-        document.getElementById('zoom-image-container').appendChild(zoomImg);
-
-        const infoAnimateDiv = document.createElement('div')
-        infoAnimateDiv.id = 'info-animate-container'
-        infoAnimateDiv.classList = 'animate-container animate__animated animate__fadeInUp'
-        document.getElementById('image-info-container').appendChild(infoAnimateDiv)
-
-        const infoColorDiv = document.createElement('div')
-        infoColorDiv.id = 'info-color-div'
-        infoColorDiv.classList = 'color-container'
-        infoColorDiv.style.backgroundImage = `linear-gradient(to right,
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)
-            )`
-        if (uiColor != "color") {
-            infoColorDiv.style.opacity = 0
-            toggleColorBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
-            toggleFilterBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
-            toggleCoverBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
-            toggleInfoBtn.style.backgroundColor = `rgba(0, 0, 0, 0.75)`
-            tipText.style.backgroundImage = `linear-gradient(to right,
-                rgba(0, 0, 0, 0.5),
-                rgba(0, 0, 0, 0.5)
-            )`
-            tipEnd.style.backgroundImage = `linear-gradient(to right,
-                rgba(0, 0, 0, 0.5),
-                rgba(0, 0, 0, 0)
-            )`
-        } else {
-            infoColorDiv.style.opacity = 1
-            toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
-            toggleFilterBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1)`
-            toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1)`
-            toggleInfoBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)`
-
-            tipText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
-            if (useWhite || filter == 'true') {
-                tipText.style.color = "rgba(255, 255, 255, 1)"
-            } else {
-                tipText.style.color = "rgba(20, 20, 20, 1)"
-            }
-            tipEnd.style.backgroundImage = `linear-gradient(to right,
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0)
-            )`
-        }
-
-        displaytip = parseInt(localStorage.getItem("displaytip"));
-        if (displaytip == null || isNaN(displaytip)) {
-            localStorage.setItem("displaytip", 10);
-            tip.classList.add("animate__fadeInLeft")
-            setTimeout(() => {
-                tip.classList.remove("animate__fadeInLeft")
-                tip.classList.add("animate__slower")
-                tip.classList.add("animate__fadeOutLeft")
-            }, 4000);
-        } else if (displaytip == 0) {
-            localStorage.setItem("displaytip", 10)
-            tip.classList.add("animate__fadeInLeft")
-            setTimeout(() => {
-                tip.classList.remove("animate__fadeInLeft")
-                tip.classList.add("animate__slower")
-                tip.classList.add("animate__fadeOutLeft")
-            }, 4000);
-        } else {
-            localStorage.setItem("displaytip", displaytip - 1);
-        }
-
-        document.getElementById('info-animate-container').appendChild(infoColorDiv)
-
-        const infoMonotoneDiv = document.createElement('div')
-        infoMonotoneDiv.id = 'info-monotone-div'
-        infoMonotoneDiv.classList = 'color-container'
-        infoMonotoneDiv.style.backgroundColor = 'rgb(0, 0, 0)'
-        if (uiColor != "color") {
-            infoMonotoneDiv.style.opacity = 0.5
-        } else {
-            infoMonotoneDiv.style.opacity = 0
-        }
-        document.getElementById('info-animate-container').appendChild(infoMonotoneDiv)
-
-        const infoDiv = document.createElement('div')
-        infoDiv.id = 'info-div'
-        infoDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInUp'
-        document.getElementById('info-animate-container').appendChild(infoDiv)
-
-        const infoState = document.createElement('div')
-        infoState.id = 'info-state'
-        infoState.classList = "infoText text-start p-2 flex-fill"
-        document.getElementById('info-div').appendChild(infoState)
-
-        const infoNow = document.createElement('div')
-        infoNow.id = 'info-now'
-        infoNow.classList = "infoText p-2 flex-fill"
-        document.getElementById('info-div').appendChild(infoNow)
-
-        const infoOriginal = document.createElement('div')
-        infoOriginal.id = 'info-original'
-        infoOriginal.classList = "infoText text-end p-2 flex-fill"
-        document.getElementById('info-div').appendChild(infoOriginal)
-
-        setCoverToBG(imageUrl)
-        document.title = `Cover | ${title}`
-
-        const titleAnimateDiv = document.createElement('div')
-        titleAnimateDiv.id = 'title-animate-container'
-        titleAnimateDiv.classList = 'infoText animate-container animate__animated animate__fadeInDown'
-        document.getElementById('image-title-container').appendChild(titleAnimateDiv)
-
-        const titleColorDiv = document.createElement('div')
-        titleColorDiv.id = 'title-color-div'
-        titleColorDiv.classList = 'color-container'
-        titleColorDiv.style.backgroundImage = `linear-gradient(to right,
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-                rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)
-            )`
-
-        if (uiColor != "color") {
-            titleColorDiv.style.opacity = 0
-        } else {
-            titleColorDiv.style.opacity = 1
-        }
-        document.getElementById('title-animate-container').appendChild(titleColorDiv)
-
-        const titleMonotoneDiv = document.createElement('div')
-        titleMonotoneDiv.id = 'title-monotone-div'
-        titleMonotoneDiv.classList = 'color-container'
-        titleMonotoneDiv.style.backgroundColor = 'rgb(0, 0, 0)'
-        if (uiColor != "color") {
-            titleMonotoneDiv.style.opacity = 0.5
-        } else {
-            titleMonotoneDiv.style.opacity = 0
-        }
-        document.getElementById('title-animate-container').appendChild(titleMonotoneDiv)
-
-        const titleDiv = document.createElement('div')
-        titleDiv.id = 'header-container'
-        titleDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInDown'
-        document.getElementById('title-animate-container').appendChild(titleDiv)
-
-        const titleContainer = document.createElement('div')
-        titleContainer.id = 'title-container'
-        titleContainer.innerHTML = `<i class="fa-solid fa-music fa-lg"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-microphone fa-lg"></i>&nbsp;&nbsp;&nbsp;${artist}`
-        titleContainer.classList = 'headerText p-2 animate__animated animate__fadeInDown'
-        document.getElementById('header-container').appendChild(titleContainer)
-
-        const albumContainer = document.createElement('div')
-        albumContainer.id = 'album-container'
-        albumContainer.innerHTML = `<i class="fa-solid fa-compact-disc"></i>&nbsp;&nbsp;&nbsp;${album}`
-        albumContainer.classList = 'headerText p-2 animate__animated animate__fadeInDown'
-        document.getElementById('header-container').appendChild(albumContainer)
-
-        if (!useWhite && uiColor == 'color') {
-            document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
-            document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
-        } else {
-            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
-            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
-        }
-
-        const header = document.getElementById("header-container")
-        if (info == "center") {
-            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-center fa-lg"></i>`
-            header.className = "animate__animated animate__fadeInDown"
-            header.innerHTML = `<div id="title-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
-                class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
-                class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}&nbsp;&nbsp;&nbsp;
-                <i class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
-        } else {
-            toggleInfoBtn.innerHTML = `<i class="fa-solid fa-align-justify fa-lg"></i>`
-            header.className = "d-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column animate__animated animate__fadeInDown"
-            header.innerHTML = `<div id="title-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
-                class="fa-solid fa-music fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${title}&nbsp;&nbsp;&nbsp;<i
-                class="fa-solid fa-microphone fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${artist}</div>
-        
-                <div id="album-container" class="headerText p-2 animate__animated animate__fadeInDown"><i
-                class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
-        }
-        adjustCover()
-        adjustCoverToggleBtn()
-        adjustCoverBtnPosition()
-        adjustGradient()
-        adjustShadow()
-        var intervalId = window.setInterval(function () {
-            adjustInfo()
-        }, 1);
-        setTimeout(() => {
-            clearInterval(intervalId)
-        }, 1500);
-        if (filter == null) {
-            localStorage.setItem("filterSetting", "false");
-            filter = "false";
-        } else if (filter == "true") {
-            toggleFilter()
-        }
-    }
+    img.load(imageUrl)
 
     img.onerror = function () {
         console.error('Failed to load image:', imageUrl)
