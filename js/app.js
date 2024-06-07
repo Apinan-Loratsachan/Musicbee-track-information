@@ -376,6 +376,7 @@ function addCopyButton(id, value) {
     if (value != "" && value != 'Various Artists') {
         const element = document.getElementById(id);
         const button = document.createElement("button");
+        button.type = 'button'
         button.className = "btn btn-outline-dark btn-copy btn-hover";
         button.innerText = "Copy";
         button.addEventListener("click", function () {
@@ -1190,30 +1191,30 @@ window.addEventListener('resize', function (event) {
 }, true);
 
 function adjustSearchBtn() {
-    const mainDiv = document.getElementById('botton-group')
-    const bottonGroup1 = document.getElementById('botton-group-1')
-    const bottonGroup2 = document.getElementById('botton-group-2')
+    const mainDiv = document.getElementById('button-group')
+    const buttonGroup1 = document.getElementById('button-group-1')
+    const buttonGroup2 = document.getElementById('button-group-2')
     const googleBtnDiv = document.getElementById('btnGoogleSearch')
     const youtubeBtnDiv = document.getElementById('btnYoutubeSearch')
     const spotifyBtnDiv = document.getElementById('btnSpotifySearch')
     const appleMusicBtnDiv = document.getElementById('btnAppleMusicSearch')
     if (this.window.innerWidth < 535) {
         mainDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column'
-        bottonGroup1.classList.remove('col-6')
-        bottonGroup1.classList.add('col-12')
-        bottonGroup2.classList.remove('col-6')
-        bottonGroup2.classList.add('col-12')
-        bottonGroup2.classList.add('mt-3')
+        buttonGroup1.classList.remove('col-6')
+        buttonGroup1.classList.add('col-12')
+        buttonGroup2.classList.remove('col-6')
+        buttonGroup2.classList.add('col-12')
+        buttonGroup2.classList.add('mt-3')
         googleBtnDiv.classList.add('expand-button')
         youtubeBtnDiv.classList.add('expand-button')
         spotifyBtnDiv.classList.add('expand-button')
         appleMusicBtnDiv.classList.add('expand-button')
     } else {
-        bottonGroup1.classList.remove('col-12')
-        bottonGroup1.classList.add('col-6')
-        bottonGroup2.classList.remove('col-12')
-        bottonGroup2.classList.remove('mt-3')
-        bottonGroup2.classList.add('col-6')
+        buttonGroup1.classList.remove('col-12')
+        buttonGroup1.classList.add('col-6')
+        buttonGroup2.classList.remove('col-12')
+        buttonGroup2.classList.remove('mt-3')
+        buttonGroup2.classList.add('col-6')
         mainDiv.classList = 'row'
         googleBtnDiv.classList.remove('expand-button')
         youtubeBtnDiv.classList.remove('expand-button')
