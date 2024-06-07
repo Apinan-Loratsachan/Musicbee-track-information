@@ -1,4 +1,4 @@
-let g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
+var g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         searchForAlbumCover();
     }
+    adjustSearchBtn()
 });
 
 function searchForAlbumCover() {
@@ -1179,5 +1180,42 @@ async function getSpotifyAlbumData() {
     } catch (e) {
         console.error(e)
         console.log("%c[DATA] %cCan't get album data in spotify", 'font-weight: bold', 'color: red')
+    }
+}
+
+window.addEventListener('resize', function (event) {
+    adjustSearchBtn()
+}, true);
+
+function adjustSearchBtn() {
+    const mainDiv = document.getElementById('botton-group')
+    const bottonGroup1 = document.getElementById('botton-group-1')
+    const bottonGroup2 = document.getElementById('botton-group-2')
+    const googleBtnDiv = document.getElementById('btnGoogleSearch')
+    const youtubeBtnDiv = document.getElementById('btnYoutubeSearch')
+    const spotifyBtnDiv = document.getElementById('btnSpotifySearch')
+    const appleMusicBtnDiv = document.getElementById('btnAppleMusicSearch')
+    if (this.window.innerWidth < 535 ) {
+        mainDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column'
+        bottonGroup1.classList.remove('col-6')
+        bottonGroup1.classList.add('col-12')
+        bottonGroup2.classList.remove('col-6')
+        bottonGroup2.classList.add('col-12')
+        bottonGroup2.classList.add('mt-3')
+        googleBtnDiv.classList.add('expand-button')
+        youtubeBtnDiv.classList.add('expand-button')
+        spotifyBtnDiv.classList.add('expand-button')
+        appleMusicBtnDiv.classList.add('expand-button')
+    } else {
+        bottonGroup1.classList.remove('col-12')
+        bottonGroup1.classList.add('col-6')
+        bottonGroup2.classList.remove('col-12')
+        bottonGroup2.classList.remove('mt-3')
+        bottonGroup2.classList.add('col-6')
+        mainDiv.classList = 'row'
+        googleBtnDiv.classList.remove('expand-button')
+        youtubeBtnDiv.classList.remove('expand-button')
+        spotifyBtnDiv.classList.remove('expand-button')
+        appleMusicBtnDiv.classList.remove('expand-button')
     }
 }

@@ -107,6 +107,11 @@ body {
     /* margin-bottom: 15px; */
 }
 
+.expand-button {
+    width: 100%;
+    min-height: 62px;
+}
+
 .table-container {
     display: block;
     padding-left: 20px;
