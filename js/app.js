@@ -1,23 +1,23 @@
 var g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
-
+var s_title, s_artist, s_album, s_albumArtist
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
 
-    g_title = params.get("tr");
-    g_artist = params.get("ar");
-    g_album = params.get("al");
-    g_albumArtist = params.get("alar");
-    g_trackNumber = params.get("tn");
-    g_discNumber = params.get("dn");
-    g_discCount = params.get("dc");
-    alt_title = params.get("atr");
-    custom_image = params.get("cti");
-    spotify_album_id = params.get("aref");
-    spotify_album_cover_id = params.get("cref");
-    audio = params.get("tref");
-    youtube_video_id = params.get("v");
+    g_title = params.get("tr") || '';
+    g_artist = params.get("ar") || '';
+    g_album = params.get("al") || '';
+    g_albumArtist = params.get("alar") || '';
+    g_trackNumber = params.get("tn") || '';
+    g_discNumber = params.get("dn") || '';
+    g_discCount = params.get("dc") || '';
+    alt_title = params.get("atr") || '';
+    custom_image = params.get("cti") || '';
+    spotify_album_id = params.get("aref") || '';
+    spotify_album_cover_id = params.get("cref") || '';
+    audio = params.get("tref") || '';
+    youtube_video_id = params.get("v") || '';
     title_artist = params.get("ar") || "Unknow artist";
     s_title = encodeURIComponent(g_title);
     s_artist = encodeURIComponent(g_artist);
@@ -38,11 +38,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 // changeHeader()
             }, 750);
         }, 750);
-        const artistHearder = document.createElement("h6")
-        artistHearder.innerText = `By ${g_artist}`
-        artistHearder.id = "headerSubText"
-        artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown delay-15"
-        document.getElementById("header").appendChild(artistHearder)
+        if (g_artist != '') {
+            const artistHearder = document.createElement("h6")
+            artistHearder.innerText = `By ${g_artist}`
+            artistHearder.id = "headerSubText"
+            artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown delay-15"
+            document.getElementById("header").appendChild(artistHearder)
+        }
         if (alt_title != '') {
             const thElement = document.createElement('th')
             thElement.setAttribute('scope', 'row')
@@ -1195,7 +1197,7 @@ function adjustSearchBtn() {
     const youtubeBtnDiv = document.getElementById('btnYoutubeSearch')
     const spotifyBtnDiv = document.getElementById('btnSpotifySearch')
     const appleMusicBtnDiv = document.getElementById('btnAppleMusicSearch')
-    if (this.window.innerWidth < 535 ) {
+    if (this.window.innerWidth < 535) {
         mainDiv.classList = 'd-flex align-items-center justify-content-center justify-content-sm-between flex-md-row flex-column'
         bottonGroup1.classList.remove('col-6')
         bottonGroup1.classList.add('col-12')
