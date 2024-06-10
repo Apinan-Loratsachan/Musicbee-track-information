@@ -86,7 +86,6 @@ body {
 
 #albumImage {
     transition: all 0.5s;
-
     &:hover {
         scale: 1.05;
     }

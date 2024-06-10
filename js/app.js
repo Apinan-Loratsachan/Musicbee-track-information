@@ -2,8 +2,10 @@ var spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag 
 var g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount
 var s_title, s_artist, s_album, s_albumArtist
 var whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv
+var gitHost
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
+    gitHost = window.location.hostname.includes('github')
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
 
@@ -752,7 +754,11 @@ function showCoverImage(image) {
 
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    if (gitHost) {
+        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    } else {
+        linkElement.href = `cover.html?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    }
     linkElement.setAttribute('target', '_blank')
     const coverElement = new Image();
     coverElement.src = image;
@@ -817,7 +823,11 @@ function showCoverImageByID(image) {
 
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    if (gitHost) {
+        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    } else {
+        linkElement.href = `cover.html?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    }
     linkElement.setAttribute('target', '_blank')
 
     const coverElement = new Image();
@@ -855,7 +865,11 @@ function showCoverImageBycti(image) {
                     setTimeout(() => {
                         const linkElement = document.createElement("a");
                         linkElement.id = 'albumImageLink';
-                        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        if (gitHost) {
+                            linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        } else {
+                            linkElement.href = `cover.html?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        }
                         linkElement.setAttribute('target', '_blank')
                         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
 
@@ -1231,10 +1245,42 @@ function adjustSearchBtn() {
     }
 }
 
-async function getDominentColor(image) {
-    const colorThief = await new ColorThief();
-    dominantColor = await colorThief.getColor(image);
-    dominantPalette = await colorThief.getPalette(image);
+async function changeInfoContainerColor() {
+    for (i = 0; i < 3; i++) {
+        console.log(`%c${i} ###################################################`, `color: ${rgb2hex(dominantPalette[i][0], dominantPalette[i][1], dominantPalette[i][2])};`)
+    }
+    paletteWithHSV = [
+        { rgb: dominantPalette[dominentBG1], hsv: rgb2hsv(dominantPalette[dominentBG1][0], dominantPalette[dominentBG1][1], dominantPalette[dominentBG1][2]), palette: 0 },
+        { rgb: dominantPalette[dominentBG2], hsv: rgb2hsv(dominantPalette[dominentBG2][0], dominantPalette[dominentBG2][1], dominantPalette[dominentBG2][2]), palette: 1 },
+        { rgb: dominantPalette[dominentBG3], hsv: rgb2hsv(dominantPalette[dominentBG3][0], dominantPalette[dominentBG3][1], dominantPalette[dominentBG3][2]), palette: 2 }
+    ];
+    paletteWithHSV.sort((a, b) => a.hsv.s - b.hsv.s);
+    const hsvIndex = 2
+    document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
+    rgba(${paletteWithHSV[2].rgb[0]}, ${paletteWithHSV[2].rgb[1]}, ${paletteWithHSV[2].rgb[2]}, 0.5),
+    rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, 0.5),
+    rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, 0.5),
+        rgba(255, 255, 255, 0.45),
+        rgba(255, 255, 255, 0.45),
+        rgba(255, 255, 255, 0.45)
+    )`
+    document.getElementById("musicInfoDefault").style.opacity = 0
+    document.getElementById("musicInfoDominent").style.opacity = 1
+
+    document.getElementById("audioDominent").style.backgroundColor = `rgba(${paletteWithHSV[hsvIndex].rgb[0]}, ${paletteWithHSV[hsvIndex].rgb[1]}, ${paletteWithHSV[hsvIndex].rgb[2]}, 0.5)`
+    document.getElementById("audioDefault").style.opacity = 0
+    document.getElementById("audioDominent").style.opacity = 1
+
+    rawWhiteContrast = contrast([255, 255, 255], paletteWithHSV[hsvIndex].rgb)
+    whiteContrast = rawWhiteContrast + whiteContrastTrusthold
+    blackContrast = contrast([0, 0, 0], paletteWithHSV[2].rgb)
+    hsv = rgb2hsv(paletteWithHSV[hsvIndex].rgb[0], paletteWithHSV[hsvIndex].rgb[1], paletteWithHSV[hsvIndex].rgb[2])
+    textHsv = rgb2hsv(0, 0, 0)
+    // if (whiteContrast >= blackContrast) {
+    if (hsv.v < 50 || whiteContrast >= blackContrast) {
+        document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
+        document.getElementById("header").style.color = 'rgb(255, 255, 255)'
+    }
 }
 
 function data() {
@@ -1245,42 +1291,15 @@ function data() {
                 overall: dominantColor,
                 palette: dominantPalette
             },
-            hsv: hsv,
             contrast: {
                 white: rawWhiteContrast,
                 black: blackContrast,
                 whiteTrusthold: whiteContrastTrusthold,
-                whiteFinal: whiteContrast
-            }
+                whiteFinal: whiteContrast,
+                hsv: hsv,
+            },
+            paletteWithHSV: paletteWithHSV
         }
     }
     return dataDict
-}
-
-async function changeInfoContainerColor() {
-    document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
-        rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-        rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-        rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-        rgba(255, 255, 255, 0.45),
-        rgba(255, 255, 255, 0.45),
-        rgba(255, 255, 255, 0.45)
-    )`
-    document.getElementById("musicInfoDefault").style.opacity = 0
-    document.getElementById("musicInfoDominent").style.opacity = 1
-
-    document.getElementById("audioDominent").style.backgroundColor = ` rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5)`
-    document.getElementById("audioDefault").style.opacity = 0
-    document.getElementById("audioDominent").style.opacity = 1
-
-    rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG3])
-    whiteContrast = rawWhiteContrast + whiteContrastTrusthold
-    blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG3])
-    hsv = rgb2hsv(dominantPalette[dominentBG3][0], dominantPalette[dominentBG3][1], dominantPalette[dominentBG3][2])
-    textHsv = rgb2hsv(0, 0, 0)
-    // if (whiteContrast >= blackContrast) {
-    if (hsv.v < 50 || whiteContrast >= blackContrast) {
-        document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
-        document.getElementById("header").style.color = 'rgb(255, 255, 255)'
-    }
 }
