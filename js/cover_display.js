@@ -1,9 +1,4 @@
-var coverHeight, coverWidth, infoDiv, dominantColor, dominantPalette, useWhite = true, uiState = true,
-    dominentBG1 = 3,
-    dominentBG2 = 2,
-    dominentBG3 = 4,
-    dominentBG4 = 5,
-    dominentBG5 = 6,
+var coverHeight, coverWidth, infoDiv, useWhite = true, uiState = true,
     whiteContrastTrusthold = 5, whiteContrast, rawWhiteContrast,
     displayAlert, isNotFirst = false
 
