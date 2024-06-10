@@ -1,5 +1,8 @@
-var g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
+var spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
+var g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount
 var s_title, s_artist, s_album, s_albumArtist
+var dominantColor, dominantPalette, dominentBG1 = 3, dominentBG2 = 2, dominentBG3 = 4, dominentBG4 = 5, dominentBG5 = 6
+var whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     // รับค่า parameter จาก URL
@@ -723,10 +726,11 @@ function showCoverImage(image) {
                 $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
             });
             if (thisImg.completedPercentage == 100) {
-                coverElement.onload = function () {
+                coverElement.onload = async function () {
                     $(document).ready(function () {
                         $(".now-precess").html("Displaying album cover");
                     });
+                    await getDominentColor(coverElement)
                     document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
                     setTimeout(() => {
                         document.getElementById('loading-cover').remove();
@@ -735,6 +739,7 @@ function showCoverImage(image) {
                         document.getElementById("imageSection").className = 'imageCenter';
                         document.getElementById("imageSection").appendChild(linkElement);
                         document.getElementById("albumImageLink").appendChild(coverElement);
+                        changeInfoContainerColor()
                         setCoverToBG(image)
                     }, 750);
                 }
@@ -753,7 +758,7 @@ function showCoverImage(image) {
     const coverElement = new Image();
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
+    coverElement.className = "rounded-corner album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -776,10 +781,11 @@ function showCoverImageByID(image) {
                 $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
             });
             if (thisImg.completedPercentage == 100) {
-                coverElement.onload = function () {
+                coverElement.onload = async function () {
                     $(document).ready(function () {
                         $(".now-precess").html("Displaying album cover");
                     });
+                    await getDominentColor(coverElement)
                     document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
                     setTimeout(() => {
                         document.getElementById('loading-cover').remove();
@@ -788,6 +794,7 @@ function showCoverImageByID(image) {
                         document.getElementById("imageSection").className = 'imageCenter';
                         document.getElementById("imageSection").appendChild(linkElement);
                         document.getElementById("albumImageLink").appendChild(coverElement);
+                        changeInfoContainerColor()
 
                         const coverSearchText = document.getElementById("coverSearchText")
                         coverSearchText.classList.remove("animate__fadeIn")
@@ -817,7 +824,7 @@ function showCoverImageByID(image) {
     const coverElement = new Image();
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
+    coverElement.className = "rounded-corner album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -840,10 +847,11 @@ function showCoverImageBycti(image) {
                 $(".now-precess").html("Getting album cover " + thisImg.completedPercentage + '%');
             });
             if (thisImg.completedPercentage == 100) {
-                coverElement.onload = function () {
+                coverElement.onload = async function () {
                     $(document).ready(function () {
                         $(".now-precess").html("Displaying album cover");
                     });
+                    await getDominentColor(coverElement)
                     document.getElementById('loading-animate-out').classList.add('animate__bounceOut')
                     setTimeout(() => {
                         const linkElement = document.createElement("a");
@@ -858,6 +866,7 @@ function showCoverImageBycti(image) {
                         document.getElementById("imageSection").className = "imageCenter";
                         document.getElementById("imageSection").appendChild(linkElement);
                         document.getElementById("albumImageLink").appendChild(coverElement);
+                        changeInfoContainerColor()
 
                         const coverSearchText = document.getElementById("coverSearchText")
                         coverSearchText.classList.remove("animate__fadeIn")
@@ -885,7 +894,7 @@ function showCoverImageBycti(image) {
     const coverElement = new Image();
     coverElement.src = image;
     coverElement.alt = "Album Cover";
-    coverElement.className = "card album-image animate__animated animate__jackInTheBox prevent-select";
+    coverElement.className = "rounded-corner album-image animate__animated animate__jackInTheBox prevent-select";
     coverElement.id = 'albumImage';
     coverElement.style.opacity = 0;
 
@@ -950,18 +959,18 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
     }
 
     if (audioSrc != null) {
-        document.getElementById('audio-section').classList = 'row align-items-center card blur card-body animate__animated animate__zoomIn'
+        document.getElementById('audio-container').classList = 'align-items-center animate__animated animate__zoomIn'
 
         const previewText = document.createElement('h2')
         previewText.innerText = `Track Preview`
-        previewText.setAttribute('style', 'margin: 0px; padding: 5px; font-weight: normal;')
+        previewText.setAttribute('style', 'margin: 0px; padding: 5px; padding-top: 20px; font-weight: normal;')
         previewText.classList = 'animate__animated animate__zoomIn prevent-all'
-        document.getElementById('audio-section').appendChild(previewText)
+        document.getElementById('audio-container').appendChild(previewText)
 
         const previewTitleDiv = document.createElement('div')
         previewTitleDiv.id = 'previewTitleDiv'
         previewTitleDiv.setAttribute('style', 'padding: 0px;')
-        document.getElementById('audio-section').appendChild(previewTitleDiv)
+        document.getElementById('audio-container').appendChild(previewTitleDiv)
 
         const previewTitle = document.createElement('h6')
         previewTitleText = `${g_title} - ${g_artist}`
@@ -1000,7 +1009,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         audioElement.controls = true
         audioElement.autoplay = false
         audioElement.loop = false
-        document.getElementById('audio-section').appendChild(audioElement)
+        document.getElementById('audio-container').appendChild(audioElement)
 
         console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
     }
@@ -1220,5 +1229,45 @@ function adjustSearchBtn() {
         youtubeBtnDiv.classList.remove('expand-button')
         spotifyBtnDiv.classList.remove('expand-button')
         appleMusicBtnDiv.classList.remove('expand-button')
+    }
+}
+
+async function getDominentColor(image) {
+    const colorThief = await new ColorThief();
+    dominantColor = await colorThief.getColor(image);
+    dominantPalette = await colorThief.getPalette(image);
+}
+
+function data() {
+    const dataDict = {
+        albumData: album_object(),
+        dominantColor: {
+            overall: dominantColor,
+            palette: dominantPalette
+        }
+    }
+    return dataDict
+}
+
+async function changeInfoContainerColor() {
+    document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
+        rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+        rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+        rgba(255, 255, 255, 0.45),
+        rgba(255, 255, 255, 0.45)
+    )`
+    document.getElementById("musicInfoDefault").style.opacity = 0
+    document.getElementById("musicInfoDominent").style.opacity = 1
+
+    document.getElementById("audioDominent").style.backgroundColor = ` rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5)`
+    document.getElementById("audioDefault").style.opacity = 0
+    document.getElementById("audioDominent").style.opacity = 1
+
+    rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG2])
+    whiteContrast = rawWhiteContrast + whiteContrastTrusthold
+    blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG2])
+    if (whiteContrast >= blackContrast) {
+        document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
+        document.getElementById("header").style.color = 'rgb(255, 255, 255)'
     }
 }

@@ -5,6 +5,11 @@
     font-family: 'Noto Sans Thai', sans-serif;
 }
 
+#header,
+#audio-section {
+    transition: color 1s ease-in-out;
+}
+
 .prevent-select {
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -12,14 +17,14 @@
 }
 
 .prevent-pointer {
-    pointer-events:none;
+    pointer-events: none;
 }
 
 .prevent-all {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    pointer-events:none;
+    pointer-events: none;
 }
 
 body {
@@ -42,24 +47,24 @@ body {
 }
 
 .headerText {
-    color: black;
     text-align: center;
     padding-top: 10px;
 }
 
 #musicInfo {
+    position: relative;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    padding: 10px;
+    padding-bottom: 20px;
 }
 
-.card-title {
+.rounded-corner-title {
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
 }
 
-.card-text {
+.rounded-corner-text {
     font-size: 1rem;
     margin-bottom: 0.5rem;
 }
@@ -88,12 +93,22 @@ body {
 }
 
 #audio-section {
-    padding-top: 15px;
+    position: relative;
+    text-align: center;
+}
+
+#audioDefault,
+#audioDominent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: opacity 1s ease-in-out;
 }
 
 #audio-preview {
-    max-width: 84%;
+    width: 84%;
     margin: 10px;
+    margin-bottom: 15px;
 }
 
 #noImageText {
@@ -144,13 +159,10 @@ body {
 }
 
 .blur {
-    border: 1px solid rgba(255, 255, 255, .25);
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.45);
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
 
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
 }
 
 .bg-blur {
@@ -286,7 +298,6 @@ td {
 
 .subThHeaderText {
     font-weight: normal;
-    /* color: rgba(0, 0, 0, 0.75); */
     align-items: center;
     font-size: 14px;
     margin-top: auto;
@@ -305,6 +316,7 @@ td {
     position: relative;
     background-color: rgb(33, 37, 41);
     color: #fff;
+
     &:hover {
         color: rgb(29, 208, 93);
     }
@@ -314,11 +326,28 @@ td {
     position: relative;
     background-color: rgb(33, 37, 41);
     color: #fff;
+
     &:hover {
         color: rgb(255, 0, 0);
     }
 }
 
-.info-section {
-    margin-bottom: 10px;
+#info-section {
+    position: relative;
+}
+
+#musicInfoDefault,
+#musicInfoDominent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: opacity 1s ease-in-out;
+}
+
+.rounded-corner {
+    border-radius: 20px;
+}
+
+.card-bg {
+    background-color: rgba(255, 255, 255, 0.45);
 }

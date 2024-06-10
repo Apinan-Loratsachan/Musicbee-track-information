@@ -394,9 +394,9 @@ function data() {
             }
         },
         dominantColor: {
-            Overall: dominantColor,
-            Palette: dominantPalette,
-            PaletteIndexInUse: [dominentBG1, dominentBG2, dominentBG3, dominentBG4, dominentBG5]
+            overall: dominantColor,
+            palette: dominantPalette,
+            paletteIndexInUse: [dominentBG1, dominentBG2, dominentBG3, dominentBG4, dominentBG5]
         },
         device: {
             userAgent: navigator.userAgent,
