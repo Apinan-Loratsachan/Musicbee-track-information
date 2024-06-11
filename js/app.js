@@ -1244,46 +1244,42 @@ function adjustSearchBtn() {
     }
 }
 
-function data() {
-    const dataDict = {
-        albumData: album_object(),
-        color: {
-            dominantColor: {
-                overall: dominantColor,
-                palette: dominantPalette
-            },
-            hsv: hsv,
-            contrast: {
-                white: rawWhiteContrast,
-                black: blackContrast,
-                whiteTrusthold: whiteContrastTrusthold,
-                whiteFinal: whiteContrast
-            }
-        }
-    }
-    return dataDict
-}
-
 async function changeInfoContainerColor() {
-    document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
-    rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 0.5)
-    )`
-    document.getElementById('area').style.opacity = 1
+    paletteWithHSV = [
+        { rgb: dominantPalette[dominentBG1], hsv: rgb2hsv(dominantPalette[dominentBG1][0], dominantPalette[dominentBG1][1], dominantPalette[dominentBG1][2]), palette: 0 },
+        { rgb: dominantPalette[dominentBG2], hsv: rgb2hsv(dominantPalette[dominentBG2][0], dominantPalette[dominentBG2][1], dominantPalette[dominentBG2][2]), palette: 1 },
+        { rgb: dominantPalette[dominentBG3], hsv: rgb2hsv(dominantPalette[dominentBG3][0], dominantPalette[dominentBG3][1], dominantPalette[dominentBG3][2]), palette: 2 },
+        { rgb: dominantPalette[dominentBG4], hsv: rgb2hsv(dominantPalette[dominentBG4][0], dominantPalette[dominentBG4][1], dominantPalette[dominentBG4][2]), palette: 3 },
+        { rgb: dominantPalette[dominentBG5], hsv: rgb2hsv(dominantPalette[dominentBG5][0], dominantPalette[dominentBG5][1], dominantPalette[dominentBG5][2]), palette: 4 }
+    ];
+    paletteWithHSV.sort((b, a) => a.hsv.v - b.hsv.v);
 
-    document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[0][0]}, ${dominantPalette[0][1]}, ${dominantPalette[0][2]}, 0.5)`
-    document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[1][0]}, ${dominantPalette[1][1]}, ${dominantPalette[1][2]}, 0.5)`
-    document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[2][0]}, ${dominantPalette[2][1]}, ${dominantPalette[2][2]}, 0.5)`
-    document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[3][0]}, ${dominantPalette[3][1]}, ${dominantPalette[3][2]}, 0.5)`
-    document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[4][0]}, ${dominantPalette[4][1]}, ${dominantPalette[4][2]}, 0.5)`
-    document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[5][0]}, ${dominantPalette[5][1]}, ${dominantPalette[5][2]}, 0.5)`
-    document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[6][0]}, ${dominantPalette[6][1]}, ${dominantPalette[6][2]}, 0.5)`
-    document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[7][0]}, ${dominantPalette[7][1]}, ${dominantPalette[7][2]}, 0.5)`
-    document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[8][0]}, ${dominantPalette[8][1]}, ${dominantPalette[8][2]}, 0.5)`
-    document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[9][0]}, ${dominantPalette[9][1]}, ${dominantPalette[9][2]}, 0.5)`
+    // document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
+    // rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1),
+    // rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 1),
+    // rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1),
+    // rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1),
+    // rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)
+    // )`
+    document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
+    rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, 1),
+    rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, 1),
+    rgba(${paletteWithHSV[2].rgb[0]}, ${paletteWithHSV[2].rgb[1]}, ${paletteWithHSV[2].rgb[2]}, 1),
+    rgba(${paletteWithHSV[3].rgb[0]}, ${paletteWithHSV[3].rgb[1]}, ${paletteWithHSV[3].rgb[2]}, 1),
+    rgba(${paletteWithHSV[4].rgb[0]}, ${paletteWithHSV[4].rgb[1]}, ${paletteWithHSV[4].rgb[2]}, 1)
+    )`
+    document.getElementById('area').style.opacity = 0.5
+
+    document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[0][0]}, ${dominantPalette[0][1]}, ${dominantPalette[0][2]}, 1)`
+    document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[1][0]}, ${dominantPalette[1][1]}, ${dominantPalette[1][2]}, 1)`
+    document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[2][0]}, ${dominantPalette[2][1]}, ${dominantPalette[2][2]}, 1)`
+    document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[3][0]}, ${dominantPalette[3][1]}, ${dominantPalette[3][2]}, 1)`
+    document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[4][0]}, ${dominantPalette[4][1]}, ${dominantPalette[4][2]}, 1)`
+    document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[5][0]}, ${dominantPalette[5][1]}, ${dominantPalette[5][2]}, 1)`
+    document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[6][0]}, ${dominantPalette[6][1]}, ${dominantPalette[6][2]}, 1)`
+    document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[7][0]}, ${dominantPalette[7][1]}, ${dominantPalette[7][2]}, 1)`
+    document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[8][0]}, ${dominantPalette[8][1]}, ${dominantPalette[8][2]}, 1)`
+    document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[9][0]}, ${dominantPalette[9][1]}, ${dominantPalette[9][2]}, 1)`
 
     document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
     rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
@@ -1309,4 +1305,25 @@ async function changeInfoContainerColor() {
         document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
         document.getElementById("header").style.color = 'rgb(255, 255, 255)'
     }
+}
+
+function data() {
+    const dataDict = {
+        albumData: album_object(),
+        color: {
+            dominantColor: {
+                overall: dominantColor,
+                palette: dominantPalette
+            },
+            contrast: {
+                white: rawWhiteContrast,
+                black: blackContrast,
+                whiteTrusthold: whiteContrastTrusthold,
+                whiteFinal: whiteContrast,
+                hsv: hsv,
+            },
+            paletteWithHSV: paletteWithHSV
+        }
+    }
+    return dataDict
 }
