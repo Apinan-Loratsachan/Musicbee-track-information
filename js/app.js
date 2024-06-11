@@ -1265,14 +1265,30 @@ function data() {
 }
 
 async function changeInfoContainerColor() {
+    document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
+    rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 0.5)
+    )`
+    document.getElementById('area').style.opacity = 1
+
+    document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[0][0]}, ${dominantPalette[0][1]}, ${dominantPalette[0][2]}, 0.5)`
+    document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[1][0]}, ${dominantPalette[1][1]}, ${dominantPalette[1][2]}, 0.5)`
+    document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[2][0]}, ${dominantPalette[2][1]}, ${dominantPalette[2][2]}, 0.5)`
+    document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[3][0]}, ${dominantPalette[3][1]}, ${dominantPalette[3][2]}, 0.5)`
+    document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[4][0]}, ${dominantPalette[4][1]}, ${dominantPalette[4][2]}, 0.5)`
+    document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[5][0]}, ${dominantPalette[5][1]}, ${dominantPalette[5][2]}, 0.5)`
+    document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[6][0]}, ${dominantPalette[6][1]}, ${dominantPalette[6][2]}, 0.5)`
+    document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[7][0]}, ${dominantPalette[7][1]}, ${dominantPalette[7][2]}, 0.5)`
+    document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[8][0]}, ${dominantPalette[8][1]}, ${dominantPalette[8][2]}, 0.5)`
+    document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[9][0]}, ${dominantPalette[9][1]}, ${dominantPalette[9][2]}, 0.5)`
+
     document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
     rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
     rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
     rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-    rgba(255, 255, 255, 0.45),
-    rgba(255, 255, 255, 0.45),
     rgba(255, 255, 255, 0.45),
     rgba(255, 255, 255, 0.45),
     rgba(255, 255, 255, 0.45)
@@ -1289,7 +1305,6 @@ async function changeInfoContainerColor() {
     blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG1])
     hsv = rgb2hsv(dominantPalette[dominentBG1][0], dominantPalette[dominentBG1][1], dominantPalette[dominentBG1][2])
     textHsv = rgb2hsv(0, 0, 0)
-    // if (whiteContrast >= blackContrast) {
     if (hsv.v < 50 || whiteContrast >= blackContrast) {
         document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
         document.getElementById("header").style.color = 'rgb(255, 255, 255)'
