@@ -354,12 +354,6 @@ try {
     document.title = `Cover | Something went wrong`
 }
 
-async function getDominentColor(image) {
-    const colorThief = await new ColorThief();
-    dominantColor = await colorThief.getColor(image);
-    dominantPalette = await colorThief.getPalette(image);
-}
-
 function data() {
     const dataDict = {
         settings: {

@@ -1,9 +1,10 @@
-var spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true;
-var g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount
-var s_title, s_artist, s_album, s_albumArtist
-var whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv
+var gitHost, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true,
+    g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount,
+    s_title, s_artist, s_album, s_albumArtist,
+    whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
+    gitHost = window.location.hostname.includes('github')
     // รับค่า parameter จาก URL
     const params = new URLSearchParams(window.location.search);
 
@@ -752,7 +753,11 @@ function showCoverImage(image) {
 
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    if (gitHost) {
+        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    } else {
+        linkElement.href = `cover.html?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    }
     linkElement.setAttribute('target', '_blank')
     const coverElement = new Image();
     coverElement.src = image;
@@ -817,7 +822,11 @@ function showCoverImageByID(image) {
 
     const linkElement = document.createElement("a");
     linkElement.id = 'albumImageLink';
-    linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    if (gitHost) {
+        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    } else {
+        linkElement.href = `cover.html?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+    }
     linkElement.setAttribute('target', '_blank')
 
     const coverElement = new Image();
@@ -855,7 +864,11 @@ function showCoverImageBycti(image) {
                     setTimeout(() => {
                         const linkElement = document.createElement("a");
                         linkElement.id = 'albumImageLink';
-                        linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        if (gitHost) {
+                            linkElement.href = `cover?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        } else {
+                            linkElement.href = `cover.html?title=${encodeURIComponent(g_title)}&artist=${encodeURIComponent(g_artist ?? 'Unknow artist')}&album=${encodeURIComponent(g_album)}&cover=${encodeURIComponent(image.replace('https://', ''))}`
+                        }
                         linkElement.setAttribute('target', '_blank')
                         console.log("%c[COVER | CUSTOM] %cGetting album cover", 'font-weight: bold', '')
 
@@ -1229,12 +1242,6 @@ function adjustSearchBtn() {
         spotifyBtnDiv.classList.remove('expand-button')
         appleMusicBtnDiv.classList.remove('expand-button')
     }
-}
-
-async function getDominentColor(image) {
-    const colorThief = await new ColorThief();
-    dominantColor = await colorThief.getColor(image);
-    dominantPalette = await colorThief.getPalette(image);
 }
 
 function data() {

@@ -1,5 +1,11 @@
 var dominantColor, dominantPalette, dominentBG1 = 3, dominentBG2 = 2, dominentBG3 = 4, dominentBG4 = 5, dominentBG5 = 6
 
+async function getDominentColor(image) {
+    const colorThief = await new ColorThief();
+    dominantColor = await colorThief.getColor(image);
+    dominantPalette = await colorThief.getPalette(image);
+}
+
 function rgb2hsv (r, g, b) {
     let rabs, gabs, babs, rr, gg, bb, h, s, v, diff, diffc, percentRoundFn;
     rabs = r / 255;
