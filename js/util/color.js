@@ -1,4 +1,4 @@
-var dominantColor, dominantPalette, dominentBG1 = 3, dominentBG2 = 2, dominentBG3 = 4, dominentBG4 = 5, dominentBG5 = 6
+var dominantColor, dominantPalette, dominentBG1 = 0, dominentBG2 = 1, dominentBG3 = 2, dominentBG4 = 3, dominentBG5 = 4
 
 async function getDominentColor(image) {
     const colorThief = await new ColorThief();

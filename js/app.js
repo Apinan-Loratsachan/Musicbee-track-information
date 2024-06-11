@@ -1266,24 +1266,28 @@ function data() {
 
 async function changeInfoContainerColor() {
     document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
-        rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
-        rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-        rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-        rgba(255, 255, 255, 0.45),
-        rgba(255, 255, 255, 0.45),
-        rgba(255, 255, 255, 0.45)
+    rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+    rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5),
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.45)
     )`
     document.getElementById("musicInfoDefault").style.opacity = 0
     document.getElementById("musicInfoDominent").style.opacity = 1
 
-    document.getElementById("audioDominent").style.backgroundColor = ` rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5)`
+    document.getElementById("audioDominent").style.backgroundColor = ` rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
     document.getElementById("audioDefault").style.opacity = 0
     document.getElementById("audioDominent").style.opacity = 1
 
-    rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG3])
+    rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG1])
     whiteContrast = rawWhiteContrast + whiteContrastTrusthold
-    blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG3])
-    hsv = rgb2hsv(dominantPalette[dominentBG3][0], dominantPalette[dominentBG3][1], dominantPalette[dominentBG3][2])
+    blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG1])
+    hsv = rgb2hsv(dominantPalette[dominentBG1][0], dominantPalette[dominentBG1][1], dominantPalette[dominentBG1][2])
     textHsv = rgb2hsv(0, 0, 0)
     // if (whiteContrast >= blackContrast) {
     if (hsv.v < 50 || whiteContrast >= blackContrast) {
