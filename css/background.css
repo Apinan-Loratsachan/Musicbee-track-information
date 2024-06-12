@@ -111,12 +111,12 @@
 
     0% {
         transform: translateY(0) rotate(0deg);
-        opacity: 0.8;
+        opacity: 0.5;
         border-radius: 5%;
     }
 
     80% {
-        opacity: 0.8;
+        opacity: 0.5;
     }
 
     100% {

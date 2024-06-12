@@ -1253,22 +1253,15 @@ async function changeInfoContainerColor() {
         { rgb: dominantPalette[dominentBG5], hsv: rgb2hsv(dominantPalette[dominentBG5][0], dominantPalette[dominentBG5][1], dominantPalette[dominentBG5][2]), palette: 4 }
     ];
     paletteWithHSV.sort((b, a) => a.hsv.v - b.hsv.v);
-
-    // document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
-    // rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1),
-    // rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 1),
-    // rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 1),
-    // rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 1),
-    // rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 1)
-    // )`
+    
     document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
-    rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, 1),
-    rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, 1),
-    rgba(${paletteWithHSV[2].rgb[0]}, ${paletteWithHSV[2].rgb[1]}, ${paletteWithHSV[2].rgb[2]}, 1),
-    rgba(${paletteWithHSV[3].rgb[0]}, ${paletteWithHSV[3].rgb[1]}, ${paletteWithHSV[3].rgb[2]}, 1),
-    rgba(${paletteWithHSV[4].rgb[0]}, ${paletteWithHSV[4].rgb[1]}, ${paletteWithHSV[4].rgb[2]}, 1)
+    rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, 0.5),
+    rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, 0.5),
+    rgba(${paletteWithHSV[2].rgb[0]}, ${paletteWithHSV[2].rgb[1]}, ${paletteWithHSV[2].rgb[2]}, 0.5),
+    rgba(${paletteWithHSV[3].rgb[0]}, ${paletteWithHSV[3].rgb[1]}, ${paletteWithHSV[3].rgb[2]}, 0.5),
+    rgba(${paletteWithHSV[4].rgb[0]}, ${paletteWithHSV[4].rgb[1]}, ${paletteWithHSV[4].rgb[2]}, 0.5)
     )`
-    document.getElementById('area').style.opacity = 0.5
+    document.getElementById('area').style.opacity = 1
 
     document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[0][0]}, ${dominantPalette[0][1]}, ${dominantPalette[0][2]}, 1)`
     document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[1][0]}, ${dominantPalette[1][1]}, ${dominantPalette[1][2]}, 1)`
