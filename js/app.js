@@ -262,6 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
         searchForAlbumCover();
     }
     adjustSearchBtn()
+    changeImageGradient()
 });
 
 function searchForAlbumCover() {
@@ -1202,6 +1203,7 @@ async function getSpotifyAlbumData() {
 
 window.addEventListener('resize', function (event) {
     adjustSearchBtn()
+    changeImageGradient()
 }, true);
 
 function adjustSearchBtn() {
@@ -1234,6 +1236,48 @@ function adjustSearchBtn() {
         youtubeBtnDiv.classList.remove('expand-button')
         spotifyBtnDiv.classList.remove('expand-button')
         appleMusicBtnDiv.classList.remove('expand-button')
+    }
+}
+
+function changeImageGradient() {
+    if (getDominentComplete) {
+        if (this.window.innerWidth < 500) {
+            document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
+            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45)
+            )`
+        } else if (this.window.innerWidth < 600) {
+            document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
+            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45)
+            )`
+        } else if (this.window.innerWidth < 725) {
+            document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
+            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45)
+            )`
+        } else {
+            document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
+            rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
+            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+            rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.45)
+            )`
+        }
     }
 }
 
@@ -1284,14 +1328,8 @@ async function changeInfoContainerColor() {
 
     document.getElementById('area').style.opacity = 1
 
-    document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
-    rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-    rgba(${dominantPalette[dominentBG2][0]}, ${dominantPalette[dominentBG2][1]}, ${dominantPalette[dominentBG2][2]}, 0.5),
-    rgba(255, 255, 255, 0.45),
-    rgba(255, 255, 255, 0.45),
-    rgba(255, 255, 255, 0.45)
-    )`
+    changeImageGradient()
+
     document.getElementById("musicInfoDefault").style.opacity = 0
     document.getElementById("musicInfoDominent").style.opacity = 1
 
