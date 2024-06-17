@@ -657,6 +657,7 @@ function setCoverToBG(url) {
         link.rel = 'icon';
         document.head.appendChild(link);
     }
+    link.href = url;
     document.getElementById('blur').style.opacity = 1
     setTimeout(() => {
         document.body.style.backgroundImage = `url('${url}')`;
