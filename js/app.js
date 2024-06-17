@@ -1244,6 +1244,22 @@ function adjustSearchBtn() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    const particles = document.querySelectorAll('.particles li');
+
+    particles.forEach(particle => {
+        particle.addEventListener('animationiteration', () => {
+            const randomColor = getRandomInt(0, 9);
+            const randomSize = getRandomInt(20, 150);
+            particle.style.backgroundColor = `rgba(${dominantPalette[randomColor][0]}, ${dominantPalette[randomColor][1]}, ${dominantPalette[randomColor][2]}, 1)`
+            particle.style.left = `${getRandomInt(0, 100)}%`;
+            particle.style.borderRadius = getRandomInt(0, 70) + '%'
+            particle.style.width = randomSize + 'px'
+            particle.style.height = randomSize + 'px'
+        });
+    });
+});
+
 async function changeInfoContainerColor() {
     paletteWithHSV = [
         { rgb: dominantPalette[dominentBG1], hsv: rgb2hsv(dominantPalette[dominentBG1][0], dominantPalette[dominentBG1][1], dominantPalette[dominentBG1][2]), palette: 0 },
@@ -1253,7 +1269,7 @@ async function changeInfoContainerColor() {
         { rgb: dominantPalette[dominentBG5], hsv: rgb2hsv(dominantPalette[dominentBG5][0], dominantPalette[dominentBG5][1], dominantPalette[dominentBG5][2]), palette: 4 }
     ];
     paletteWithHSV.sort((b, a) => a.hsv.v - b.hsv.v);
-    
+
     document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
     rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, 0.5),
     rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, 0.5),
@@ -1261,35 +1277,34 @@ async function changeInfoContainerColor() {
     rgba(${paletteWithHSV[3].rgb[0]}, ${paletteWithHSV[3].rgb[1]}, ${paletteWithHSV[3].rgb[2]}, 0.5),
     rgba(${paletteWithHSV[4].rgb[0]}, ${paletteWithHSV[4].rgb[1]}, ${paletteWithHSV[4].rgb[2]}, 0.5)
     )`
+
+    for (i = 0; i < 10; i++) {
+        const randomSize = getRandomInt(20, 150);
+        document.getElementById(`particle${i}`).style.backgroundColor = `rgba(${dominantPalette[i][0]}, ${dominantPalette[i][1]}, ${dominantPalette[i][2]}, 1)`
+        document.getElementById(`particle${i}`).style.borderRadius = getRandomInt(0, 70) + '%'
+        document.getElementById(`particle${i}`).style.left = `${getRandomInt(0, 100)}%`;
+        document.getElementById(`particle${i}`).style.width = randomSize + 'px'
+        document.getElementById(`particle${i}`).style.height = randomSize + 'px'
+    }
+
     document.getElementById('area').style.opacity = 1
 
-    document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[0][0]}, ${dominantPalette[0][1]}, ${dominantPalette[0][2]}, 1)`
-    document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[1][0]}, ${dominantPalette[1][1]}, ${dominantPalette[1][2]}, 1)`
-    document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[2][0]}, ${dominantPalette[2][1]}, ${dominantPalette[2][2]}, 1)`
-    document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[3][0]}, ${dominantPalette[3][1]}, ${dominantPalette[3][2]}, 1)`
-    document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[4][0]}, ${dominantPalette[4][1]}, ${dominantPalette[4][2]}, 1)`
-    document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[5][0]}, ${dominantPalette[5][1]}, ${dominantPalette[5][2]}, 1)`
-    document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[6][0]}, ${dominantPalette[6][1]}, ${dominantPalette[6][2]}, 1)`
-    document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[7][0]}, ${dominantPalette[7][1]}, ${dominantPalette[7][2]}, 1)`
-    document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[8][0]}, ${dominantPalette[8][1]}, ${dominantPalette[8][2]}, 1)`
-    document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[9][0]}, ${dominantPalette[9][1]}, ${dominantPalette[9][2]}, 1)`
-
-    setInterval(() => {
-        randomIndex = []
-        for (i = 0; i < 10; i++) {
-            randomIndex.push(Math.floor(Math.random() * 10))
-        }
-        document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[randomIndex[0]][0]}, ${dominantPalette[randomIndex[0]][1]}, ${dominantPalette[randomIndex[0]][2]}, 1)`
-        document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[randomIndex[1]][0]}, ${dominantPalette[randomIndex[1]][1]}, ${dominantPalette[randomIndex[1]][2]}, 1)`
-        document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[randomIndex[2]][0]}, ${dominantPalette[randomIndex[2]][1]}, ${dominantPalette[randomIndex[2]][2]}, 1)`
-        document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[randomIndex[3]][0]}, ${dominantPalette[randomIndex[3]][1]}, ${dominantPalette[randomIndex[3]][2]}, 1)`
-        document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[randomIndex[4]][0]}, ${dominantPalette[randomIndex[4]][1]}, ${dominantPalette[randomIndex[4]][2]}, 1)`
-        document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[randomIndex[5]][0]}, ${dominantPalette[randomIndex[5]][1]}, ${dominantPalette[randomIndex[5]][2]}, 1)`
-        document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[randomIndex[6]][0]}, ${dominantPalette[randomIndex[6]][1]}, ${dominantPalette[randomIndex[6]][2]}, 1)`
-        document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[randomIndex[7]][0]}, ${dominantPalette[randomIndex[7]][1]}, ${dominantPalette[randomIndex[7]][2]}, 1)`
-        document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[randomIndex[8]][0]}, ${dominantPalette[randomIndex[8]][1]}, ${dominantPalette[randomIndex[8]][2]}, 1)`
-        document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[randomIndex[9]][0]}, ${dominantPalette[randomIndex[9]][1]}, ${dominantPalette[randomIndex[9]][2]}, 1)`
-    }, 4000);
+    // setInterval(() => {
+    //     randomIndex = []
+    //     for (i = 0; i < 10; i++) {
+    //         randomIndex.push(Math.floor(Math.random() * 10))
+    //     }
+    //     document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[randomIndex[0]][0]}, ${dominantPalette[randomIndex[0]][1]}, ${dominantPalette[randomIndex[0]][2]}, 1)`
+    //     document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[randomIndex[1]][0]}, ${dominantPalette[randomIndex[1]][1]}, ${dominantPalette[randomIndex[1]][2]}, 1)`
+    //     document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[randomIndex[2]][0]}, ${dominantPalette[randomIndex[2]][1]}, ${dominantPalette[randomIndex[2]][2]}, 1)`
+    //     document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[randomIndex[3]][0]}, ${dominantPalette[randomIndex[3]][1]}, ${dominantPalette[randomIndex[3]][2]}, 1)`
+    //     document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[randomIndex[4]][0]}, ${dominantPalette[randomIndex[4]][1]}, ${dominantPalette[randomIndex[4]][2]}, 1)`
+    //     document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[randomIndex[5]][0]}, ${dominantPalette[randomIndex[5]][1]}, ${dominantPalette[randomIndex[5]][2]}, 1)`
+    //     document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[randomIndex[6]][0]}, ${dominantPalette[randomIndex[6]][1]}, ${dominantPalette[randomIndex[6]][2]}, 1)`
+    //     document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[randomIndex[7]][0]}, ${dominantPalette[randomIndex[7]][1]}, ${dominantPalette[randomIndex[7]][2]}, 1)`
+    //     document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[randomIndex[8]][0]}, ${dominantPalette[randomIndex[8]][1]}, ${dominantPalette[randomIndex[8]][2]}, 1)`
+    //     document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[randomIndex[9]][0]}, ${dominantPalette[randomIndex[9]][1]}, ${dominantPalette[randomIndex[9]][2]}, 1)`
+    // }, 4000);
 
     document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
     rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
