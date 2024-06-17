@@ -657,19 +657,11 @@ function setCoverToBG(url) {
         link.rel = 'icon';
         document.head.appendChild(link);
     }
-    link.href = url;
-    // สร้างอิลิเมนต์ภาพ
-    const img = new Image();
-
-    img.onload = function () {
-        document.getElementById('blur').style.opacity = 1
-        setTimeout(() => {
-            document.body.style.backgroundImage = `url('${url}')`;
-            document.body.style.backgroundSize = 'cover';
-        }, 250);
-    };
-
-    img.src = url;
+    document.getElementById('blur').style.opacity = 1
+    setTimeout(() => {
+        document.body.style.backgroundImage = `url('${url}')`;
+        document.body.style.backgroundSize = 'cover';
+    }, 250);
 }
 
 function changeHeader() {
@@ -1249,13 +1241,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     particles.forEach(particle => {
         particle.addEventListener('animationiteration', () => {
-            const randomColor = getRandomInt(0, 9);
-            const randomSize = getRandomInt(20, 150);
-            particle.style.backgroundColor = `rgba(${dominantPalette[randomColor][0]}, ${dominantPalette[randomColor][1]}, ${dominantPalette[randomColor][2]}, 1)`
-            particle.style.left = `${getRandomInt(0, 100)}%`;
-            particle.style.borderRadius = getRandomInt(0, 70) + '%'
-            particle.style.width = randomSize + 'px'
-            particle.style.height = randomSize + 'px'
+            if (getDominentComplete) {
+                const randomColor = getRandomInt(0, 9);
+                const randomSize = getRandomInt(20, 150);
+                particle.style.backgroundColor = `rgba(${dominantPalette[randomColor][0]}, ${dominantPalette[randomColor][1]}, ${dominantPalette[randomColor][2]}, 1)`
+                particle.style.left = `${getRandomInt(0, 100)}%`;
+                particle.style.borderRadius = getRandomInt(0, 70) + '%'
+                particle.style.width = randomSize + 'px'
+                particle.style.height = randomSize + 'px'
+            }
         });
     });
 });
@@ -1288,23 +1282,6 @@ async function changeInfoContainerColor() {
     }
 
     document.getElementById('area').style.opacity = 1
-
-    // setInterval(() => {
-    //     randomIndex = []
-    //     for (i = 0; i < 10; i++) {
-    //         randomIndex.push(Math.floor(Math.random() * 10))
-    //     }
-    //     document.getElementById('particle0').style.backgroundColor = `rgba(${dominantPalette[randomIndex[0]][0]}, ${dominantPalette[randomIndex[0]][1]}, ${dominantPalette[randomIndex[0]][2]}, 1)`
-    //     document.getElementById('particle1').style.backgroundColor = `rgba(${dominantPalette[randomIndex[1]][0]}, ${dominantPalette[randomIndex[1]][1]}, ${dominantPalette[randomIndex[1]][2]}, 1)`
-    //     document.getElementById('particle2').style.backgroundColor = `rgba(${dominantPalette[randomIndex[2]][0]}, ${dominantPalette[randomIndex[2]][1]}, ${dominantPalette[randomIndex[2]][2]}, 1)`
-    //     document.getElementById('particle3').style.backgroundColor = `rgba(${dominantPalette[randomIndex[3]][0]}, ${dominantPalette[randomIndex[3]][1]}, ${dominantPalette[randomIndex[3]][2]}, 1)`
-    //     document.getElementById('particle4').style.backgroundColor = `rgba(${dominantPalette[randomIndex[4]][0]}, ${dominantPalette[randomIndex[4]][1]}, ${dominantPalette[randomIndex[4]][2]}, 1)`
-    //     document.getElementById('particle5').style.backgroundColor = `rgba(${dominantPalette[randomIndex[5]][0]}, ${dominantPalette[randomIndex[5]][1]}, ${dominantPalette[randomIndex[5]][2]}, 1)`
-    //     document.getElementById('particle6').style.backgroundColor = `rgba(${dominantPalette[randomIndex[6]][0]}, ${dominantPalette[randomIndex[6]][1]}, ${dominantPalette[randomIndex[6]][2]}, 1)`
-    //     document.getElementById('particle7').style.backgroundColor = `rgba(${dominantPalette[randomIndex[7]][0]}, ${dominantPalette[randomIndex[7]][1]}, ${dominantPalette[randomIndex[7]][2]}, 1)`
-    //     document.getElementById('particle8').style.backgroundColor = `rgba(${dominantPalette[randomIndex[8]][0]}, ${dominantPalette[randomIndex[8]][1]}, ${dominantPalette[randomIndex[8]][2]}, 1)`
-    //     document.getElementById('particle9').style.backgroundColor = `rgba(${dominantPalette[randomIndex[9]][0]}, ${dominantPalette[randomIndex[9]][1]}, ${dominantPalette[randomIndex[9]][2]}, 1)`
-    // }, 4000);
 
     document.getElementById("musicInfoDominent").style.backgroundImage = `linear-gradient(to bottom,
     rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5),
