@@ -274,12 +274,12 @@ try {
                             class="fa-solid fa-compact-disc" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;${album}</div>`
                         }
                         adjustCoverToggleBtn()
-                        adjustCoverBtnPosition()
                         adjustGradient()
                         adjustShadow()
                         var intervalId = window.setInterval(function () {
                             adjustInfo()
                             adjustCover()
+                            adjustCoverBtnPosition()
                         }, 1);
                         setTimeout(() => {
                             clearInterval(intervalId)
