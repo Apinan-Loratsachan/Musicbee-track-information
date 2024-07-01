@@ -1295,6 +1295,28 @@ function changeHeaderScroll() {
                     </h1>
                 </div>
                 `
+                if ($('#headerText')[0].scrollWidth > $('#headerText').innerWidth()) {
+                    headerText.remove()
+                    document.getElementById('headerTextContainer').className = 'px-3'
+                    document.getElementById('headerTextContainer').innerHTML = `
+                                <div class="prevent-all animate__animated animate__zoomIn">
+                                    <div class="scroll-container pt-2 mb-2">
+                                        <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                                        <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                                    </div>
+                                </div>    
+                                `
+                    const scrollText = document.getElementById('scrollText')
+                    const scrollTextEnd = document.getElementById('scrollTextEnd')
+                    scrollText.addEventListener('animationiteration', () => {
+                        scrollText.style.animationPlayState = 'paused'
+                        scrollTextEnd.style.animationPlayState = 'paused'
+                        mainScroll = setTimeout(() => {
+                            scrollText.style.animationPlayState = 'running'
+                            scrollTextEnd.style.animationPlayState = 'running'
+                        }, 2500);
+                    });
+                }
         }
 
         if (g_artist != '') {
@@ -1332,6 +1354,32 @@ function changeHeaderScroll() {
                 artistHearder.id = "headerSubText"
                 artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown"
                 document.getElementById("header").appendChild(artistHearder)
+                if ($('#headerSubText')[0].scrollWidth > $('#headerSubText').innerWidth()) {
+                    headerSubText.remove()
+                    const header = document.getElementById('header')
+                    const subHeaderContainer = document.createElement('div')
+                    subHeaderContainer.id = 'subHeaderTextContainer'
+                    subHeaderContainer.className = 'px-3 py-2'
+                    header.appendChild(subHeaderContainer)
+                    document.getElementById('subHeaderTextContainer').innerHTML = `
+                    <div class="prevent-all animate__animated animate__fadeInDown">
+                        <div class="scroll-container">
+                            <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                            <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                        </div>
+                    </div>  
+                    `
+                    const subScrollText = document.getElementById('subScrollText')
+                    const subScrollTextEnd = document.getElementById('subScrollTextEnd')
+                    subScrollText.addEventListener('animationiteration', () => {
+                        subScrollText.style.animationPlayState = 'paused'
+                        subScrollTextEnd.style.animationPlayState = 'paused'
+                        mainScroll = setTimeout(() => {
+                            subScrollText.style.animationPlayState = 'running'
+                            subScrollTextEnd.style.animationPlayState = 'running'
+                        }, 2500);
+                    });
+                }
             }
         }
     }
