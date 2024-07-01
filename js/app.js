@@ -1,7 +1,8 @@
 var gitHost, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomImageFlag = true, alreadyAudio = false, headerIsTitle = true,
     g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount,
     s_title, s_artist, s_album, s_albumArtist,
-    whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv
+    whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv,
+    resizeTimeout
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     gitHost = window.location.hostname.includes('github')
@@ -1249,15 +1250,6 @@ async function getSpotifyAlbumData() {
         console.log("%c[DATA] %cCan't get album data in spotify", 'font-weight: bold', 'color: red')
     }
 }
-function debounce(func) {
-    var timer;
-    return function (event) {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(func, 100, event);
-    };
-}
-
-let resizeTimeout;
 
 window.addEventListener('resize', function (event) {
     adjustSearchBtn()
