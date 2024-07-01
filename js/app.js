@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 headerText.classList.remove("animate__bounceOut")
                 headerText.classList.add("animate__zoomIn")
                 // changeHeader()
-                if (headerText.offsetHeight > 58) {
+                if ($('#headerText')[0].scrollWidth > $('#headerText').innerWidth()) {
                     headerText.remove()
                     document.getElementById('headerTextContainer').className = 'px-3'
                     document.getElementById('headerTextContainer').innerHTML = `
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown delay-15"
             document.getElementById("header").appendChild(artistHearder)
             const headerSubText = document.getElementById('headerSubText')
-            if (headerSubText.offsetHeight > 30) {
+            if ($('#headerSubText')[0].scrollWidth > $('#headerSubText').innerWidth()) {
                 headerSubText.remove()
                 const header = document.getElementById('header')
                 const subHeaderContainer = document.createElement('div')
