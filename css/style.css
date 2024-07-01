@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Noto+Sans+Thai&display=swap');
 @import "animate.css";
+@import "scroll_text.css";
 
 * {
     font-family: 'Noto Sans Thai', sans-serif;
@@ -49,6 +50,8 @@ body {
 .headerText {
     text-align: center;
     padding-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #musicInfo {

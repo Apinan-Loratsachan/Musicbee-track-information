@@ -37,8 +37,30 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(function () {
                 headerText.innerText = g_title
                 headerText.classList.remove("animate__bounceOut")
-                headerText.classList.add("animate__bounceIn")
+                headerText.classList.add("animate__zoomIn")
                 // changeHeader()
+                if (headerText.offsetHeight > 58) {
+                    headerText.remove()
+                    document.getElementById('headerTextContainer').className = 'px-3'
+                    document.getElementById('headerTextContainer').innerHTML = `
+                    <div class="prevent-all animate__animated animate__zoomIn">
+                        <div class="scroll-container pt-2 mb-2">
+                            <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                            <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                        </div>
+                    </div>    
+                    `
+                    const scrollText = document.getElementById('scrollText')
+                    const scrollTextEnd = document.getElementById('scrollTextEnd')
+                    scrollText.addEventListener('animationiteration', () => {
+                        scrollText.style.animationPlayState = 'paused'
+                        scrollTextEnd.style.animationPlayState = 'paused'
+                        mainScroll = setTimeout(() => {
+                            scrollText.style.animationPlayState = 'running'
+                            scrollTextEnd.style.animationPlayState = 'running'
+                        }, 2500);
+                    });
+                }
             }, 750);
         }, 750);
         if (g_artist != '') {
@@ -47,6 +69,33 @@ document.addEventListener("DOMContentLoaded", function () {
             artistHearder.id = "headerSubText"
             artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown delay-15"
             document.getElementById("header").appendChild(artistHearder)
+            const headerSubText = document.getElementById('headerSubText')
+            if (headerSubText.offsetHeight > 30) {
+                headerSubText.remove()
+                const header = document.getElementById('header')
+                const subHeaderContainer = document.createElement('div')
+                subHeaderContainer.id = 'subHeaderTextContainer'
+                subHeaderContainer.className = 'px-3 py-2'
+                header.appendChild(subHeaderContainer)
+                document.getElementById('subHeaderTextContainer').innerHTML = `
+                <div class="prevent-all animate__animated animate__fadeInDown">
+                    <div class="scroll-container">
+                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                    </div>
+                </div>  
+                `
+                const subScrollText = document.getElementById('subScrollText')
+                const subScrollTextEnd = document.getElementById('subScrollTextEnd')
+                subScrollText.addEventListener('animationiteration', () => {
+                    subScrollText.style.animationPlayState = 'paused'
+                    subScrollTextEnd.style.animationPlayState = 'paused'
+                    mainScroll = setTimeout(() => {
+                        subScrollText.style.animationPlayState = 'running'
+                        subScrollTextEnd.style.animationPlayState = 'running'
+                    }, 2500);
+                });
+            }
         }
         if (alt_title != '') {
             const thElement = document.createElement('th')
@@ -1200,11 +1249,101 @@ async function getSpotifyAlbumData() {
         console.log("%c[DATA] %cCan't get album data in spotify", 'font-weight: bold', 'color: red')
     }
 }
+function debounce(func) {
+    var timer;
+    return function (event) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(func, 100, event);
+    };
+}
+
+let resizeTimeout;
 
 window.addEventListener('resize', function (event) {
     adjustSearchBtn()
     changeImageGradient()
+    // trigger on resize end
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function () {
+        changeHeaderScroll();
+    }, 200);
 }, true);
+
+function changeHeaderScroll() {
+    if (g_title != '') {
+        const header = document.getElementById('header')
+        try {
+            if ($('#headerText')[0].scrollWidth > $('#headerText').innerWidth()) {
+                headerText.remove()
+                document.getElementById('headerTextContainer').className = 'px-3'
+                document.getElementById('headerTextContainer').innerHTML = `
+                            <div class="prevent-all animate__animated animate__zoomIn">
+                                <div class="scroll-container pt-2 mb-2">
+                                    <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                                    <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                                </div>
+                            </div>    
+                            `
+                const scrollText = document.getElementById('scrollText')
+                const scrollTextEnd = document.getElementById('scrollTextEnd')
+                scrollText.addEventListener('animationiteration', () => {
+                    scrollText.style.animationPlayState = 'paused'
+                    scrollTextEnd.style.animationPlayState = 'paused'
+                    mainScroll = setTimeout(() => {
+                        scrollText.style.animationPlayState = 'running'
+                        scrollTextEnd.style.animationPlayState = 'running'
+                    }, 2500);
+                });
+            }
+        } catch (error) {
+            header.innerHTML = `
+                <div id="headerTextContainer">
+                    <h1 id="headerText" class="headerText headerTitle prevent-all animate__animated animate__zoomIn">
+                        ${g_title}
+                    </h1>
+                </div>
+                `
+        }
+
+        if (g_artist != '') {
+            try {
+                const headerSubText = document.getElementById('headerSubText')
+                if ($('#headerSubText')[0].scrollWidth > $('#headerSubText').innerWidth()) {
+                    headerSubText.remove()
+                    const header = document.getElementById('header')
+                    const subHeaderContainer = document.createElement('div')
+                    subHeaderContainer.id = 'subHeaderTextContainer'
+                    subHeaderContainer.className = 'px-3 py-2'
+                    header.appendChild(subHeaderContainer)
+                    document.getElementById('subHeaderTextContainer').innerHTML = `
+                    <div class="prevent-all animate__animated animate__fadeInDown">
+                        <div class="scroll-container">
+                            <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                            <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                        </div>
+                    </div>  
+                    `
+                    const subScrollText = document.getElementById('subScrollText')
+                    const subScrollTextEnd = document.getElementById('subScrollTextEnd')
+                    subScrollText.addEventListener('animationiteration', () => {
+                        subScrollText.style.animationPlayState = 'paused'
+                        subScrollTextEnd.style.animationPlayState = 'paused'
+                        mainScroll = setTimeout(() => {
+                            subScrollText.style.animationPlayState = 'running'
+                            subScrollTextEnd.style.animationPlayState = 'running'
+                        }, 2500);
+                    });
+                }
+            } catch (error) {
+                const artistHearder = document.createElement("h6")
+                artistHearder.innerText = `By ${g_artist}`
+                artistHearder.id = "headerSubText"
+                artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown"
+                document.getElementById("header").appendChild(artistHearder)
+            }
+        }
+    }
+}
 
 function adjustSearchBtn() {
     const mainDiv = document.getElementById('button-group')
@@ -1351,6 +1490,15 @@ async function changeInfoContainerColor() {
 function data() {
     const dataDict = {
         albumData: album_object(),
+        textLenght: {
+            title: g_title.length,
+            artist: {
+                raw: g_artist.length,
+                inHeader: ("By " + g_artist).length
+            },
+            album: g_album.length,
+            albumArtist: g_albumArtist.length
+        },
         color: {
             dominantColor: {
                 overall: dominantColor,
