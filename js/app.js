@@ -196,14 +196,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('containArtistTD').appendChild(linkElement)
             }
         }
-        document.getElementById("artist").href = `https://www.google.com/search?q=${encodeURIComponent(g_artist)}`;
+        document.getElementById("artist").href = `https://www.google.com/search?q=${encodeURIComponent(g_artist + " artist")}`;
     }
 
     if (g_album == '') {
         document.getElementById('album-zone').innerText = 'Unknown'
     } else {
         document.getElementById("album").innerText = params.get("al") || "Unknown";
-        document.getElementById("album").href = `https://www.google.com/search?q=${s_album}`;
+        document.getElementById("album").href = `https://www.google.com/search?q=${s_album + " album"}`;
     }
     if (g_albumArtist == '') {
         document.getElementById('albumArtist-zone').innerText = 'Unknown'
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('albumArtist-zone').innerText = 'Various Artists'
     } else {
         document.getElementById("albumArtist").innerText = params.get("alar") || "Unknown";
-        document.getElementById("albumArtist").href = `https://www.google.com/search?q=${s_albumArtist}`;
+        document.getElementById("albumArtist").href = `https://www.google.com/search?q=${s_albumArtist + " artist"}`;
     }
     try {
         document.getElementById("disc").innerText = `${params.get("dn").replace(/^0+/, '') || "Unknown"} / ${params.get("dc").replace(/^0+/, '') || "Unknown"}`;
