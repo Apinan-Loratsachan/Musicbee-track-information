@@ -1,4 +1,8 @@
 function initializePlayer() {
+    document.getElementById('audio-section').style.height = 100 + 'px'
+    if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
+        console.log(1)
+    }
     $(document).ready(function () {
         var audioElement = document.createElement('audio');
         audioElement.setAttribute('src', $('.active-song').attr('data-src'));
@@ -12,30 +16,25 @@ function initializePlayer() {
         tl.pause();
 
         $('.player__play').click(function () {
-
             if ($('.player').hasClass('play')) {
                 $('.player').removeClass('play');
                 audioElement.pause();
-                TweenMax.to('.player__albumImg', 0.2, {
-                    scale: 1,
-                    ease: Power0.easeNone
-                })
-                document.getElementById('audioDominent').style.opacity = 1
-                document.getElementById('previewTitleDiv').style.opacity = 1
-                document.getElementById('previewHeaderTextContainer').style.opacity = 1
-                // document.getElementById('info-section').style.marginTop = 30 + 'px'
                 tl.pause();
+                if (getDominentComplete) {
+                    setTimeout(() => {
+                        document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+                    }, 750);
+                    document.getElementById('player__timeline').style.opacity = 0
+                    document.getElementById('audio-section').style.height = 100 + 'px'
+                }
             } else {
                 $('.player').addClass('play');
                 audioElement.play();
-                TweenMax.to('.player__albumImg', 0.2, {
-                    scale: 1.3,
-                    ease: Power0.easeNone
-                })
-                document.getElementById('audioDominent').style.opacity = 0
-                document.getElementById('previewTitleDiv').style.opacity = 0
-                document.getElementById('previewHeaderTextContainer').style.opacity = 0
-                // document.getElementById('info-section').style.marginTop = 100 + 'px'
+                if (getDominentComplete) {
+                    document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
+                    document.getElementById('player__timeline').style.opacity = 1
+                    document.getElementById('audio-section').style.height = 220 + 'px'
+                }
                 tl.resume();
             }
 

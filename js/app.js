@@ -688,7 +688,7 @@ async function getSpotifyTrackPreview(spotify_track_id) {
         // Check if the album is found
         if (searchData.preview_url != null) {
             alreadyAudio = true
-            showAudioControlAndMoreDataWithSpotifySrc(searchData.preview_url, searchData.name, searchData.artists)
+            showAudioControlAndMoreDataWithSpotifySrc(searchData.preview_url, searchData.name, searchData.artists, searchData.external_urls.spotify, searchData.name, searchData.album.images[0].url)
         } else {
             // If no album found, display a message
             console.log(`%c[AUDIO] %cThis track not have audio preview\n(https://open.spotify.com/track/${spotify_track_id})`, 'font-weight: bold', 'color: red')
@@ -1015,35 +1015,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
     }
 
     if (audioSrc != null) {
-        document.getElementById('audio-container').classList = 'align-items-center animate__animated animate__zoomIn pb-3'
 
-        const previewHeaderTextContainer = document.createElement('div')
-        previewHeaderTextContainer.id = 'previewHeaderTextContainer'
-        previewHeaderTextContainer.className = 'transition-opacity'
-        document.getElementById('audio-container').appendChild(previewHeaderTextContainer)
-
-        const previewText = document.createElement('h2')
-        previewText.id = 'previewHeaderText'
-        previewText.innerText = `Track Preview`
-        previewText.setAttribute('style', 'margin: 0px; padding: 5px; font-weight: normal;')
-        previewText.classList = 'animate__animated animate__zoomIn prevent-all'
-        document.getElementById('previewHeaderTextContainer').appendChild(previewText)
-        
-
-        const previewTitleDiv = document.createElement('div')
-        previewTitleDiv.id = 'previewTitleDiv'
-        previewTitleDiv.className = 'transition-opacity'
-        previewTitleDiv.setAttribute('style', 'padding: 0px;')
-        document.getElementById('audio-container').appendChild(previewTitleDiv)
-
-        const previewTitle = document.createElement('h6')
-        previewTitleText = `${g_title} - ${g_artist}`
-        previewTitle.innerText = previewTitleText
-        previewTitle.setAttribute('style', 'margin: 10px; font-weight: normal;')
-        previewTitle.classList = 'animate__animated animate__zoomIn delay-3'
-        document.getElementById('previewTitleDiv').appendChild(previewTitle)
-
-        const spotifypreviewText = document.createElement('h6')
         var spotifyArtistsArrey = "";
         const artists = artistSrc;
         artists.forEach(artist => {
@@ -1054,29 +1026,9 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                 spotifyArtistsArrey = `${spotifyArtistsArrey}, ${artistName}`
             }
         });
-        const g_artist_arrey = g_artist.split(/(?:feat\.|meets|×|with|cv\.|Cv\.|CV\.|cv:|Cv:|CV:|cv |Cv |CV |va\.|Va\.|VA\.|va:|Va:|VA:|va |Va |VA |vo\.|Vo\.|VO\.|vo:|Vo:|VO:|vo |Vo |VO |&|\(\s*|\s*\)|\[|\]|,)/g)
-            .filter(artist => artist.trim() !== "")
-            .map(artist => artist.trim());
-        const compareArtist = g_artist_arrey.join(", ");
-        if (g_title != titleSrc || compareArtist.toUpperCase() != spotifyArtistsArrey.replaceAll("μ", "µ").toUpperCase()) {
-            spotifyPreviewDisplayText = `${titleSrc} - ${spotifyArtistsArrey}`
-            spotifypreviewText.innerText = `( ${spotifyPreviewDisplayText} )`
-            spotifypreviewText.setAttribute('style', 'margin: 10px; font-weight: normal;')
-            spotifypreviewText.classList = 'animate__animated animate__zoomIn delay-5'
-            document.getElementById('previewTitleDiv').appendChild(spotifypreviewText)
-        }
 
-        // const audioElement = document.createElement('audio')
-        // audioElement.id = 'audio-preview'
-        // audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
-        // audioElement.src = audioSrc
-        // audioElement.controls = true
-        // audioElement.autoplay = false
-        // audioElement.loop = false
-        // document.getElementById('audio-container').appendChild(audioElement)
-        const elements = document.getElementById('audio-container').innerHTML
-        document.getElementById('audio-container').innerHTML = `
-        <div class="player">
+        document.getElementById('audio-section').innerHTML = `
+        <div class="player animate__animated animate__zoomIn">
                 <div id="player__bar" class="player__bar">
                     <div class="player__album">
                         <div id="player__albumImg" class="player__albumImg active-song" data-author="${spotifyArtistsArrey}" data-song="${titleSrc}" data
@@ -1100,24 +1052,24 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                                 <use xlink:href="assets/player/sprite.svg#pause"></use>
                             </svg>
                         </div>
-        
+                        <!--
                         <div class="player__next">
                             <svg class="icon">
                                 <use xlink:href="assets/player/sprite.svg#arrow"></use>
                             </svg>
                         </div>
+                        -->
                     </div>
                 </div>
-                <div id="player__timeline" class="player__timeline blur">
-                    <p class="player__song"></p>
-                    <p class="player__author"></p>
+                <div id="player__timeline" class="player__timeline" style="opacity: 0">
+                    <p id="player__song" class="player__song"></p>
+                    <p id="player__author" class="player__author"></p>
                     <div class="player__timelineBar">
                         <div id="playhead"></div>
                     </div>
                 </div>
             </div>
         </div>
-        ${elements}
         `
 
         initializePlayer()
@@ -1375,8 +1327,8 @@ function changeHeaderScroll() {
         }
 
         if (g_artist != '') {
-            try {
-                const headerSubText = document.getElementById('headerSubText')
+            const headerSubText = document.getElementById('headerSubText')
+            if (headerSubText != null) {
                 if ($('#headerSubText')[0].scrollWidth > $('#headerSubText').innerWidth()) {
                     headerSubText.remove()
                     const header = document.getElementById('header')
@@ -1385,13 +1337,13 @@ function changeHeaderScroll() {
                     subHeaderContainer.className = 'px-3 py-2'
                     header.appendChild(subHeaderContainer)
                     document.getElementById('subHeaderTextContainer').innerHTML = `
-                    <div class="prevent-all animate__animated animate__fadeInDown">
-                        <div class="scroll-container">
-                            <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                            <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                        </div>
-                    </div>  
-                    `
+                        <div class="prevent-all animate__animated animate__fadeInDown">
+                            <div class="scroll-container">
+                                <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                                <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                            </div>
+                        </div>  
+                        `
                     const subScrollText = document.getElementById('subScrollText')
                     const subScrollTextEnd = document.getElementById('subScrollTextEnd')
                     subScrollText.addEventListener('animationiteration', () => {
@@ -1403,27 +1355,30 @@ function changeHeaderScroll() {
                         }, 2500);
                     });
                 }
-            } catch (error) {
+            } else {
+                if (document.getElementById('subHeaderTextContainer') != null) {
+                    document.getElementById('subHeaderTextContainer').remove()
+                }
                 const artistHearder = document.createElement("h6")
                 artistHearder.innerText = `By ${g_artist}`
                 artistHearder.id = "headerSubText"
                 artistHearder.classList = "headerText prevent-all animate__animated animate__fadeInDown"
                 document.getElementById("header").appendChild(artistHearder)
                 if ($('#headerSubText')[0].scrollWidth > $('#headerSubText').innerWidth()) {
-                    headerSubText.remove()
+                    document.getElementById('headerSubText').remove()
                     const header = document.getElementById('header')
                     const subHeaderContainer = document.createElement('div')
                     subHeaderContainer.id = 'subHeaderTextContainer'
                     subHeaderContainer.className = 'px-3 py-2'
                     header.appendChild(subHeaderContainer)
                     document.getElementById('subHeaderTextContainer').innerHTML = `
-                    <div class="prevent-all animate__animated animate__fadeInDown">
-                        <div class="scroll-container">
-                            <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                            <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                        </div>
-                    </div>  
-                    `
+                <div class="prevent-all animate__animated animate__fadeInDown">
+                    <div class="scroll-container">
+                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                    </div>
+                </div>  
+                `
                     const subScrollText = document.getElementById('subScrollText')
                     const subScrollTextEnd = document.getElementById('subScrollTextEnd')
                     subScrollText.addEventListener('animationiteration', () => {
@@ -1567,10 +1522,6 @@ async function changeInfoContainerColor() {
     document.getElementById("musicInfoDefault").style.opacity = 0
     document.getElementById("musicInfoDominent").style.opacity = 1
 
-    document.getElementById("audioDominent").style.backgroundColor = ` rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
-    document.getElementById("audioDefault").style.opacity = 0
-    document.getElementById("audioDominent").style.opacity = 1
-
     rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG1])
     whiteContrast = rawWhiteContrast + whiteContrastTrusthold
     blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG1])
@@ -1582,9 +1533,9 @@ async function changeInfoContainerColor() {
     }
 
     if (playerInitialize) {
-        document.getElementById('player__bar').style.backgroundColor = `rgb(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]})`
-        document.getElementById('player__timeline').style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.45)`
-        document.getElementById('playhead').style.background = `rgb(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]})`
+        document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+        document.getElementById('player__timeline').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+        document.getElementById('playhead').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
     }
 }
 
