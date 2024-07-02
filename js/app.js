@@ -1039,16 +1039,16 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                     <div class="player__controls">
         
                         <div class="player__prev">
-                            <svg class="icon">
+                            <svg id="iconPrev" class="icon">
                                 <use xlink:href="assets/player/sprite.svg#arrow"></use>
                             </svg>
                         </div>
         
                         <div class="player__play">
-                            <svg class="icon play">
+                            <svg id="iconPlay" class="icon play">
                                 <use xlink:href="assets/player/sprite.svg#play"></use>
                             </svg>
-                            <svg class="icon pause">
+                            <svg id="iconPause" class="icon pause">
                                 <use xlink:href="assets/player/sprite.svg#pause"></use>
                             </svg>
                         </div>
@@ -1536,6 +1536,11 @@ async function changeInfoContainerColor() {
         document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
         document.getElementById('player__timeline').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
         document.getElementById('playhead').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
+        if (hsv.v < 50 || whiteContrast >= blackContrast) {
+            document.getElementById('iconPrev').style.fill = 'rgb(255, 255, 255)'
+            document.getElementById('iconPlay').style.fill = 'rgb(255, 255, 255)'
+            document.getElementById('iconPause').style.fill = 'rgb(255, 255, 255)'
+        }
     }
 }
 
