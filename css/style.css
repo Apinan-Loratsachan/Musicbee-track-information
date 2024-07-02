@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Noto+Sans+Thai&display=swap');
 @import "animate.css";
+@import "player.css";
 @import "scroll_text.css";
+@import "background.css";
 
 * {
     font-family: 'Noto Sans Thai', sans-serif;
@@ -337,6 +339,7 @@ td {
 
 #info-section {
     position: relative;
+    transition: all 1s ease-in-out;
 }
 
 #musicInfoDefault,
@@ -353,4 +356,8 @@ td {
 
 .card-bg {
     background-color: rgba(255, 255, 255, 0.45);
+}
+
+.transition-opacity {
+    transition: opacity 1s ease-in-out;
 }

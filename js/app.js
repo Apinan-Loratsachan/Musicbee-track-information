@@ -2,7 +2,7 @@ var gitHost, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomI
     g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount,
     s_title, s_artist, s_album, s_albumArtist,
     whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv,
-    resizeTimeout
+    resizeTimeout, playerInitialize = false
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     gitHost = window.location.hostname.includes('github')
@@ -988,7 +988,7 @@ function customAlbumCover(image) {
     showCoverImageBycti(image)
 }
 
-function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc, spotifyURL, albumSrc) {
+function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc, spotifyURL, albumSrc, coverSrc) {
     if (audio != "" || spotifyURL != '') {
         if (spotifyURL != '') {
             spotifyDirectURL = spotifyURL
@@ -1015,16 +1015,24 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
     }
 
     if (audioSrc != null) {
-        document.getElementById('audio-container').classList = 'align-items-center animate__animated animate__zoomIn'
+        document.getElementById('audio-container').classList = 'align-items-center animate__animated animate__zoomIn pb-3'
+
+        const previewHeaderTextContainer = document.createElement('div')
+        previewHeaderTextContainer.id = 'previewHeaderTextContainer'
+        previewHeaderTextContainer.className = 'transition-opacity'
+        document.getElementById('audio-container').appendChild(previewHeaderTextContainer)
 
         const previewText = document.createElement('h2')
+        previewText.id = 'previewHeaderText'
         previewText.innerText = `Track Preview`
-        previewText.setAttribute('style', 'margin: 0px; padding: 5px; padding-top: 20px; font-weight: normal;')
+        previewText.setAttribute('style', 'margin: 0px; padding: 5px; font-weight: normal;')
         previewText.classList = 'animate__animated animate__zoomIn prevent-all'
-        document.getElementById('audio-container').appendChild(previewText)
+        document.getElementById('previewHeaderTextContainer').appendChild(previewText)
+        
 
         const previewTitleDiv = document.createElement('div')
         previewTitleDiv.id = 'previewTitleDiv'
+        previewTitleDiv.className = 'transition-opacity'
         previewTitleDiv.setAttribute('style', 'padding: 0px;')
         document.getElementById('audio-container').appendChild(previewTitleDiv)
 
@@ -1058,14 +1066,61 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
             document.getElementById('previewTitleDiv').appendChild(spotifypreviewText)
         }
 
-        const audioElement = document.createElement('audio')
-        audioElement.id = 'audio-preview'
-        audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
-        audioElement.src = audioSrc
-        audioElement.controls = true
-        audioElement.autoplay = false
-        audioElement.loop = false
-        document.getElementById('audio-container').appendChild(audioElement)
+        // const audioElement = document.createElement('audio')
+        // audioElement.id = 'audio-preview'
+        // audioElement.classList = 'audio-preview animate__animated animate__zoomIn delay-7'
+        // audioElement.src = audioSrc
+        // audioElement.controls = true
+        // audioElement.autoplay = false
+        // audioElement.loop = false
+        // document.getElementById('audio-container').appendChild(audioElement)
+        const elements = document.getElementById('audio-container').innerHTML
+        document.getElementById('audio-container').innerHTML = `
+        <div class="player">
+                <div id="player__bar" class="player__bar">
+                    <div class="player__album">
+                        <div id="player__albumImg" class="player__albumImg active-song" data-author="${spotifyArtistsArrey}" data-song="${titleSrc}" data
+                            data-src="${audioSrc}"
+                            style="background-image: url(${coverSrc})">
+                        </div>
+                    </div>
+                    <div class="player__controls">
+        
+                        <div class="player__prev">
+                            <svg class="icon">
+                                <use xlink:href="assets/player/sprite.svg#arrow"></use>
+                            </svg>
+                        </div>
+        
+                        <div class="player__play">
+                            <svg class="icon play">
+                                <use xlink:href="assets/player/sprite.svg#play"></use>
+                            </svg>
+                            <svg class="icon pause">
+                                <use xlink:href="assets/player/sprite.svg#pause"></use>
+                            </svg>
+                        </div>
+        
+                        <div class="player__next">
+                            <svg class="icon">
+                                <use xlink:href="assets/player/sprite.svg#arrow"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div id="player__timeline" class="player__timeline blur">
+                    <p class="player__song"></p>
+                    <p class="player__author"></p>
+                    <div class="player__timelineBar">
+                        <div id="playhead"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ${elements}
+        `
+
+        initializePlayer()
 
         console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
     }
@@ -1229,7 +1284,7 @@ async function getSpotifyAlbumData() {
                     } else {
                         console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Fuchsia');
                     }
-                    showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name)
+                    showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name, searchData.images[0].url)
                     return
                 }
             }
@@ -1241,7 +1296,7 @@ async function getSpotifyAlbumData() {
             } else {
                 console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Fuchsia');
             }
-            showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name)
+            showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name, searchData.images[0].url)
         }
         console.log('%c[DATA] %cGet track data in this album success', 'font-weight: bold', 'color: green');
 
@@ -1295,10 +1350,10 @@ function changeHeaderScroll() {
                     </h1>
                 </div>
                 `
-                if ($('#headerText')[0].scrollWidth > $('#headerText').innerWidth()) {
-                    headerText.remove()
-                    document.getElementById('headerTextContainer').className = 'px-3'
-                    document.getElementById('headerTextContainer').innerHTML = `
+            if ($('#headerText')[0].scrollWidth > $('#headerText').innerWidth()) {
+                headerText.remove()
+                document.getElementById('headerTextContainer').className = 'px-3'
+                document.getElementById('headerTextContainer').innerHTML = `
                                 <div class="prevent-all animate__animated animate__zoomIn">
                                     <div class="scroll-container pt-2 mb-2">
                                         <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
@@ -1306,17 +1361,17 @@ function changeHeaderScroll() {
                                     </div>
                                 </div>    
                                 `
-                    const scrollText = document.getElementById('scrollText')
-                    const scrollTextEnd = document.getElementById('scrollTextEnd')
-                    scrollText.addEventListener('animationiteration', () => {
-                        scrollText.style.animationPlayState = 'paused'
-                        scrollTextEnd.style.animationPlayState = 'paused'
-                        mainScroll = setTimeout(() => {
-                            scrollText.style.animationPlayState = 'running'
-                            scrollTextEnd.style.animationPlayState = 'running'
-                        }, 2500);
-                    });
-                }
+                const scrollText = document.getElementById('scrollText')
+                const scrollTextEnd = document.getElementById('scrollTextEnd')
+                scrollText.addEventListener('animationiteration', () => {
+                    scrollText.style.animationPlayState = 'paused'
+                    scrollTextEnd.style.animationPlayState = 'paused'
+                    mainScroll = setTimeout(() => {
+                        scrollText.style.animationPlayState = 'running'
+                        scrollTextEnd.style.animationPlayState = 'running'
+                    }, 2500);
+                });
+            }
         }
 
         if (g_artist != '') {
@@ -1524,6 +1579,12 @@ async function changeInfoContainerColor() {
     if (hsv.v < 50 || whiteContrast >= blackContrast) {
         document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
         document.getElementById("header").style.color = 'rgb(255, 255, 255)'
+    }
+
+    if (playerInitialize) {
+        document.getElementById('player__bar').style.backgroundColor = `rgb(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]})`
+        document.getElementById('player__timeline').style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.45)`
+        document.getElementById('playhead').style.background = `rgb(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]})`
     }
 }
 
