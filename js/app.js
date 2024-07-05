@@ -2,7 +2,7 @@ var gitHost, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomI
     g_title, g_artist, g_album, g_albumArtist, g_trackNumber, g_discNumber, g_discCount,
     s_title, s_artist, s_album, s_albumArtist,
     whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv,
-    resizeTimeout, playerInitialize = false
+    resizeTimeout, playerInitialize = false, spotifyArtistsArrey = "", spotifyTitle;
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     gitHost = window.location.hostname.includes('github')
@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('headerTextContainer').innerHTML = `
                     <div class="prevent-all animate__animated animate__zoomIn">
                         <div class="scroll-container pt-2 mb-2">
-                            <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
-                            <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                            <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
+                            <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
                         </div>
                     </div>    
                     `
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('subHeaderTextContainer').innerHTML = `
                 <div class="prevent-all animate__animated animate__fadeInDown">
                     <div class="scroll-container">
-                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
                     </div>
-                </div>  
+                </div>
                 `
                 const subScrollText = document.getElementById('subScrollText')
                 const subScrollTextEnd = document.getElementById('subScrollTextEnd')
@@ -1015,9 +1015,8 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
     }
 
     if (audioSrc != null) {
-
-        var spotifyArtistsArrey = "";
         const artists = artistSrc;
+        spotifyTitle = titleSrc
         artists.forEach(artist => {
             const artistName = artist.name;
             if (spotifyArtistsArrey.length == 0) {
@@ -1062,10 +1061,18 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                     </div>
                 </div>
                 <div id="player__timeline" class="player__timeline" style="opacity: 0">
-                    <p id="player__song" class="player__song"></p>
-                    <p id="player__author" class="player__author"></p>
-                    <div class="player__timelineBar">
+                    <div id="player__song__container" style="font-weight: 700;">
+                        <p id="player__song" class="player__song"></p>
+                    </div>
+                    <div id="player__author__container">
+                        <p id="player__author" class="player__author"></p>
+                    </div>
+                    <div id="playhead__container" class="player__timelineBar mt-3 pb-2">
                         <div id="playhead"></div>
+                    </div>
+                    <div class="d-flex justify-content-between pt-1">
+                        <div id="nowDuration">0.00</div>
+                        <div id="duration">0.00</div>
                     </div>
                 </div>
             </div>
@@ -1262,9 +1269,10 @@ window.addEventListener('resize', function (event) {
     adjustSearchBtn()
     changeImageGradient()
     // trigger on resize end
-    clearTimeout(resizeTimeout);
+    clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(function () {
-        changeHeaderScroll();
+        changeHeaderScroll()
+        adjustPlayerText()
     }, 200);
 }, true);
 
@@ -1278,8 +1286,8 @@ function changeHeaderScroll() {
                 document.getElementById('headerTextContainer').innerHTML = `
                             <div class="prevent-all animate__animated animate__zoomIn">
                                 <div class="scroll-container pt-2 mb-2">
-                                    <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
-                                    <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                                    <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
+                                    <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
                                 </div>
                             </div>    
                             `
@@ -1308,8 +1316,8 @@ function changeHeaderScroll() {
                 document.getElementById('headerTextContainer').innerHTML = `
                                 <div class="prevent-all animate__animated animate__zoomIn">
                                     <div class="scroll-container pt-2 mb-2">
-                                        <h1 class="scroll-text" id="scrollText" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
-                                        <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${Math.round((g_title.length / 2.3 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">${g_title}</h1>
+                                        <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
+                                        <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
                                     </div>
                                 </div>    
                                 `
@@ -1339,8 +1347,8 @@ function changeHeaderScroll() {
                     document.getElementById('subHeaderTextContainer').innerHTML = `
                         <div class="prevent-all animate__animated animate__fadeInDown">
                             <div class="scroll-container">
-                                <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                                <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                                <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
+                                <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
                             </div>
                         </div>  
                         `
@@ -1374,8 +1382,8 @@ function changeHeaderScroll() {
                     document.getElementById('subHeaderTextContainer').innerHTML = `
                 <div class="prevent-all animate__animated animate__fadeInDown">
                     <div class="scroll-container">
-                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
-                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${Math.round((g_artist.length / 3.2 + Number.EPSILON) * 100) / 100}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
                     </div>
                 </div>  
                 `
@@ -1530,17 +1538,18 @@ async function changeInfoContainerColor() {
     if (hsv.v < 50 || whiteContrast >= blackContrast) {
         document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
         document.getElementById("header").style.color = 'rgb(255, 255, 255)'
+        if (playerInitialize) {
+            document.getElementById('playhead').style.background = `rgba(255, 255, 255, 0.75)`
+            document.getElementById('playhead__container').style.background = `rgba(255, 255, 255, 0.35)`
+            document.getElementById('iconPrev').style.fill = 'rgb(255, 255, 255)'
+            document.getElementById('iconPlay').style.fill = 'rgb(255, 255, 255)'
+            document.getElementById('iconPause').style.fill = 'rgb(255, 255, 255)'
+        }
     }
 
     if (playerInitialize) {
         document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
         document.getElementById('player__timeline').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
-        document.getElementById('playhead').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
-        if (hsv.v < 50 || whiteContrast >= blackContrast) {
-            document.getElementById('iconPrev').style.fill = 'rgb(255, 255, 255)'
-            document.getElementById('iconPlay').style.fill = 'rgb(255, 255, 255)'
-            document.getElementById('iconPause').style.fill = 'rgb(255, 255, 255)'
-        }
     }
 }
 
