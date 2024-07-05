@@ -80,8 +80,8 @@ function initializePlayer() {
                         document.getElementById('player__song__container').innerHTML = `
                         <div class="prevent-all">
                             <div class="player-scroll-container">
-                                <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 1s infinite; font-size: 24px;">${spotifyTitle}</div>
-                                <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 1s infinite; font-size: 24px;">${spotifyTitle}</div>
+                                <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
+                                <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
                             </div>
                         </div>
                         `
@@ -101,8 +101,8 @@ function initializePlayer() {
                         document.getElementById('player__author__container').innerHTML = `
                         <div class="prevent-all">
                             <div class="player-scroll-container">
-                                <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 1s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
-                                <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 1s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
+                                <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
+                                <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
                             </div>
                         </div>
                         `
@@ -205,8 +205,8 @@ function adjustPlayerText() {
         document.getElementById('player__song__container').innerHTML = `
             <div class="prevent-all animate__animated animate__zoomIn">
                 <div class="player-scroll-container">
-                    <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 1s infinite; font-size: 24px;">${spotifyTitle}</div>
-                    <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 1s infinite; font-size: 24px;">${spotifyTitle}</div>
+                    <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
+                    <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
                 </div>
             </div>
             `
@@ -226,8 +226,8 @@ function adjustPlayerText() {
         document.getElementById('player__author__container').innerHTML = `
             <div class="prevent-all animate__animated animate__fadeInDown">
                 <div class="player-scroll-container">
-                    <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 1s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
-                    <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 1s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
+                    <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
+                    <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
                 </div>
             </div>
             `

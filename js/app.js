@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('headerTextContainer').innerHTML = `
                     <div class="prevent-all animate__animated animate__zoomIn">
                         <div class="scroll-container pt-2 mb-2">
-                            <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
-                            <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
+                            <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2s infinite;">${g_title}</h1>
+                            <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2s infinite;">${g_title}</h1>
                         </div>
                     </div>    
                     `
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('subHeaderTextContainer').innerHTML = `
                 <div class="prevent-all animate__animated animate__fadeInDown">
                     <div class="scroll-container">
-                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
-                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2s infinite;">By ${g_artist}</div>
                     </div>
                 </div>
                 `
@@ -1286,8 +1286,8 @@ function changeHeaderScroll() {
                 document.getElementById('headerTextContainer').innerHTML = `
                             <div class="prevent-all animate__animated animate__zoomIn">
                                 <div class="scroll-container pt-2 mb-2">
-                                    <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
-                                    <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
+                                    <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2s infinite;">${g_title}</h1>
+                                    <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2s infinite;">${g_title}</h1>
                                 </div>
                             </div>    
                             `
@@ -1316,8 +1316,8 @@ function changeHeaderScroll() {
                 document.getElementById('headerTextContainer').innerHTML = `
                                 <div class="prevent-all animate__animated animate__zoomIn">
                                     <div class="scroll-container pt-2 mb-2">
-                                        <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
-                                        <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2.5s infinite;">${g_title}</h1>
+                                        <h1 class="scroll-text" id="scrollText" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2s infinite;">${g_title}</h1>
+                                        <h1 class="scroll-text" id="scrollTextEnd" style="animation: scroll ${calculateAnimation(g_title, 2.3)}s linear 2s infinite;">${g_title}</h1>
                                     </div>
                                 </div>    
                                 `
@@ -1347,8 +1347,8 @@ function changeHeaderScroll() {
                     document.getElementById('subHeaderTextContainer').innerHTML = `
                         <div class="prevent-all animate__animated animate__fadeInDown">
                             <div class="scroll-container">
-                                <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
-                                <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
+                                <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2s infinite;">By ${g_artist}</div>
+                                <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2s infinite;">By ${g_artist}</div>
                             </div>
                         </div>  
                         `
@@ -1382,8 +1382,8 @@ function changeHeaderScroll() {
                     document.getElementById('subHeaderTextContainer').innerHTML = `
                 <div class="prevent-all animate__animated animate__fadeInDown">
                     <div class="scroll-container">
-                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
-                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2.5s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollText" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2s infinite;">By ${g_artist}</div>
+                        <div class="scroll-text" id="subScrollTextEnd" style="animation: scroll ${calculateAnimation(g_artist, 3.2)}s linear 2s infinite;">By ${g_artist}</div>
                     </div>
                 </div>  
                 `
