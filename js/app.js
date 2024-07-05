@@ -1027,7 +1027,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         });
 
         document.getElementById('audio-section').innerHTML = `
-        <div class="player animate__animated animate__zoomIn">
+        <div class="player animate__animated animate__zoomIn prevent-select">
                 <div id="player__bar" class="player__bar">
                     <div class="player__album">
                         <div id="player__albumImg" class="player__albumImg active-song" data-author="${spotifyArtistsArrey}" data-song="${titleSrc}" data
