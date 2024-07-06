@@ -67,9 +67,9 @@
     /* margin-right: 22px; */
     position: relative;
     top: 0px;
-    -webkit-transition: all .4s ease-in-out;
+    /* -webkit-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out
+    transition: all .4s ease-in-out */
 }
 
 .player__album:before {
@@ -86,7 +86,7 @@
 .player__albumImg {
     -webkit-border-radius: 50%;
     border-radius: 50%;
-    transition: all 1s ease-in-out;
+    /* transition: all 1s ease-in-out; */
 }
 
 .player__album:after {
@@ -144,7 +144,7 @@
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
     position: relative;
     z-index: 3;
-    transition: all 0.5s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
 }
 
 .player__controls,

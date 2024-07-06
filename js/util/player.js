@@ -1,4 +1,4 @@
-var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow, audioMotion, motionConnected = false
+var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow, audioMotion, motionConnected = false, pauseMotion
 function initializePlayer() {
     document.getElementById('audio-section').style.height = 100 + 'px'
     $(document).ready(function () {
@@ -17,6 +17,7 @@ function initializePlayer() {
         $('.player__play').click(function () {
             if ($('.player').hasClass('play')) {
                 $('.player').removeClass('play');
+                clearTimeout(pauseMotion)
                 audioElement.pause();
                 clearTimeout(checkTextOverflow)
                 document.getElementById('player__song__container').style.transitionProperty = 'padding'
@@ -35,6 +36,9 @@ function initializePlayer() {
                 if (document.getElementById('playerSubScrollTextEnd') != null) {
                     document.getElementById('playerSubScrollTextEnd').style.fontSize = 4 + 'px'
                 }
+                pauseMotion = setTimeout(() => {
+                    audioMotion.stop()
+                }, 500);
                 document.getElementById('space__container').style.height = 0 + 'px'
                 var changeTextBack = setTimeout(() => {
                     document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song">${spotifyTitle}</p>`
@@ -84,13 +88,16 @@ function initializePlayer() {
                             linearBoost: 1.6,
                             roundBars: true,
                             barSpace: 0.25,
-                            channelLayout: 'dual-horizontal'
+                            channelLayout: 'dual-horizontal',
+                            onCanvasDraw: drawCallback
                         }
                     );
                     setTimeout(() => {
                         adjustMotion()
                     }, 200);
                     motionConnected = true
+                } else {
+                    audioMotion.start()
                 }
 
                 if (getDominentComplete) {
@@ -210,20 +217,20 @@ function initializePlayer() {
             if ($('.player .player__albumImg.active-song').is(':first-child')) {
                 $('.player__albumImg.active-song').removeClass('active-song');
                 $('.player .player__albumImg:last-child').addClass('active-song');
-                audioElement.addEventListener("timeupdate", function () {
-                    var duration = this.duration;
-                    var currentTime = this.currentTime;
-                    var percentage = (currentTime / duration) * 100;
-                    playhead.style.width = percentage * 4 + 'px';
-                });
+                // audioElement.addEventListener("timeupdate", function () {
+                    // var duration = this.duration;
+                    // var currentTime = this.currentTime;
+                    // var percentage = (currentTime / duration) * 100;
+                    // playhead.style.width = percentage * 4 + 'px';
+                // });
             } else {
                 $('.player__albumImg.active-song').removeClass('active-song').prev().addClass('active-song');
-                audioElement.addEventListener("timeupdate", function () {
-                    var duration = this.duration;
-                    var currentTime = this.currentTime;
-                    var percentage = (currentTime / duration) * 100;
-                    playhead.style.width = percentage + 'px';
-                });
+                // audioElement.addEventListener("timeupdate", function () {
+                //     var duration = this.duration;
+                //     var currentTime = this.currentTime;
+                //     var percentage = (currentTime / duration) * 100;
+                //     playhead.style.width = percentage + 'px';
+                // });
             }
             updateInfo();
             audioElement.setAttribute('src', $('.active-song').attr('data-src'));
@@ -232,6 +239,22 @@ function initializePlayer() {
 
     });
     playerInitialize = true
+}
+
+function drawCallback( instance, info ) {
+    const baseSize  = ( instance.isFullscreen ? 40 : 20 ) * instance.pixelRatio,
+          canvas    = instance.canvas,
+          centerX   = canvas.width / 2,
+          centerY   = canvas.height / 2,
+          ctx       = instance.canvasCtx,
+          maxHeight = centerY / 2,
+          maxWidth  = centerX - baseSize * 5,
+          time      = info.timestamp / 1e4;
+
+    // the energy value is used here to increase the font size and make the logo pulsate to the beat
+    // console.log(instance.getEnergy())
+    // document.getElementById('albumImage').style.scale = `${ baseSize + instance.getEnergy() * 1 * instance.pixelRatio }`;
+    document.getElementById('player__album__container').style.scale = `${ 1 + instance.getEnergy()}`;
 }
 
 function adjustPlayerText() {

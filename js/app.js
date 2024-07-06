@@ -1029,7 +1029,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         document.getElementById('audio-section').innerHTML = `
         <div class="player animate__animated animate__zoomIn prevent-select">
                 <div id="player__bar" class="player__bar">
-                    <div class="player__album">
+                    <div id="player__album__container" class="player__album">
                         <div id="player__albumImg" class="player__albumImg active-song" data-author="${spotifyArtistsArrey}" data-song="${titleSrc}" data
                             data-src="${audioSrc}"
                             style="background-image: url(${coverSrc})">
@@ -1275,19 +1275,29 @@ window.addEventListener('resize', function (event) {
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(function () {
         changeHeaderScroll()
-        adjustPlayerText()
+        if (playerInitialize) {
+            adjustPlayerText()
+        }
     }, 200);
 }, true);
 
 function adjustMotion() {
     if (motionConnected) {
-        if (window.innerWidth > 600) {
+        if (window.innerWidth > 700) {
             audioMotion.setOptions({
                 mode: 4,
             })
-        } else {
+        } else if (window.innerWidth > 600) {
+            audioMotion.setOptions({
+                mode: 5,
+            })
+        } else if (window.innerWidth > 500) {
             audioMotion.setOptions({
                 mode: 6,
+            })
+        } else {
+            audioMotion.setOptions({
+                mode: 7,
             })
         }
     }
