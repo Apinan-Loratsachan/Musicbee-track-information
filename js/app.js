@@ -1052,14 +1052,15 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                             style="background-image: url(${coverSrc})">
                         </div>
                     </div>
+                    <div id="player__title" class="d-flex align-items-center justify-content-center">
+                        Track Preview
+                    </div>
                     <div class="player__controls">
-        
                         <div class="player__prev">
                             <svg id="iconPrev" class="icon">
                                 <use xlink:href="assets/player/sprite.svg#arrow"></use>
                             </svg>
                         </div>
-        
                         <div class="player__play">
                             <svg id="iconPlay" class="icon play">
                                 <use xlink:href="assets/player/sprite.svg#play"></use>
@@ -1097,7 +1098,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
             </div>
         </div>
         `
-
+        adjustPlayerTitle()
         initializePlayer()
 
         console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
@@ -1241,6 +1242,8 @@ async function getSpotifyAlbumData() {
             console.log('%c[DATA → COVER] %cHas custom album cover tag change to custom cover function', 'font-weight: bold', 'color: Fuchsia');
             spotifyCustomImageFlag = false
             customAlbumCover(custom_image);
+        } else if (spotify_album_cover_id != '') {
+            spotifySearchImageByID(spotify_album_cover_id)
         } else {
             console.log('%c[DATA → COVER] %cSend image src to cover function', 'font-weight: bold', 'color: Fuchsia');
             $(document).ready(function () {
@@ -1288,6 +1291,7 @@ window.addEventListener('resize', function (event) {
     adjustSearchBtn()
     changeImageGradient()
     adjustMotion()
+    adjustPlayerTitle()
     // trigger on resize end
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(function () {
@@ -1297,6 +1301,14 @@ window.addEventListener('resize', function (event) {
         }
     }, 200);
 }, true);
+
+function adjustPlayerTitle() {
+    if (window.innerWidth > 570) {
+        $('#player__title').attr('style', 'font-weight: 700; font-size: 20px;');
+    } else {
+        $('#player__title').attr('style', 'font-weight: 700; padding-left: 20px');
+    }
+}
 
 function adjustMotion() {
     if (motionConnected) {
@@ -1629,9 +1641,9 @@ async function changeInfoContainerColor() {
         document.getElementById('player__timeline').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
 
         const style = document.createElement('style');
-        
+
         // Function to change the background color of the pseudo-element
-            style.innerHTML = `.player__album:before {background: rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1);}`;
+        style.innerHTML = `.player__album:before {background: rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1);}`;
 
         document.head.appendChild(style);
     }

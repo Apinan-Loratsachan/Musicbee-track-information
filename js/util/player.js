@@ -218,10 +218,10 @@ function initializePlayer() {
                 $('.player__albumImg.active-song').removeClass('active-song');
                 $('.player .player__albumImg:last-child').addClass('active-song');
                 // audioElement.addEventListener("timeupdate", function () {
-                    // var duration = this.duration;
-                    // var currentTime = this.currentTime;
-                    // var percentage = (currentTime / duration) * 100;
-                    // playhead.style.width = percentage * 4 + 'px';
+                // var duration = this.duration;
+                // var currentTime = this.currentTime;
+                // var percentage = (currentTime / duration) * 100;
+                // playhead.style.width = percentage * 4 + 'px';
                 // });
             } else {
                 $('.player__albumImg.active-song').removeClass('active-song').prev().addClass('active-song');
@@ -241,20 +241,36 @@ function initializePlayer() {
     playerInitialize = true
 }
 
-function drawCallback( instance, info ) {
-    const baseSize  = ( instance.isFullscreen ? 40 : 20 ) * instance.pixelRatio,
-          canvas    = instance.canvas,
-          centerX   = canvas.width / 2,
-          centerY   = canvas.height / 2,
-          ctx       = instance.canvasCtx,
-          maxHeight = centerY / 2,
-          maxWidth  = centerX - baseSize * 5,
-          time      = info.timestamp / 1e4;
+function drawCallback(instance, info) {
+    const baseSize = (instance.isFullscreen ? 40 : 20) * instance.pixelRatio,
+        canvas = instance.canvas,
+        centerX = canvas.width / 2,
+        centerY = canvas.height / 2,
+        ctx = instance.canvasCtx;
+        // maxHeight = centerY / 2,
+        // maxWidth = centerX - baseSize * 5,
+        // time = info.timestamp / 1e4;
 
     // the energy value is used here to increase the font size and make the logo pulsate to the beat
     // console.log(instance.getEnergy())
     // document.getElementById('albumImage').style.scale = `${ baseSize + instance.getEnergy() * 1 * instance.pixelRatio }`;
-    document.getElementById('player__album__container').style.scale = `${ 1 + instance.getEnergy()}`;
+
+    const bass = 1 + instance.getEnergy('bass')
+    const lowMid = 1 + instance.getEnergy('lowMid')
+    const mid = 1 + instance.getEnergy('mid')
+    const highMid = 1 + instance.getEnergy('highMid') * 2.5
+    const treble = 1 + instance.getEnergy('treble') * 2.5
+    document.getElementById('player__album__container').style.scale = `${1 + instance.getEnergy('bass') * 0.7}`;
+    document.getElementById('particle0').style.scale = `${bass}`;
+    document.getElementById('particle1').style.scale = `${lowMid}`;
+    document.getElementById('particle2').style.scale = `${bass}`;
+    document.getElementById('particle3').style.scale = `${highMid}`;
+    document.getElementById('particle4').style.scale = `${treble}`;
+    document.getElementById('particle5').style.scale = `${mid}`;
+    document.getElementById('particle6').style.scale = `${lowMid}`;
+    document.getElementById('particle7').style.scale = `${mid}`;
+    document.getElementById('particle8').style.scale = `${highMid}`;
+    document.getElementById('particle9').style.scale = `${treble}`;
 }
 
 function adjustPlayerText() {
