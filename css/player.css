@@ -77,8 +77,8 @@
     width: 25px;
     height: 25px;
     z-index: 3;
-    background: rgba(0, 0, 0, 1);
-    transition: background-color 1s ease-in-out;
+    background: white;
+    transition: background-color 0.7s ease-in-out;
 }
 
 .player__album,
