@@ -1,9 +1,6 @@
 var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow
 function initializePlayer() {
     document.getElementById('audio-section').style.height = 100 + 'px'
-    if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
-        console.log(1)
-    }
     $(document).ready(function () {
         var audioElement = document.createElement('audio');
         audioElement.setAttribute('src', $('.active-song').attr('data-src'));
@@ -198,10 +195,14 @@ function initializePlayer() {
 
 function adjustPlayerText() {
     clearTimeout(checkTextOverflow)
+    document.getElementById('player__song__container').style.paddingTop = 0 + 'px'
     document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song animate__animated animate__zoomIn">${spotifyTitle}</p>`
     document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author animate__animated animate__fadeInDown">${spotifyArtistsArrey}</p>`
     if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
         document.getElementById('player__song').remove()
+        $('#player__song__container').attr('style', 'font-weight: 700;');
+        document.getElementById('player__song__container').style.paddingTop = 30 + 'px'
+        document.getElementById('player__song__container').style.marginTop = 9 + 'px'
         document.getElementById('player__song__container').innerHTML = `
             <div class="prevent-all animate__animated animate__zoomIn">
                 <div class="player-scroll-container">

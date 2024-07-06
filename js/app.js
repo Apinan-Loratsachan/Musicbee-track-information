@@ -3,7 +3,7 @@ var gitHost, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomI
     s_title, s_artist, s_album, s_albumArtist,
     whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv,
     resizeTimeout, playerInitialize = false, spotifyArtistsArrey = "", spotifyTitle;
-// เมื่อหน้าเว็บโหลดเสร็จ
+    // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     gitHost = window.location.hostname.includes('github')
     // รับค่า parameter จาก URL
