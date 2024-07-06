@@ -1627,6 +1627,13 @@ async function changeInfoContainerColor() {
     if (playerInitialize) {
         document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
         document.getElementById('player__timeline').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+
+        const style = document.createElement('style');
+        
+        // Function to change the background color of the pseudo-element
+            style.innerHTML = `.player__album:before {background: rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1);}`;
+
+        document.head.appendChild(style);
     }
 }
 
