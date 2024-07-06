@@ -247,30 +247,25 @@ function drawCallback(instance, info) {
         centerX = canvas.width / 2,
         centerY = canvas.height / 2,
         ctx = instance.canvasCtx;
-        // maxHeight = centerY / 2,
-        // maxWidth = centerX - baseSize * 5,
-        // time = info.timestamp / 1e4;
+    // maxHeight = centerY / 2,
+    // maxWidth = centerX - baseSize * 5,
+    // time = info.timestamp / 1e4;
 
     // the energy value is used here to increase the font size and make the logo pulsate to the beat
     // console.log(instance.getEnergy())
     // document.getElementById('albumImage').style.scale = `${ baseSize + instance.getEnergy() * 1 * instance.pixelRatio }`;
 
-    const bass = 1 + instance.getEnergy('bass')
-    const lowMid = 1 + instance.getEnergy('lowMid')
-    const mid = 1 + instance.getEnergy('mid')
-    const highMid = 1 + instance.getEnergy('highMid') * 2.5
-    const treble = 1 + instance.getEnergy('treble') * 2.5
     document.getElementById('player__album__container').style.scale = `${1 + instance.getEnergy('bass') * 0.7}`;
-    document.getElementById('particle0').style.scale = `${bass}`;
-    document.getElementById('particle1').style.scale = `${lowMid}`;
-    document.getElementById('particle2').style.scale = `${bass}`;
-    document.getElementById('particle3').style.scale = `${highMid}`;
-    document.getElementById('particle4').style.scale = `${treble}`;
-    document.getElementById('particle5').style.scale = `${mid}`;
-    document.getElementById('particle6').style.scale = `${lowMid}`;
-    document.getElementById('particle7').style.scale = `${mid}`;
-    document.getElementById('particle8').style.scale = `${highMid}`;
-    document.getElementById('particle9').style.scale = `${treble}`;
+    document.getElementById('particle0').style.scale = `${1 + instance.getEnergy(30, 56)}`;
+    document.getElementById('particle1').style.scale = `${1 + instance.getEnergy(56, 105)}`;
+    document.getElementById('particle2').style.scale = `${1 + instance.getEnergy(105, 199)}`;
+    document.getElementById('particle3').style.scale = `${1 + instance.getEnergy(199, 375)}`;
+    document.getElementById('particle4').style.scale = `${1 + instance.getEnergy(375, 708)}`;
+    document.getElementById('particle5').style.scale = `${1 + instance.getEnergy(708, 1336) * 2}`;
+    document.getElementById('particle6').style.scale = `${1 + instance.getEnergy(1336, 2521) * 4}`;
+    document.getElementById('particle7').style.scale = `${1 + instance.getEnergy(2521, 4756) * 6}`;
+    document.getElementById('particle8').style.scale = `${1 + instance.getEnergy(4756, 8975) * 8}`;
+    document.getElementById('particle9').style.scale = `${1 + instance.getEnergy(8975, 16000) * 10}`;
 }
 
 function adjustPlayerText() {
