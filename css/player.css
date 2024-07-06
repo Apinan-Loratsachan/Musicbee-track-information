@@ -35,7 +35,7 @@
     -webkit-transform: translateY(90%);
     -ms-transform: translateY(90%);
     transform: translateY(90%);
-    height: 180px;
+    height: 280px;
 }
 
 .player.play .player__album:after {
@@ -310,7 +310,8 @@
 
 .player__timeline,
 .player__song,
-.player__author {
+.player__author,
+#space__container {
     transition: all 1s ease-in-out;
 }
 
@@ -342,4 +343,13 @@
     100% {
         transform: translateX(-100.25%);
     }
+}
+
+#motion {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    width: 100%;
+    z-index: -1;
 }

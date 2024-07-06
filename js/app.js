@@ -3,7 +3,7 @@ var gitHost, spotifyDirectURL, spotifyAlbumDataTemp, flag = true, spotifyCustomI
     s_title, s_artist, s_album, s_albumArtist,
     whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast, hsv,
     resizeTimeout, playerInitialize = false, spotifyArtistsArrey = "", spotifyTitle;
-    // เมื่อหน้าเว็บโหลดเสร็จ
+// เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener("DOMContentLoaded", function () {
     gitHost = window.location.hostname.includes('github')
     // รับค่า parameter จาก URL
@@ -1061,12 +1061,14 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                     </div>
                 </div>
                 <div id="player__timeline" class="player__timeline" style="opacity: 0">
+                    <div id="motion"></div>
                     <div id="player__song__container" style="font-weight: 700;">
                         <p id="player__song" class="player__song"></p>
                     </div>
                     <div id="player__author__container">
                         <p id="player__author" class="player__author"></p>
                     </div>
+                    <div id="space__container" style="height: 0px;"></div>
                     <div id="playhead__container" class="player__timelineBar mt-3 pb-2">
                         <div id="playhead"></div>
                     </div>
@@ -1268,6 +1270,7 @@ async function getSpotifyAlbumData() {
 window.addEventListener('resize', function (event) {
     adjustSearchBtn()
     changeImageGradient()
+    adjustMotion()
     // trigger on resize end
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(function () {
@@ -1275,6 +1278,20 @@ window.addEventListener('resize', function (event) {
         adjustPlayerText()
     }, 200);
 }, true);
+
+function adjustMotion() {
+    if (motionConnected) {
+        if (window.innerWidth > 600) {
+            audioMotion.setOptions({
+                mode: 4,
+            })
+        } else {
+            audioMotion.setOptions({
+                mode: 6,
+            })
+        }
+    }
+}
 
 function changeHeaderScroll() {
     if (g_title != '') {
@@ -1544,6 +1561,39 @@ async function changeInfoContainerColor() {
             document.getElementById('iconPrev').style.fill = 'rgb(255, 255, 255)'
             document.getElementById('iconPlay').style.fill = 'rgb(255, 255, 255)'
             document.getElementById('iconPause').style.fill = 'rgb(255, 255, 255)'
+            var checkMotionConnected = setInterval(() => {
+                if (motionConnected) {
+                    clearInterval(checkMotionConnected)
+                    audioMotion.registerGradient('myGradient', {
+                        bgColor: '#000000',
+                        dir: 'h',
+                        colorStops: [
+                            `rgba(255, 255, 255, 0.75)`
+                        ]
+                    });
+                    audioMotion.setOptions({
+                        gradient: "myGradient",
+                    })
+                }
+            }, 100);
+        }
+    } else {
+        if (playerInitialize) {
+            var checkMotionConnected = setInterval(() => {
+                if (motionConnected) {
+                    clearInterval(checkMotionConnected)
+                    audioMotion.registerGradient('myGradient', {
+                        bgColor: '#000000',
+                        dir: 'h',
+                        colorStops: [
+                            `rgba(0, 0, 0, 0.75)`
+                        ]
+                    });
+                    audioMotion.setOptions({
+                        gradient: "myGradient",
+                    })
+                }
+            }, 100);
         }
     }
 

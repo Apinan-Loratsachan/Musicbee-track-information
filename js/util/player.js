@@ -1,8 +1,9 @@
-var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow
+var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow, audioMotion, motionConnected = false
 function initializePlayer() {
     document.getElementById('audio-section').style.height = 100 + 'px'
     $(document).ready(function () {
         var audioElement = document.createElement('audio');
+        audioElement.crossOrigin = 'anonymous'
         audioElement.setAttribute('src', $('.active-song').attr('data-src'));
 
         var tl = new TimelineMax();
@@ -34,6 +35,7 @@ function initializePlayer() {
                 if (document.getElementById('playerSubScrollTextEnd') != null) {
                     document.getElementById('playerSubScrollTextEnd').style.fontSize = 4 + 'px'
                 }
+                document.getElementById('space__container').style.height = 0 + 'px'
                 var changeTextBack = setTimeout(() => {
                     document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song">${spotifyTitle}</p>`
                     document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author">${spotifyArtistsArrey}</p>`
@@ -52,10 +54,49 @@ function initializePlayer() {
                 clearTimeout(changeTextBack)
                 $('.player').addClass('play');
                 audioElement.play();
+                document.getElementById('space__container').style.height = 100 + 'px'
+                if (!motionConnected) {
+                    audioMotion = new AudioMotionAnalyzer(
+                        document.getElementById("motion"),
+                        {
+                            source: audioElement,
+                            height: 100,
+                            mode: 4,
+                            frequencyScale: "log",
+                            ansiBands: false,
+                            showScaleX: false,
+                            bgAlpha: 0,
+                            overlay: true,
+                            showPeaks: false,
+                            reflexRatio: 0.5,
+                            reflexAlpha: 1,
+                            reflexBright: 1,
+                            smoothing: 0.7,
+                            gradient: "rainbow",
+                            mirror: 1,
+                            weightingFilter: "D",
+                            fftSize: 8192,
+                            minFreq: 30,
+                            maxFreq: 16000,
+                            minDecibels: -85,
+                            maxDecibels: -25,
+                            linearAmplitude: true,
+                            linearBoost: 1.6,
+                            roundBars: true,
+                            barSpace: 0.25,
+                            channelLayout: 'dual-horizontal'
+                        }
+                    );
+                    setTimeout(() => {
+                        adjustMotion()
+                    }, 200);
+                    motionConnected = true
+                }
+
                 if (getDominentComplete) {
                     document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
                     document.getElementById('player__timeline').style.opacity = 1
-                    document.getElementById('audio-section').style.height = 270 + 'px'
+                    document.getElementById('audio-section').style.height = 350 + 'px'
                 }
                 // var playhead = document.getElementById("playhead");
                 var durationElement = document.getElementById("duration");

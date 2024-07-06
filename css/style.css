@@ -365,3 +365,8 @@ td {
 .transition-opacity {
     transition: opacity 1s ease-in-out;
 }
+
+#blur,
+#area {
+    z-index: -1;
+}
