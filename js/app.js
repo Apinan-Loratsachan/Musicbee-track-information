@@ -692,6 +692,23 @@ async function getSpotifyTrackPreview(spotify_track_id) {
         } else {
             // If no album found, display a message
             console.log(`%c[AUDIO] %cThis track not have audio preview\n(https://open.spotify.com/track/${spotify_track_id})`, 'font-weight: bold', 'color: red')
+            document.getElementById("btnSpotifySearch").innerText = ''
+            document.getElementById("btnSpotifySearch").classList.add("spotify-active")
+
+            const div = document.createElement('div')
+            div.id = 'spotifyBtnDiv'
+            div.classList = 'active-btn-animate'
+            document.getElementById("btnSpotifySearch").appendChild(div)
+
+            const spotifyIcon = document.createElement('i')
+            spotifyIcon.classList = 'fa-brands fa-spotify fa-beat-fade fa-xl'
+            spotifyIcon.setAttribute('style', "color: #1ed760;")
+            document.getElementById("spotifyBtnDiv").appendChild(spotifyIcon)
+
+            const spotifyText = document.createElement('span')
+            spotifyText.innerText = ' Open in Spotify'
+            spotifyText.classList = 'active-btn-animate'
+            document.getElementById("spotifyBtnDiv").appendChild(spotifyText)
         }
 
     } catch (e) {
