@@ -370,3 +370,19 @@ td {
 #area {
     z-index: -1;
 }
+
+#inputAudio {
+    transition: all 1s ease-in-out;
+}
+
+label {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: 'Helvetica', sans-serif;
+    transition: .5s;
+  }
+  
+  label:hover {
+    background-color: #eee;
+  }

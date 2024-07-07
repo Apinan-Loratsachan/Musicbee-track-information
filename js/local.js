@@ -423,6 +423,9 @@ async function changeInfoContainerColor() {
     document.getElementById("musicInfoDefault").style.opacity = 0
     document.getElementById("musicInfoDominent").style.opacity = 1
 
+    document.getElementById("inputAudio").style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+    document.getElementById("inputAudio").style.border = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
+
     rawWhiteContrast = contrast([255, 255, 255], dominantPalette[dominentBG1])
     whiteContrast = rawWhiteContrast + whiteContrastTrusthold
     blackContrast = contrast([0, 0, 0], dominantPalette[dominentBG1])
@@ -430,6 +433,7 @@ async function changeInfoContainerColor() {
     if (hsv.v < 50 || whiteContrast >= blackContrast) {
         document.getElementById("audio-section").style.color = 'rgb(255, 255, 255)'
         document.getElementById("header").style.color = 'rgb(255, 255, 255)'
+        document.getElementById("inputAudio").style.color = 'rgb(255, 255, 255)'
         let changeTone = setInterval(() => {
             console.log(1)
             if (playerInitialize) {
@@ -459,6 +463,7 @@ async function changeInfoContainerColor() {
     } else {
         document.getElementById("audio-section").style.color = 'rgb(0, 0, 0)'
         document.getElementById("header").style.color = 'rgb(0, 0, 0)'
+        document.getElementById("inputAudio").style.color = 'rgb(0, 0, 0)'
         let changeTone = setInterval(() => {
             if (playerInitialize) {
                 clearTimeout(changeTone)
