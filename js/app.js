@@ -1099,7 +1099,7 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
         </div>
         `
         adjustPlayerTitle()
-        initializePlayer()
+        initializePlayer(spotifyTitle, spotifyArtistsArrey)
 
         console.log(`%c[AUDIO] %cGet audio preview success\n(${audioSrc})`, 'font-weight: bold', 'color: green')
     }

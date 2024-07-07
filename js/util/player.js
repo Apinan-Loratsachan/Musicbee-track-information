@@ -1,10 +1,21 @@
-var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow, audioMotion, motionConnected = false, pauseMotion
-function initializePlayer() {
+var getDuration, duration, currentTime, percentage, playState = false, checkTextOverflow, audioMotion, motionConnected = false, pauseMotion, audioElement, isLocal = false, musicTitle, musicArtist
+function initializePlayer(title, artist) {
+    musicTitle = title
+    musicArtist = artist
     document.getElementById('audio-section').style.height = 100 + 'px'
     $(document).ready(function () {
-        var audioElement = document.createElement('audio');
+        audioElement = document.createElement('audio');
         audioElement.crossOrigin = 'anonymous'
+        audioElement.id = 'audioElement'
         audioElement.setAttribute('src', $('.active-song').attr('data-src'));
+        if (isLocal) {
+            setLenLocal = setInterval(() => {
+                if (!isNaN(audioElement.duration)) {
+                    clearInterval(setLenLocal)
+                }
+                document.getElementById('length').innerText = `${(Math.floor(Math.floor(audioElement.duration) / 60))}:${(Math.floor(audioElement.duration) % 60).toString().padStart(2, '0')}`
+            }, 100);
+        }
 
         var tl = new TimelineMax();
         tl.to('.player__albumImg', 3, {
@@ -41,8 +52,8 @@ function initializePlayer() {
                 }, 500);
                 document.getElementById('space__container').style.height = 0 + 'px'
                 var changeTextBack = setTimeout(() => {
-                    document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song">${spotifyTitle}</p>`
-                    document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author">${spotifyArtistsArrey}</p>`
+                    document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song">${musicTitle}</p>`
+                    document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author">${musicArtist}</p>`
                 }, 1100);
                 if (getDominentComplete) {
                     setTimeout(() => {
@@ -113,9 +124,14 @@ function initializePlayer() {
                     currentTime = audioElement.currentTime;
                     percentage = (currentTime / duration) * 100;
                     // playhead.style.width = percentage + '%';
-                    durationElement.innerText = '0:' + Math.floor(duration)
-                    nowDurationElement.innerText = '0:' + Math.floor(currentTime).toString().padStart(2, '0')
+                    nowDurationElement.innerText = `${(Math.floor(Math.floor(currentTime) / 60))}:${(Math.floor(currentTime) % 60).toString().padStart(2, '0')}`
                 }, 30);
+                setLenPLayerLocal = setInterval(() => {
+                    if (!isNaN(audioElement.duration)) {
+                        clearInterval(setLenPLayerLocal)
+                        durationElement.innerText = `${(Math.floor(Math.floor(duration) / 60))}:${(Math.floor(duration) % 60).toString().padStart(2, '0')}`
+                    }
+                }, 100);
                 checkTextOverflow = setTimeout(() => {
                     if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
                         document.getElementById('player__song').remove()
@@ -125,8 +141,8 @@ function initializePlayer() {
                         document.getElementById('player__song__container').innerHTML = `
                         <div class="prevent-all">
                             <div class="player-scroll-container">
-                                <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
-                                <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
+                                <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(musicTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${musicTitle}</div>
+                                <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(musicTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${musicTitle}</div>
                             </div>
                         </div>
                         `
@@ -146,8 +162,8 @@ function initializePlayer() {
                         document.getElementById('player__author__container').innerHTML = `
                         <div class="prevent-all">
                             <div class="player-scroll-container">
-                                <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
-                                <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
+                                <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(musicArtist, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${musicArtist}</div>
+                                <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(musicArtist, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${musicArtist}</div>
                             </div>
                         </div>
                         `
@@ -271,8 +287,8 @@ function drawCallback(instance, info) {
 function adjustPlayerText() {
     clearTimeout(checkTextOverflow)
     document.getElementById('player__song__container').style.paddingTop = 0 + 'px'
-    document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song animate__animated animate__zoomIn">${spotifyTitle}</p>`
-    document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author animate__animated animate__fadeInDown">${spotifyArtistsArrey}</p>`
+    document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song animate__animated animate__zoomIn">${musicTitle}</p>`
+    document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author animate__animated animate__fadeInDown">${musicArtist}</p>`
     if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
         document.getElementById('player__song').remove()
         $('#player__song__container').attr('style', 'font-weight: 700;');
@@ -281,8 +297,8 @@ function adjustPlayerText() {
         document.getElementById('player__song__container').innerHTML = `
             <div class="prevent-all animate__animated animate__zoomIn">
                 <div class="player-scroll-container">
-                    <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
-                    <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${spotifyTitle}</div>
+                    <div class="player-scroll-text" id="playerScrollText" style="animation: playerScroll ${calculateAnimation(musicTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${musicTitle}</div>
+                    <div class="player-scroll-text" id="playerScrollTextEnd" style="animation: playerScroll ${calculateAnimation(musicTitle, 2.8)}s linear 2s infinite; font-size: 24px;">${musicTitle}</div>
                 </div>
             </div>
             `
@@ -302,8 +318,8 @@ function adjustPlayerText() {
         document.getElementById('player__author__container').innerHTML = `
             <div class="prevent-all animate__animated animate__fadeInDown">
                 <div class="player-scroll-container">
-                    <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
-                    <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(spotifyArtistsArrey, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${spotifyArtistsArrey}</div>
+                    <div class="player-scroll-text" id="playerSubScrollText" style="animation: playerScroll ${calculateAnimation(musicArtist, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${musicArtist}</div>
+                    <div class="player-scroll-text" id="playerSubScrollTextEnd" style="animation: playerScroll ${calculateAnimation(musicArtist, 2.4)}s linear 2s infinite; font-size: 18px; opacity: 0.75;">${musicArtist}</div>
                 </div>
             </div>
             `

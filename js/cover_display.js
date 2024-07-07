@@ -1,10 +1,14 @@
 var coverHeight, coverWidth, infoDiv, useWhite = true, uiState = true,
     whiteContrastTrusthold = 5, whiteContrast, rawWhiteContrast,
-    displayAlert, isNotFirst = false
+    displayAlert, isNotFirst = false, imageUrl
 
 const params = new URLSearchParams(window.location.search);
 
-const imageUrl = `https://${params.get('cover')}`;
+if (params.get('local')) {
+    imageUrl = params.get('cover');
+} else {
+    imageUrl = `https://${params.get('cover')}`;
+}
 const title = `${params.get('title') || 'Unknow title'}`;
 const artist = `${params.get('artist') || 'Unknow artist'}`;
 const album = `${params.get('album') || 'Unknow artist'}`;

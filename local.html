@@ -50,24 +50,13 @@
                         </h1>
                     </div>
                 </div>
-                <div id="imageSection">
-                    <div id="loading-animate-out" class="animate__animated">
-                        <div id="searching-text" class="animate__animated animate__fadeInDown animate__faster ">
-                            <strong class="now-precess prevent-all">Searching
-                                artwork</strong>
-                        </div>
-                        <div class="animate__animated animate__fadeInUp animate__faster" id="loading-cover">
-                            <div class="loader animate__animated animate__infinite ">
-                                <span class="stroke"></span>
-                                <span class="stroke"></span>
-                                <span class="stroke"></span>
-                                <span class="stroke"></span>
-                                <span class="stroke"></span>
-                                <span class="stroke"></span>
-                                <span class="stroke"></span>
-                            </div>
-                        </div>
+                <div id="inputContainer" class="px-5">
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="inputAudio" aria-describedby="inputGroupFileAddon04"
+                            aria-label="Upload" accept=".mp3,.flac">
                     </div>
+                </div>
+                <div id="imageSection">
                 </div>
                 <div class="row d-flex align-items-center">
                     <div class="col d-flex justify-content-center animate__animated animate__fadeInRight">
@@ -145,9 +134,13 @@
                                 <th scope="row">Language</th>
                                 <td id="language" colspan="2"></td>
                             </tr>
+                            <tr class="animate__animated animate__fadeInUp delay-10">
+                                <th scope="row">File Type</th>
+                                <td id="type" colspan="2"></td>
+                            </tr>
                             <tr class="animate__animated animate__fadeInUp delay-11">
-                                <th scope="row">Related</th>
-                                <td id="related" colspan="2"></td>
+                                <th scope="row">Metadata Type</th>
+                                <td id="metatype" colspan="2"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -253,8 +246,8 @@
     <script src="js/util/contrast.js"></script>
     <script src="js/util/color.js"></script>
     <script src="js/util/ramdon.js"></script>
-    <script src="js/app.js"></script>
     <script src="assets/data/appdata.js"></script>
+    <script src="js/local.js"></script>
 </body>
 
 </html>
