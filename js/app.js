@@ -1543,7 +1543,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const randomColor = getRandomInt(0, 9);
                 const randomSize = getRandomInt(20, 150);
                 particle.style.backgroundColor = `rgba(${dominantPalette[randomColor][0]}, ${dominantPalette[randomColor][1]}, ${dominantPalette[randomColor][2]}, 1)`
-                particle.style.left = `${getRandomInt(0, 100)}%`;
+                particle.style.left = `${getRandomInt(0, 98)}%`;
                 particle.style.borderRadius = getRandomInt(0, 70) + '%'
                 particle.style.width = randomSize + 'px'
                 particle.style.height = randomSize + 'px'
@@ -1574,7 +1574,7 @@ async function changeInfoContainerColor() {
         const randomSize = getRandomInt(20, 150);
         document.getElementById(`particle${i}`).style.backgroundColor = `rgba(${dominantPalette[i][0]}, ${dominantPalette[i][1]}, ${dominantPalette[i][2]}, 1)`
         document.getElementById(`particle${i}`).style.borderRadius = getRandomInt(0, 70) + '%'
-        document.getElementById(`particle${i}`).style.left = `${getRandomInt(0, 100)}%`;
+        document.getElementById(`particle${i}`).style.left = `${getRandomInt(0, 98)}%`;
         document.getElementById(`particle${i}`).style.width = randomSize + 'px'
         document.getElementById(`particle${i}`).style.height = randomSize + 'px'
     }
