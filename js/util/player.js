@@ -272,16 +272,27 @@ function drawCallback(instance, info) {
     // document.getElementById('albumImage').style.scale = `${ baseSize + instance.getEnergy() * 1 * instance.pixelRatio }`;
 
     document.getElementById('player__album__container').style.scale = `${1 + instance.getEnergy('bass') * 0.7}`;
-    document.getElementById('particle0').style.scale = `${1 + instance.getEnergy(30, 56)}`;
-    document.getElementById('particle1').style.scale = `${1 + instance.getEnergy(56, 105)}`;
-    document.getElementById('particle2').style.scale = `${1 + instance.getEnergy(105, 199)}`;
-    document.getElementById('particle3').style.scale = `${1 + instance.getEnergy(199, 375)}`;
-    document.getElementById('particle4').style.scale = `${1 + instance.getEnergy(375, 708)}`;
-    document.getElementById('particle5').style.scale = `${1 + instance.getEnergy(708, 1336) * 2}`;
-    document.getElementById('particle6').style.scale = `${1 + instance.getEnergy(1336, 2521) * 4}`;
-    document.getElementById('particle7').style.scale = `${1 + instance.getEnergy(2521, 4756) * 6}`;
-    document.getElementById('particle8').style.scale = `${1 + instance.getEnergy(4756, 8975) * 8}`;
-    document.getElementById('particle9').style.scale = `${1 + instance.getEnergy(8975, 16000) * 10}`;
+    document.getElementById('particle0').style.scale = `${1 + instance.getEnergy(30, 52)}`;
+    document.getElementById('particle1').style.scale = `${1 + instance.getEnergy(52, 74)}`;
+    document.getElementById('particle2').style.scale = `${1 + instance.getEnergy(74, 96)}`;
+    document.getElementById('particle3').style.scale = `${1 + instance.getEnergy(96, 118)}`;
+    document.getElementById('particle4').style.scale = `${1 + instance.getEnergy(118, 140)}`;
+    document.getElementById('particle5').style.scale = `${1 + instance.getEnergy(140, 162)}`;
+    document.getElementById('particle6').style.scale = `${1 + instance.getEnergy(162, 184) * 1.3}`;
+    document.getElementById('particle7').style.scale = `${1 + instance.getEnergy(184, 206) * 1.6}`;
+    document.getElementById('particle8').style.scale = `${1 + instance.getEnergy(206, 228) * 1.9}`;
+    document.getElementById('particle9').style.scale = `${1 + instance.getEnergy(228, 250) * 2.2}`;
+
+    document.getElementById('particle0').style.opacity = `${0.3 + instance.getEnergy(30, 52) * 1.5}`;
+    document.getElementById('particle1').style.opacity = `${0.3 + instance.getEnergy(52, 74) * 1.5}`;
+    document.getElementById('particle2').style.opacity = `${0.3 + instance.getEnergy(74, 96) * 1.5}`;
+    document.getElementById('particle3').style.opacity = `${0.3 + instance.getEnergy(96, 118) * 1.5}`;
+    document.getElementById('particle4').style.opacity = `${0.3 + instance.getEnergy(118, 140) * 1.5}`;
+    document.getElementById('particle5').style.opacity = `${0.3 + instance.getEnergy(140, 162) * 1.5}`;
+    document.getElementById('particle6').style.opacity = `${0.3 + instance.getEnergy(162, 184) * 1.8}`;
+    document.getElementById('particle7').style.opacity = `${0.3 + instance.getEnergy(184, 206) * 2.1}`;
+    document.getElementById('particle8').style.opacity = `${0.3 + instance.getEnergy(206, 228) * 2.4}`;
+    document.getElementById('particle9').style.opacity = `${0.3 + instance.getEnergy(228, 250) * 2.7}`;
 }
 
 function adjustPlayerText() {

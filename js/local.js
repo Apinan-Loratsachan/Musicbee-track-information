@@ -52,6 +52,7 @@ inputElement.addEventListener('change', function (event) {
                         base64String += String.fromCharCode(data[i]);
                     }
                     imgData = `data:${format};base64,${window.btoa(base64String)}`
+                    console.log(imgData)
 
                     const contentType = format;
                     const b64Data = window.btoa(base64String);
