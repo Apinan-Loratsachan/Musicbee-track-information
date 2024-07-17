@@ -32,9 +32,9 @@
 }
 
 .player.play .player__timeline {
-    -webkit-transform: translateY(90%);
-    -ms-transform: translateY(90%);
-    transform: translateY(90%);
+    -webkit-transform: translateY(95%);
+    -ms-transform: translateY(95%);
+    transform: translateY(95%);
     height: 280px;
 }
 
@@ -238,7 +238,7 @@
 
 .player__timeline {
     background: #fff6fb;
-    height: 95px;
+    height: 80px;
     position: absolute;
     bottom: 0;
     left: 10px;
@@ -347,10 +347,12 @@
 }
 
 #motion {
+    height: 110px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -30%);
     width: 100%;
     z-index: -1;
+    transition: all 0.3s ease-in-out;
 }

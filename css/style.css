@@ -8,8 +8,7 @@
     font-family: 'Noto Sans Thai', sans-serif;
 }
 
-#header,
-#audio-section {
+#header {
     transition: color 1s ease-in-out;
 }
 
@@ -381,8 +380,8 @@ label {
     padding: 5px 10px;
     font-family: 'Helvetica', sans-serif;
     transition: .5s;
-  }
-  
-  label:hover {
+}
+
+label:hover {
     background-color: #eee;
-  }
+}

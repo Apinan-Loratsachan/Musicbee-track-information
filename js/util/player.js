@@ -61,6 +61,8 @@ function initializePlayer(title, artist) {
                     }, 750);
                     document.getElementById('player__timeline').style.opacity = 0
                     document.getElementById('audio-section').style.height = 100 + 'px'
+                    // document.getElementById('motion').style.height = 0 + 'px'
+                    document.getElementById('motion').style.opacity = 0
                     clearInterval(getDuration)
                 }
                 playState = false
@@ -114,7 +116,9 @@ function initializePlayer(title, artist) {
                 if (getDominentComplete) {
                     document.getElementById('player__bar').style.background = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 1)`
                     document.getElementById('player__timeline').style.opacity = 1
-                    document.getElementById('audio-section').style.height = 350 + 'px'
+                    document.getElementById('audio-section').style.height = 370 + 'px'
+                    // document.getElementById('motion').style.height = 110 + 'px'
+                    document.getElementById('motion').style.opacity = 1
                 }
                 // var playhead = document.getElementById("playhead");
                 var durationElement = document.getElementById("duration");
