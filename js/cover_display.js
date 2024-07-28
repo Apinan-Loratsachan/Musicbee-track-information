@@ -1,6 +1,6 @@
 var coverHeight, coverWidth, infoDiv, useWhite = true, uiState = true,
     whiteContrastTrusthold = 0, whiteContrast, rawWhiteContrast,
-    displayAlert, isNotFirst = false, imageUrl
+    displayAlert, isNotFirst = false, imageUrl, hsv
 
 const params = new URLSearchParams(window.location.search);
 
@@ -370,7 +370,8 @@ function data() {
                 white: rawWhiteContrast,
                 black: blackContrast,
                 whiteTrusthold: whiteContrastTrusthold,
-                whiteFinal: whiteContrast
+                whiteFinal: whiteContrast,
+                hsv: hsv
             }
         },
         dominantColor: {
@@ -767,8 +768,13 @@ function toggleFilter() {
     if (state == "true") {
         toggleFilterBtn.innerHTML = `<i class="fa-solid fa-lightbulb fa-lg"></i>`
         filter.style.backgroundColor = `rgba(0, 0, 0, 0)`
-        document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
-        document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+        if (useWhite) {
+            document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
+            document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
+        } else {
+            document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
+            document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+        }
         localStorage.setItem("filterSetting", "false");
         toggleFilterBtn.dataset.show = "false";
     } else {
