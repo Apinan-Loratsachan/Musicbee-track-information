@@ -123,10 +123,13 @@ try {
                             toggleCoverBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG4][0]}, ${dominantPalette[dominentBG4][1]}, ${dominantPalette[dominentBG4][2]}, 0.5)`
                             toggleInfoBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG5][0]}, ${dominantPalette[dominentBG5][1]}, ${dominantPalette[dominentBG5][2]}, 0.5)`
 
-                            tipText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+                            tipText.style.backgroundImage = `linear-gradient(90deg, rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5) 0%, rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5) 100%)`
+                            tipText.style.backgroundColor = "rgba(0, 0, 0, 0)"
                             if (useWhite || filter == 'true') {
+                                tipText.style.backgroundImage = "rgba(0, 0, 0, 0)"
                                 tipText.style.color = "rgba(255, 255, 255, 1)"
                             } else {
+                                tipText.style.backgroundImage = "rgba(0, 0, 0, 0)"
                                 tipText.style.color = "rgba(20, 20, 20, 1)"
                             }
                         }
@@ -140,7 +143,7 @@ try {
                                 tip.classList.add("animate__slower")
                                 tip.classList.add("animate__fadeOutLeft")
                             }, 4000);
-                        } else if (displaytip == 0) {
+                        } else if (displaytip != 0) {
                             localStorage.setItem("displaytip", 10)
                             tip.classList.add("animate__fadeInLeft")
                             setTimeout(() => {
@@ -504,18 +507,16 @@ function updateAlert(init) {
 
     if ((fillState == 'false' && coverElement.offsetHeight <= coverHeight) || fillState == 'true') {
         if (localStorage.getItem("colorSetting") != "color") {
+            renderText.style.backgroundImage = "rgba(255, 255, 255, 0)"
             renderText.style.backgroundColor = `rgba(255, 255, 255, 0.5)`
         } else {
-            renderText.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
+            renderText.style.backgroundColor = `rgba(255, 255, 255, 0)`
+            renderText.style.backgroundImage = `linear-gradient(90deg, rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5) 0%, rgba(${dominantPalette[dominentBG3][0]}, ${dominantPalette[dominentBG3][1]}, ${dominantPalette[dominentBG3][2]}, 0.5) 100%)`
             if (useWhite || filterState == 'true') {
                 renderText.style.color = "rgba(255, 255, 255, 1)"
             } else {
                 renderText.style.color = "rgba(20, 20, 20, 1)"
             }
-            renderText.style.backgroundImage = `linear-gradient(to right,
-                    rgba(0, 0, 0, 0),
-                    rgba(0, 0, 0, 0)
-                )`
         }
 
         if (window.innerHeight > window.innerWidth) {
