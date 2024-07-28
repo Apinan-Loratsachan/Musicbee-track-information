@@ -40,35 +40,33 @@
   <div id="image-info-container" class="info-container"></div>
   <div id="filter" class="filter"></div>
   <div id="action-container">
-    <div id="tip" class="alert d-flex delay-5 animate__animated">
-      <div id="tip-text" class="alert-text text-shadow">
-        <div class="animate__animated animate__tada delay-18">
+    <div id="tip" class="alert animate__animated">
+      <div id="tip-text" class="alert-text shadow-lg">
+        <div class="animate__animated animate__tada delay-18 p-3">
           <strong><u>Click</u></strong> on screen for <strong><u>show</u></strong> or
           <strong><u>hide</u></strong> UI
         </div>
       </div>
-      <div id="tip-fade" class="alert-fade"></div>
     </div>
-    <div id="render" class="alert d-flex justify-content-start flex-nowrap animate__animated">
-      <div id="render-text" class="alert-text text-shadow"></div>
-      <div id="render-fade" class="alert-fade"></div>
+    <div id="render" class="alert animate__animated">
+      <div id="render-text" class="alert-text text-shadow shadow-lg"></div>
     </div>
     <button type="button" class="bg-blur" id="toggleUI" onclick="toggleUI()">toggleUI</button>
     <div id="cover-button-container" class="side-cover-button">
       <div id="cover-button-group-container">
-        <button type="button" class="cover-button animate__animated animate__fadeInRight delay-4"
+        <button type="button" class="cover-button shadow-lg animate__animated animate__fadeInRight delay-4"
           id="toggleInfo" onclick="toggleInfo()" title="Change title and album alignment" data-fill="false">
           <i class="fa-solid fa-align-justify fa-lg"></i>
         </button>
-        <button type="button" class="cover-button animate__animated animate__fadeInRight delay-3"
+        <button type="button" class="cover-button shadow-lg animate__animated animate__fadeInRight delay-3"
           id="toggleCover" onclick="toggleCover()" title="Fit cover image to screen" data-fill="false">
           <i class="fa-solid fa-up-right-and-down-left-from-center fa-lg"></i>
         </button>
-        <button type="button" class="cover-button animate__animated animate__fadeInRight delay-2"
+        <button type="button" class="cover-button shadow-lg animate__animated animate__fadeInRight delay-2"
           id="toggleFilter" onclick="toggleFilter()" title="Change brightness of backgroud">
           <i class="fa-solid fa-lightbulb fa-lg"></i>
         </button>
-        <button type="button" class="cover-button animate__animated animate__fadeInRight"
+        <button type="button" class="cover-button shadow-lg animate__animated animate__fadeInRight"
           id="toggleColor" onclick="toggleColor()" title="Change color of information">
           <i class="fa-solid fa-palette fa-lg"></i>
         </button>

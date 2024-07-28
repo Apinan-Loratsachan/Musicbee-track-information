@@ -25,7 +25,6 @@ inputElement.addEventListener('change', function (event) {
     try {
         file = event.target.files[0];
         fileType = (event.target.files[0].type);
-        console.log(fileType)
     } catch (error) {
         console.log('No file select')
     }
@@ -43,7 +42,6 @@ inputElement.addEventListener('change', function (event) {
 
         jsmediatags.read(file, {
             onSuccess: async function (result) {
-                console.log(result);
                 try {
                     const data = result.tags.picture.data;
                     const format = result.tags.picture.format;
@@ -52,7 +50,6 @@ inputElement.addEventListener('change', function (event) {
                         base64String += String.fromCharCode(data[i]);
                     }
                     imgData = `data:${format};base64,${window.btoa(base64String)}`
-                    console.log(imgData)
 
                     const contentType = format;
                     const b64Data = window.btoa(base64String);
@@ -436,7 +433,6 @@ async function changeInfoContainerColor() {
         document.getElementById("header").style.color = 'rgb(255, 255, 255)'
         document.getElementById("inputAudio").style.color = 'rgb(255, 255, 255)'
         let changeTone = setInterval(() => {
-            console.log(1)
             if (playerInitialize) {
                 clearInterval(changeTone)
                 document.getElementById('playhead').style.background = `rgba(255, 255, 255, 0.75)`

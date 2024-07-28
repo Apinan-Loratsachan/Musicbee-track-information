@@ -14,27 +14,20 @@
     position: fixed;
     top: 20%;
     left: -10px;
-    color: white;
+    color: rgb(20, 20, 20);
     opacity: 0;
     padding: 0px;
     margin: 0px;
 }
 
 .alert-text {
-    width: 350px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 40px;
+    width: 370px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 50px;
     z-index: 500;
-}
-
-.alert-fade {
-    /* display: block; */
-    min-height: 100%;
-    min-width: 20px;
-    max-width: 100px;
-    width: 20%;
-    z-index: 499;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .side-cover-button {
@@ -93,8 +86,8 @@
     border-radius: 4px;
     width: 60px;
     height: 60px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.75);
+    color: rgb(20, 20, 20);
+    background-color: rgba(255, 255, 255, 0.5);
 
     &:hover {
         scale: 1.2;
@@ -171,6 +164,7 @@ html {
     text-align: center;
     min-height: 40px;
     bottom: 0;
+    padding: 10px;
 }
 
 .white-text-shadow {
@@ -190,6 +184,22 @@ html {
     align-items: center;
     text-align: center;
     top: 0;
+    padding: 10px;
+}
+
+.title-container div,
+.info-container div {
+    min-height: 64px;
+}
+
+.title-container div div div,
+.info-container div div div {
+    min-height: 0px;
+}
+
+#title-animate-container,
+#info-animate-container {
+    border-radius: 20px;
 }
 
 #header-container {
@@ -226,7 +236,18 @@ html {
     height: 100%;
     z-index: -5;
     transition: all ease-in-out 0.75s;
+    border-radius: 20px;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
 }
+
+/* .top-container {
+    border-radius: 0 0 20px 20px;
+}
+
+.bottom-container {
+    border-radius: 20px 20px 0 0;
+} */
 
 .color {
     position: relative;
