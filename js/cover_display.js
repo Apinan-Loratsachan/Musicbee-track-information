@@ -242,9 +242,17 @@ try {
                         if (useWhite && uiColor == 'color') {
                             document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
                             document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
+                            toggleColorBtn.style.color = `rgb(255, 255, 255)`
+                            toggleFilterBtn.style.color = `rgb(255, 255, 255)`
+                            toggleCoverBtn.style.color = `rgb(255, 255, 255)`
+                            toggleInfoBtn.style.color = `rgb(255, 255, 255)`
                         } else {
                             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
                             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
+                            toggleColorBtn.style.color = `rgb(0, 0, 0)`
+                            toggleFilterBtn.style.color = `rgb(0, 0, 0)`
+                            toggleCoverBtn.style.color = `rgb(0, 0, 0)`
+                            toggleInfoBtn.style.color = `rgb(0, 0, 0)`
                         }
 
                         const header = document.getElementById("header-container")
@@ -627,6 +635,10 @@ function toggleColor() {
         titleMonotonerDiv.style.opacity = 0.5
         document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
         document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+        toggleColorBtn.style.color = `rgb(20, 20, 20)`
+        toggleFilterBtn.style.color = `rgb(20, 20, 20)`
+        toggleCoverBtn.style.color = `rgb(20, 20, 20)`
+        toggleInfoBtn.style.color = `rgb(20, 20, 20)`
     } else {
         localStorage.setItem("colorSetting", "color");
         toggleColorBtn.style.backgroundColor = `rgba(${dominantPalette[dominentBG1][0]}, ${dominantPalette[dominentBG1][1]}, ${dominantPalette[dominentBG1][2]}, 0.5)`
@@ -640,9 +652,17 @@ function toggleColor() {
         if (!useWhite && (filterState == 'false' || filterState == null)) {
             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+            toggleColorBtn.style.color = `rgb(20, 20, 20)`
+            toggleFilterBtn.style.color = `rgb(20, 20, 20)`
+            toggleCoverBtn.style.color = `rgb(20, 20, 20)`
+            toggleInfoBtn.style.color = `rgb(20, 20, 20)`
         } else {
             document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
             document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
+            toggleColorBtn.style.color = `rgb(255, 255, 255)`
+            toggleFilterBtn.style.color = `rgb(255, 255, 255)`
+            toggleCoverBtn.style.color = `rgb(255, 255, 255)`
+            toggleInfoBtn.style.color = `rgb(255, 255, 255)`
         }
     }
 }
@@ -765,15 +785,26 @@ function toggleFilter() {
     const filter = document.getElementById("filter");
     const state = toggleFilterBtn.getAttribute("data-show");
     const colorSetting = localStorage.getItem('colorSetting')
+    const toggleCoverBtn = document.getElementById("toggleCover");
+    const toggleInfoBtn = document.getElementById("toggleInfo");
+    const toggleColorBtn = document.getElementById("toggleColor");
     if (state == "true") {
         toggleFilterBtn.innerHTML = `<i class="fa-solid fa-lightbulb fa-lg"></i>`
         filter.style.backgroundColor = `rgba(0, 0, 0, 0)`
         if (useWhite) {
             document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
             document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
+            toggleColorBtn.style.color = `rgb(255, 255, 255)`
+            toggleFilterBtn.style.color = `rgb(255, 255, 255)`
+            toggleCoverBtn.style.color = `rgb(255, 255, 255)`
+            toggleInfoBtn.style.color = `rgb(255, 255, 255)`
         } else {
             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+            toggleColorBtn.style.color = `rgb(20, 20, 20)`
+            toggleFilterBtn.style.color = `rgb(20, 20, 20)`
+            toggleCoverBtn.style.color = `rgb(20, 20, 20)`
+            toggleInfoBtn.style.color = `rgb(20, 20, 20)`
         }
         localStorage.setItem("filterSetting", "false");
         toggleFilterBtn.dataset.show = "false";
@@ -783,9 +814,17 @@ function toggleFilter() {
         if (colorSetting != 'monotone') {
             document.getElementById('info-div').style.color = 'rgba(255, 255, 255, 1)'
             document.getElementById('header-container').style.color = 'rgba(255, 255, 255, 1)'
+            toggleColorBtn.style.color = `rgb(255, 255, 255)`
+            toggleFilterBtn.style.color = `rgb(255, 255, 255)`
+            toggleCoverBtn.style.color = `rgb(255, 255, 255)`
+            toggleInfoBtn.style.color = `rgb(255, 255, 255)`
         } else {
             document.getElementById('info-div').style.color = 'rgba(20, 20, 20, 1)'
             document.getElementById('header-container').style.color = 'rgba(20, 20, 20, 1)'
+            toggleColorBtn.style.color = `rgb(20, 20, 20)`
+            toggleFilterBtn.style.color = `rgb(20, 20, 20)`
+            toggleCoverBtn.style.color = `rgb(20, 20, 20)`
+            toggleInfoBtn.style.color = `rgb(20, 20, 20)`
         }
         localStorage.setItem("filterSetting", "true");
         toggleFilterBtn.dataset.show = "true";
