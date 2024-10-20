@@ -136,8 +136,14 @@ function initializePlayer(title, artist) {
                         durationElement.innerText = `${(Math.floor(Math.floor(duration) / 60))}:${(Math.floor(duration) % 60).toString().padStart(2, '0')}`
                     }
                 }, 100);
+                if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
+                    document.getElementById('audio_provider_icon').style.right = "20px"
+                    document.getElementById('audio_provider_icon').style.top = "44px"
+                }
                 checkTextOverflow = setTimeout(() => {
                     if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
+                        document.getElementById('audio_provider_icon').style.right = "20px"
+                        document.getElementById('audio_provider_icon').style.top = "44px"
                         document.getElementById('player__song').remove()
                         $('#player__song__container').attr('style', 'font-weight: 700;');
                         document.getElementById('player__song__container').style.paddingTop = 30 + 'px'
@@ -276,6 +282,14 @@ function drawCallback(instance, info) {
     // document.getElementById('albumImage').style.scale = `${ baseSize + instance.getEnergy() * 1 * instance.pixelRatio }`;
 
     document.getElementById('player__album__container').style.scale = `${1 + instance.getEnergy('bass') * 0.7}`;
+    // document.getElementById('gradient-bg').style.backgroundImage = `linear-gradient(to bottom,
+    // rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, ${0.5 + instance.getEnergy(30, 52) * 1.5}),
+    // rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, ${0.5 + instance.getEnergy(74, 96) * 1.5}),
+    // rgba(${paletteWithHSV[2].rgb[0]}, ${paletteWithHSV[2].rgb[1]}, ${paletteWithHSV[2].rgb[2]}, ${0.5 + instance.getEnergy(118, 140) * 1.5}),
+    // rgba(${paletteWithHSV[3].rgb[0]}, ${paletteWithHSV[3].rgb[1]}, ${paletteWithHSV[3].rgb[2]}, ${0.5 + instance.getEnergy(162, 184) * 1.5}),
+    // rgba(${paletteWithHSV[4].rgb[0]}, ${paletteWithHSV[4].rgb[1]}, ${paletteWithHSV[4].rgb[2]}, ${0.5 + instance.getEnergy(206, 228) * 1.5})
+    // )`
+
     document.getElementById('particle0').style.scale = `${1 + instance.getEnergy(30, 52)}`;
     document.getElementById('particle1').style.scale = `${1 + instance.getEnergy(52, 74)}`;
     document.getElementById('particle2').style.scale = `${1 + instance.getEnergy(74, 96)}`;
@@ -304,7 +318,11 @@ function adjustPlayerText() {
     document.getElementById('player__song__container').style.paddingTop = 0 + 'px'
     document.getElementById('player__song__container').innerHTML = `<p id="player__song" class="player__song animate__animated animate__zoomIn">${musicTitle}</p>`
     document.getElementById('player__author__container').innerHTML = `<p id="player__author" class="player__author animate__animated animate__fadeInDown">${musicArtist}</p>`
+    document.getElementById('audio_provider_icon').style.right = "30px"
+    document.getElementById('audio_provider_icon').style.top = "30px"
     if ($('#player__song')[0].scrollWidth > $('#player__song').innerWidth()) {
+        document.getElementById('audio_provider_icon').style.right = "20px"
+        document.getElementById('audio_provider_icon').style.top = "44px"
         document.getElementById('player__song').remove()
         $('#player__song__container').attr('style', 'font-weight: 700;');
         document.getElementById('player__song__container').style.paddingTop = 30 + 'px'

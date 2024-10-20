@@ -336,6 +336,14 @@
     transition: all 1s ease-in-out;
 }
 
+#player__title {
+    transition: all .3s ease-in-out;
+}
+
+#audio_provider_icon {
+    transition: all .3s ease-in-out, scale 0s;
+}
+
 @keyframes playerScroll {
     0% {
         transform: translateX(0%);

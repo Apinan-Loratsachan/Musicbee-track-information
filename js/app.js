@@ -1078,7 +1078,8 @@ function showAudioControlAndMoreDataWithSpotifySrc(audioSrc, titleSrc, artistSrc
                         -->
                     </div>
                 </div>
-                <div id="player__timeline" class="player__timeline" style="opacity: 0">
+                <div id="player__timeline" class="player__timeline" style="opacity: 0;">
+                    <div id="audio_provider_icon" style="position: absolute; right: 30px; top: 30px;"><i class="fa-brands fa-spotify fa-xl"></i></div>
                     <div id="motion"></div>
                     <div id="player__song__container" style="font-weight: 700;">
                         <p id="player__song" class="player__song"></p>
@@ -1562,7 +1563,7 @@ async function changeInfoContainerColor() {
     ];
     paletteWithHSV.sort((b, a) => a.hsv.v - b.hsv.v);
 
-    document.getElementById('area').style.backgroundImage = `linear-gradient(to bottom,
+    document.getElementById('gradient-bg').style.backgroundImage = `linear-gradient(to bottom,
     rgba(${paletteWithHSV[0].rgb[0]}, ${paletteWithHSV[0].rgb[1]}, ${paletteWithHSV[0].rgb[2]}, 0.5),
     rgba(${paletteWithHSV[1].rgb[0]}, ${paletteWithHSV[1].rgb[1]}, ${paletteWithHSV[1].rgb[2]}, 0.5),
     rgba(${paletteWithHSV[2].rgb[0]}, ${paletteWithHSV[2].rgb[1]}, ${paletteWithHSV[2].rgb[2]}, 0.5),
@@ -1579,7 +1580,7 @@ async function changeInfoContainerColor() {
         document.getElementById(`particle${i}`).style.height = randomSize + 'px'
     }
 
-    document.getElementById('area').style.opacity = 1
+    document.getElementById('gradient-bg').style.opacity = 1
 
     changeImageGradient()
 
