@@ -1261,11 +1261,7 @@ async function getSpotifyAlbumData() {
                 if (searchData.tracks.items[i].disc_number == g_discNumber && searchData.tracks.items[i].track_number == g_trackNumber) {
                     console.log('%c[DATA | SPOTIFY] %cFound this track', 'font-weight: bold', 'color: green');
                     trackData = searchData.tracks.items[i]
-                    if (trackData.preview_url == 'null') {
-                        console.log('%c[DATA] %cThis track not have audio preview', 'font-weight: bold', 'color: red');
-                    } else {
-                        console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Fuchsia');
-                    }
+                    embedSpotifyPlayer(trackData.id)
                     showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name, searchData.images[0].url)
                     return
                 }
@@ -1273,11 +1269,7 @@ async function getSpotifyAlbumData() {
             console.log("%c[DATA | SPOTIFY] %cCan't find this track in album", 'font-weight: bold', 'color: red')
         } else {
             const trackData = searchData.tracks.items[g_trackNumber - 1]
-            if (trackData.preview_url == null) {
-                console.log('%c[DATA] %cThis track not have audio preview', 'font-weight: bold', 'color: red');
-            } else {
-                console.log('%c[DATA → AUDIO] %cSend audio src to audio function', 'font-weight: bold', 'color: Fuchsia');
-            }
+            embedSpotifyPlayer(trackData.id)
             showAudioControlAndMoreDataWithSpotifySrc(trackData.preview_url, trackData.name, trackData.artists, trackData.external_urls.spotify, searchData.name, searchData.images[0].url)
         }
         console.log('%c[DATA] %cGet track data in this album success', 'font-weight: bold', 'color: green');
@@ -1293,6 +1285,7 @@ window.addEventListener('resize', function (event) {
     changeImageGradient()
     adjustMotion()
     adjustPlayerTitle()
+    resizeSpotifyEmbedPlayer()
     // trigger on resize end
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(function () {

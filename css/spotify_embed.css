@@ -1,0 +1,6 @@
+#spotify-embed {
+    height: 0;
+    opacity: 0;
+    scale: 0;
+    transition: all 1s ease-in-out;
+}

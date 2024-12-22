@@ -3,6 +3,7 @@
 @import "player.css";
 @import "scroll_text.css";
 @import "background.css";
+@import "spotify_embed.css";
 
 * {
     font-family: 'Noto Sans Thai', sans-serif;
